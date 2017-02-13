@@ -1,5 +1,5 @@
-#repository for PPL group 4 class A
-#Member :
+# Repository for PPL group 4 class A
+# Member :
 - Azady Bayu
 - Galuh Estya
 - Geswa Wahid
