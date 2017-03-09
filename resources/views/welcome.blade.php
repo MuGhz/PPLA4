@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Jojonomic Business Travel Booking
                 </div>
 
                 <div class="links">
