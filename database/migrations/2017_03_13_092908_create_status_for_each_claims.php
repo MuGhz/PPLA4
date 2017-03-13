@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanies extends Migration
+class CreateStatusForEachClaims extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,10 @@ class CreateCompanies extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('claims', function($table)
+        {
+            $table->integer('claim_status')->default();
+        });
     }
 
     /**
