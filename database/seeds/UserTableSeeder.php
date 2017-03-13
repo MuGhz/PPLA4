@@ -12,29 +12,45 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
-        \App\User::create([
-          'name' => 'admin',
-          'username' => 'admin',
-          'password' => bcrypt('admin'),
-          'role' => '0',
-        ]);
-        \App\User::create([
-          'name' => 'claimer',
-          'username' => 'claimer',
-          'password' => bcrypt('claimer'),
-          'role' => '1'
-        ]);
-        \App\User::create([
-          'name' => 'approver',
-          'username' => 'approver',
-          'password' => bcrypt('approver'),
-          'role' => '2',
-        ]);
-        \App\User::create([
-          'name' => 'finance',
-          'username' => 'finance',
-          'password' => bcrypt('finance'),
-          'role' => '3',
-        ]);
+        $faker = Faker\Factory::create();
+        $company = \App\Company::all()->all();
+        $limit = 5;
+
+        for($j = 0; $j < 2; $j++) {
+          for($i = 0; $i < $limit; $i++)  {
+            \App\User::create([
+              "name" => "admin$j$i",
+              "name" => "admin$j$i",
+              "email" => "admin$j$i@$company[$i]->name.com",
+              "password" => bcrypt("admin$j$i"),
+              "role" => "admin",
+              "company" => $company[$i]->id,
+            ]);
+            \App\User::create([
+              "name" => "claimer$j$i",
+              "name" => "claimer$j$i",
+              "email" => "claimer$j$i@$company[$i]->name.com",
+              "password" => bcrypt("claimer$j$i"),
+              "role" => "claimer",
+              "company" => $company[$i]->id,
+            ]);
+            \App\User::create([
+              "name" => "approver$j$i",
+              "name" => "approver$j$i",
+              "email" => "approver$j$i@$company[$i]->name.com",
+              "password" => bcrypt("approver$j$i"),
+              "role" => "approver",
+              "company" => $company[$i]->id,
+            ]);
+            \App\User::create([
+              "name" => "finance$j$i",
+              "name" => "finance$j$i",
+              "email" => "finance$j$i@$company[$i]->name.com",
+              "password" => bcrypt("finance$j$i"),
+              "role" => "finance",
+              "company" => $company[$i]->id,
+            ]);
+          }
+        }
     }
 }
