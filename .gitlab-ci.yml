@@ -1,0 +1,12 @@
+before_script:
+# Install dependencies
+# TODO: laravel dependencies
+- bash gitlabci/docker_install.sh > /dev/null
+
+# Select image from https://hub.docker.com/r/_/php/
+image: php:5.6
+
+#TODO: Placeholder?
+test:app:
+  script:
+  - phpunit --configuration phpunit_myapp.xml
