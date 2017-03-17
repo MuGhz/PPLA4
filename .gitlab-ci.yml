@@ -1,9 +1,7 @@
 before_script:
 # Install dependencies
-- bash gitlabci/docker_install.sh
-# Install composer dependencies
-- bash gitlabci/composer_install.sh
-- bash gitlabci/laravel_setup.sh
+- bash gitlabci/install_dependency.sh > /dev/null
+- bash gitlabci/install_phpunit.sh > /dev/null
 
 # Select image from https://hub.docker.com/r/_/php/
 image: php:5.6
