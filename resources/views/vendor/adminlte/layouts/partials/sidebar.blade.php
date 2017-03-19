@@ -46,7 +46,7 @@
 					<li><a href="#">{{ trans('adminlte_lang::message.closed') }}</a></li>
                 </ul>
             </li>
-			
+			@if (Auth::user()->role=="approver")
 			<li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.approver') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -55,7 +55,8 @@
 					<li><a href="#">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
-			
+			@endif
+			@if (Auth::user()->role=="finance")
 			<li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.finance') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -64,7 +65,7 @@
 					<li><a href="#">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
-			
+			@endif
 			<li class="active"><a href=""><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.settings') }}</span></a></li>
             
             <li class="active"><a href="{{ url('/logout') }}" onclick="event.preventDefault();
