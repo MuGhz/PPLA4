@@ -21,7 +21,7 @@ class UserTableSeeder extends Seeder
             \App\User::create([
               "name" => "admin$j$i",
               "name" => "admin$j$i",
-              "email" => str_replace(' ', '_', strtolower("admin$j$i@".$company[$i]->name.".com")),
+              "email" => str_replace(' ', '', strtolower("admin$j$i@".$company[$i]->name.".com")),
               "password" => bcrypt("admin$j$i"),
               "role" => "admin",
               "company" => $company[$i]->id,
@@ -29,7 +29,7 @@ class UserTableSeeder extends Seeder
             \App\User::create([
               "name" => "claimer$j$i",
               "name" => "claimer$j$i",
-              "email" => str_replace(' ', '_', strtolower("claimer$j$i@".$company[$i]->name.".com")),
+              "email" => str_replace(' ', '', strtolower("claimer$j$i@".$company[$i]->name.".com")),
               "password" => bcrypt("claimer$j$i"),
               "role" => "claimer",
               "company" => $company[$i]->id,
@@ -37,7 +37,7 @@ class UserTableSeeder extends Seeder
             \App\User::create([
               "name" => "approver$j$i",
               "name" => "approver$j$i",
-              "email" => str_replace(' ', '_', strtolower("approver$j$i@".$company[$i]->name.".com")),
+              "email" => str_replace(' ', '', strtolower("approver$j$i@".$company[$i]->name.".com")),
               "password" => bcrypt("approver$j$i"),
               "role" => "approver",
               "company" => $company[$i]->id,
@@ -45,7 +45,7 @@ class UserTableSeeder extends Seeder
             \App\User::create([
               "name" => "finance$j$i",
               "name" => "finance$j$i",
-              "email" => str_replace(' ', '_', strtolower("finance$j$i@".$company[$i]->name.".com")),
+              "email" => str_replace(' ', '', strtolower("finance$j$i@".$company[$i]->name.".com")),
               "password" => bcrypt("finance$j$i"),
               "role" => "finance",
               "company" => $company[$i]->id,
