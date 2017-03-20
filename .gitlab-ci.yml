@@ -2,12 +2,12 @@ before_script:
   - bash gitlabci/before_script.sh > /dev/null
 
 services:
-  - postgres:latest
+  - mysql:latest
 
 variables:
-  POSTGRES_DB: homestead
-  POSTGRES_USER: homestead
-  POSTGRES_PASSWORD: "secret"
+  # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
+  MYSQL_DATABASE: PPLA4
+  MYSQL_ROOT_PASSWORD: secret
 
 # Select image from https://hub.docker.com/r/_/php/
 image: php:5.6
