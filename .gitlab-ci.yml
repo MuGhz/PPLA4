@@ -1,8 +1,20 @@
+before_script:
+  - bash gitlabci/before_script.sh > /dev/null
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: homestead
+  POSTGRES_USER: homestead
+  POSTGRES_PASSWORD: "secret"
+
 # Select image from https://hub.docker.com/r/_/php/
 image: php:5.6
 build:dependencies:
   script:
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/install_phpunit.sh > /dev/null
+  - bash gitlabci/setup_database.sh > /dev/null
 
 # TODO: buat test scriptnya
