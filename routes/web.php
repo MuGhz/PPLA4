@@ -21,13 +21,13 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
       return view('claim.hotel');
     });
   });
-  
+
   Route::group(['prefix'=>'approver'],function()  {
-	Route::post('/received','');
-	Route::post('/approved','');
-	Route::post('/rejected','');
-  });  
-  
+	Route::post('/received','ClaimController@index');
+	Route::post('/approved','ClaimController@index');
+	Route::post('/rejected','ClaimController@index');
+  });
+
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
