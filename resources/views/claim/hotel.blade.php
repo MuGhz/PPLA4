@@ -58,7 +58,7 @@
 @section('js')
   <script>
     $("#submit").click(function() {
-      $.post("{{action(OrderController@getResult)}}", {data~~, _token: "{{csrf_token()}}"}).done(function(e){
+      $.post("{{action('OrderController@getResult')}}", { _token: "{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
           //console.log(data.result);
           e = JSON.parse(e);

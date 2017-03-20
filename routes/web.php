@@ -28,3 +28,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 });
+
+Route::group(['prefix'=>'api'],function()  {
+  Route::get('/hotel-list','OrderController@getResult');
+});

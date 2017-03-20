@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function scopeClaimer($query) {
+      return $query->where('role','claimer');
+    }
+
+    public function scopeApprover($query) {
+      return $query->where('role','approver');
+    }
+
+    public function scopeFinance($query) {
+      return $query->where('role','finance');
+    }
 }
