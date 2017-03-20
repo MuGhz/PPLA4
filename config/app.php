@@ -162,7 +162,10 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+		/*
+* Acacha AdminLTE template provider
+ */
+Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider::class,
         /*
          * Package Service Providers...
          */
