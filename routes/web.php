@@ -30,5 +30,6 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 });
 
 Route::group(['prefix'=>'api'],function()  {
-  Route::get('/hotel-list','OrderController@getResult');
+  Route::post('/token','OrderController@getToken');
+  Route::post('/hotel-list','OrderController@getHotel');
 });
