@@ -1,16 +1,8 @@
-#before_script:
-## Install dependencies
-#- bash gitlabci/install_dependency.sh > /dev/null
-#- bash gitlabci/install_phpunit.sh > /dev/null
-
-
 # Select image from https://hub.docker.com/r/_/php/
 image: php:5.6
 build:dependencies:
   script:
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/install_phpunit.sh > /dev/null
-#TODO: Placeholder?
-#test:app:
-#  script:
-#  - phpunit --configuration phpunit_myapp.xml
+
+# TODO: buat test scriptnya
