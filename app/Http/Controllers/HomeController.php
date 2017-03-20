@@ -7,8 +7,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Claim;
+use App\User;
+use App\Company;
+
 
 /**
  * Class HomeController
@@ -33,6 +38,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('adminlte::home');
+        $allClaim = Claim::where('approver_id', '=', Auth::id())->get();
+        return view('adminlte::home', compact('allClaim'));
     }
 }
