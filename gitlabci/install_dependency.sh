@@ -9,7 +9,6 @@ set -xe
 apt-get update -yqq
 apt-get install git -yqq
 apt-get install wget -yqq
-
 # Install phpunit, the tool that we will use for testing
 curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
 chmod +x /usr/local/bin/phpunit
