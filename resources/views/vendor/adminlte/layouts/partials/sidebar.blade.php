@@ -40,13 +40,14 @@
                 <ul class="treeview-menu">
                     <li><a href="#">{{ trans('adminlte_lang::message.sent') }}</a></li>
                     <li><a href="#">{{ trans('adminlte_lang::message.approved') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.issued') }}</a></li>
+					<li><a href="#">{{ trans('adminlte_lang::message.reported') }}</a></li>
 					<li><a href="#">{{ trans('adminlte_lang::message.disbursed') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.rejected') }}</a></li>
 					<li><a href="#">{{ trans('adminlte_lang::message.closed') }}</a></li>
+					<li><a href="#">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
-			@if (Auth::user()->role=="approver")
+			
+			@if (Auth::user()->role=="approver" || Auth::user()->role=="admin" )
 			<li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.approver') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -56,9 +57,10 @@
                 </ul>
             </li>
 			@endif
-			@if (Auth::user()->role=="finance")
-			<li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.finance') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
+			
+			@if (Auth::user()->role=="finance" || Auth::user()->role=="admin")
+            <li class="treeview">
+				<a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.finance') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">{{ trans('adminlte_lang::message.received') }}</a></li>
                     <li><a href="#">{{ trans('adminlte_lang::message.approved') }}</a></li>
