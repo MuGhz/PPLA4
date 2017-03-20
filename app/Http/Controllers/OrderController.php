@@ -40,7 +40,7 @@ class OrderController extends Controller
     }
 
     public function getHotel(Request $request) {
-
+      $sd = 0;
       $in = Input::get('in');
       $out = Input::get('out');
       $city = Input::get('city');
