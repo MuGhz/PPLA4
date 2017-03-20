@@ -15,6 +15,6 @@ build:dependencies:
   script:
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/install_phpunit.sh > /dev/null
-  - bash gitlabci/setup_database.sh > /dev/null
+  - bash gitlabci/setup_database.sh
 
 # TODO: buat test scriptnya
