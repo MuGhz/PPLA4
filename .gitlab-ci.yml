@@ -16,8 +16,9 @@ build:dependencies:
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/install_phpunit.sh > /dev/null
   - bash gitlabci/install_xdebug.sh > /dev/null
-  - ls -a
   - bash gitlabci/setup_database.sh
+  - ls vendor
+  - ls vendor/bin
 
 # TODO: buat test scriptnya
 test:coverage:
