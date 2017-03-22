@@ -38,7 +38,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $allClaim = Claim::where('approver_id', '=', Auth::id())->get();
+        $allClaim = Claim::where('claimer_id', '=', Auth::id())->get();
         return view('adminlte::home', compact('allClaim'));
     }
 }
