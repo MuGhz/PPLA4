@@ -1,3 +1,8 @@
+stages:
+  - build
+  - test
+  - deploy
+
 before_script:
   - bash gitlabci/before_script.sh > /dev/null
 
@@ -13,21 +18,22 @@ variables:
 # Select image from https://hub.docker.com/r/_/php/
 image: php:5.6
 build:dependencies:
+  stage:build
   script:
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/install_phpunit.sh > /dev/null
   - bash gitlabci/install_xdebug.sh > /dev/null
   - bash gitlabci/setup_database.sh
-  - ls vendor
-  - ls vendor/bin
   - bash gitlabci/install_ruby.sh > /dev/null
 
 # TODO: buat test scriptnya
 test:coverage:
+  stage:test
   script:
   - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
   
- staging:
-  type: deploy
+staging:
+  stage:deploy
+  script:
   - gem install dpl
   - dpl --provider=heroku --app=jojotravel --api-key=$HEROKU_API_KEY
