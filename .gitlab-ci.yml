@@ -13,10 +13,10 @@ variables:
 image: php:5.6
 build:dependencies:
   script:
-  - ls -a
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/install_phpunit.sh > /dev/null
   - bash gitlabci/install_xdebug.sh > /dev/null
+  - ls -a
   - bash gitlabci/setup_database.sh
 
 # TODO: buat test scriptnya
