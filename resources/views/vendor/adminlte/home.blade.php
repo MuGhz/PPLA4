@@ -43,6 +43,7 @@
 										<td>{{ $value->created_at }}</td>
 										<td>{{ $value->updated_at }}</td>
 										<td>{{ $value->claim_status }}</td>
+										<td><button class="btn btn-default btn-flat" >Detail</button></td>
 									</tr>
 									@endforeach
 								</tbody>
