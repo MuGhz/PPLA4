@@ -24,7 +24,7 @@ dependencies:
     - bash gitlabci/install_phpunit.sh > /dev/null
     - bash gitlabci/install_xdebug.sh > /dev/null
     - bash gitlabci/setup_database.sh
-    - bash gitlabci/install_ruby.sh > /dev/null
+    - bash gitlabci/install_ruby.sh
 
 # TODO: buat test scriptnya
 coverage:
