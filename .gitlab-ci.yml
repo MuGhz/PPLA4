@@ -29,3 +29,5 @@ staging:
     - bash gitlabci/install_ruby.sh
     - gem install dpl
     - dpl --provider=heroku --app=jojotravel --api-key=$HEROKU_API_KEY
+  only:
+    - develop
