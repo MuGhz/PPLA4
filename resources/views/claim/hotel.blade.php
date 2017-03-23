@@ -87,6 +87,7 @@
       $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
           //console.log(data.result);
+          console.log(e);
           e = JSON.parse(e);
           token = e.token;
           localStorage.token = token;
@@ -99,6 +100,7 @@
           $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,_token:"{{csrf_token()}}"}).done(function(e){
               // Display the returned data in browser
               //console.log(data.result);
+              console.log(e);
               e = JSON.parse(e);
               console.log(e['results']['result']);
               var temp = "<div class='col-md-12'>";
