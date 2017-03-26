@@ -22,11 +22,19 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     });
   });
   
+  Route::group(['prefix'=>'view'],function()  {
+    Route::any('detail',function(){
+      return view('claim.viewclaim');
+    });
+  });
+  
   Route::group(['prefix'=>'approver'],function()  {
 	Route::get('/received','ApproverController@showReceived');
 	Route::get('/approved','ApproverController@showApproved');
 	Route::get('/rejected','ApproverController@showRejected');
-  });  
+  });
+
+  
   
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
