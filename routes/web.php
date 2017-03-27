@@ -22,11 +22,11 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     });
   });
 
-  Route::group(['prefix'=>'approver'],function()  {
-	Route::post('/received','ClaimController@index');
-	Route::post('/approved','ClaimController@index');
-	Route::post('/rejected','ClaimController@index');
-  });
+  // Route::group(['prefix'=>'approver'],function()  {
+	// Route::post('/received','');
+	// Route::post('/approved','');
+	// Route::post('/rejected','');
+  // });
 
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
@@ -38,6 +38,5 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 
 Route::group(['prefix'=>'api'],function()  {
   Route::post('/token','OrderController@getToken');
-  Route::post('/hotel/list','OrderController@getHotel');
-  Route::post('hotel/detail','OrderController@getHotelDetail');
+  Route::post('/hotel-list','OrderController@getHotel');
 });
