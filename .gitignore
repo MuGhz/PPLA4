@@ -2,7 +2,7 @@
 /public/storage
 /public/hot
 /storage/*.key
-/vendor
+/vendor/
 !/acacha/admin-lte-template-laravel/resources/lang/en/message.php
 /.idea
 Homestead.json
