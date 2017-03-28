@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role','company'
     ];
 
     /**
@@ -31,12 +31,15 @@ class User extends Authenticatable
       return $query->where('role','claimer');
     }
 
-    public function scopeApprover($query) {
-      return $query->where('role','approver');
+    public function scopeApprover($query,$claimer) {
+      $approvers = $query->where('company',$claimer->company)->where('role','approver')->get();
+      // dd($approvers);
+      return $approvers[rand(0,count($approvers)-1)];
     }
 
-    public function scopeFinance($query) {
-      return $query->where('role','finance');
+    public function scopeFinance($query, $claimer) {
+      $finances =  $query->where('company',$claimer->company)->where('role','finance')->get();
+      return $finances[rand(0,count($finances)-1)];
     }
 	
 	public function scopeCompany($query,$company) {
