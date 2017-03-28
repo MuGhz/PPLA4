@@ -7,3 +7,4 @@
 Homestead.json
 Homestead.yaml
 .env
+!/vendor/acacha/admin-lte-template-laravel/resources/lang/en/message.php
