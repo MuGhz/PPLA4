@@ -60,4 +60,4 @@ Route::group(['prefix'=>'api'],function()  {
 
 Route::get('{any}',function(){
   return view('construction');
-})->where('any','^.+');
+});
