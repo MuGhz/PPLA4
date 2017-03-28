@@ -14,7 +14,8 @@ $status = $value -> claim_status;
 	
 	</div>
 	<div class="row">
-      <div class="form-group col-md-11">
+	
+	<div class="form-group col-md-6">
         <div class="form-group col-md-4">
 			<button class="btn btn-primary btn-block">Cancel claim</button>
 		</div>
@@ -25,6 +26,7 @@ $status = $value -> claim_status;
 	        <button class="btn btn-primary btn-block">Return</button>
 		</div>
       </div>
+	
     </div>
 </div>
 @endsection
@@ -37,8 +39,8 @@ $status = $value -> claim_status;
 		temp = "<center><div class='row'>";
 			temp+="<div class='col-md-3'>";
 			temp+= "</div>";
-			temp+="<div class='col-md-6 panel panel-default container'>";
-			temp+= "<p>Tipe :"+e.myorder.data[0].order_type+"</p>";
+			temp+="<div class='col-md-6 panel panel-default container' align='left'>";
+			temp+= "<br><p>Tipe :"+e.myorder.data[0].order_type+"</p>";
 			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data.order_name_detail+"</p>";
 			temp+= "<p>Nomor kamar :"+e.myorder.data[0].detail.room_id+"</p>";
   				temp+= "<div class='form-group col-md-6'>";
@@ -55,6 +57,7 @@ $status = $value -> claim_status;
 				temp+= "</div>";
 			temp+="<p>Status : "+{{$status}}+"</p>";
 			temp+="<p>Total : Rp. "+e.myorder.total	+"</p>";
+			temp+="<p>Order Expired : "+e.myorder.data[0].order_expire_datetime+"</p>";
 			temp+= "</div>";
 		temp+= "</div></center>";
 		temp+="<div class='col-md-3'>";
