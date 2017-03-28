@@ -14,6 +14,9 @@
       background-repeat: no-repeat;
       background-position: center;
   }
+  .items  {
+    border: 1px;
+  }
   </style>
 @endsection
 
@@ -144,16 +147,16 @@
             if(i%2 == 0)
               temp+="<div class='row row-eq-height'>";
             temp+="<div class='col-md-6 panel panel-default container'>";
-            temp+="<h2>"+f.name+"</h2>";
-            temp+="<img src='"+f.photo_primary+"'>";
-            temp+="<p>"+f.room_facility_name+"</p>";
-            temp+="<p>Harga  : "+f.price+"</p>";
-            temp+="<p>Daerah : "+f.regional+"</p>";
-            temp+="<p>Rating : "+f.rating+"</p>";
-            temp+="<p>Alamat : "+f.address+"</p>";
-            temp+="<div class='form-group'>";
-            temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
-            temp+="</div>";
+              temp+="<h2>"+f.name+"</h2>";
+              temp+="<img src='"+f.photo_primary+"'>";
+              temp+="<p>"+f.room_facility_name+"</p>";
+              temp+="<p>Harga  : "+f.price+"</p>";
+              temp+="<p>Daerah : "+f.regional+"</p>";
+              temp+="<p>Rating : "+f.rating+"</p>";
+              temp+="<p>Alamat : "+f.address+"</p>";
+              temp+="<div class='form-group'>";
+                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+              temp+="</div>";
             if(i%2 != 0 || i == length-1)
               temp+="</div>";
             temp+="</div>";
@@ -172,28 +175,34 @@
         show('loading',false);
         e = JSON.parse(e);
         console.log(e);
+        // temp = "<div class='container'>";
         temp = "<div class='row'>";
         e.results.result.forEach(function(f)  {
-          temp+="<div class='col-md-6'>";
-          temp+="<p>Kamar Kosong: "+f.room_available+"</p>";
-          temp+="<p>Harga Lama: "+f.old_price+"</p>";
-          temp+="<p>Harga Baru: "+f.price+"</p>";
-          temp+="<img src='"+f.photo_url+"'>";
-          temp+="<button onclick=\"book('"+f.bookUri+"')\">Book</button>";
+          temp+="<div class='col-md-6 items'>";
+            temp+="<img src='"+f.photo_url+"'>";
+            temp+="<p>Kamar Kosong: "+f.room_available+"</p>";
+            temp+="<p>Harga : "+f.price+"</p>";
+            temp+="<div class='form-group'>";
+              temp+="<button onclick=\"book('"+f.bookUri+"')\">Book</button>";
+            temp+="</div><hr>";
           temp+="</div>";
         });
-        temp+="</div>"
+        // temp+="</div>";
+        temp+="</div>";
+        temp+="<div class='container'>";
+        temp+="<div class='row'>"
+        temp+="<p><b>Alamat</b> : "+e.general.address+"<p>"
+        temp+="</div>";
         temp+="<div class='row'>";
+        temp+="<p><b>Informasi Tambahan</b></p>"
         e.addinfos.addinfo.forEach(function(f)  {
           temp+="<p>"+f+"</p>";
         });
-        temp+="<p>Fasilitas</p>";
+        temp+="<p><b>Fasilitas </b></p>";
         e.avail_facilities.avail_facilitiy.forEach(function(f) {
           temp+="<p>"+f.facility_name+"</p>"
         });
         temp+="</div>";
-        temp+="<div class='row'>"
-        temp+="<p>"+e.general.address+"<p>"
         temp+="</div>";
         $('#det').html(temp);
         $('#detail').modal('show');
