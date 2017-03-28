@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('/home');
+  return view('construction');
 });
 
 Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
@@ -22,17 +22,17 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     });
   });
 
-  
-  
+
+
   Route::group(['prefix'=>'claim'],function()  {
     Route::group(['prefix'=>'detail'],function(){
-      Route::get('/{id}','ClaimController@show');	
+      Route::get('/{id}','ClaimController@show');
     });
 	Route::group(['prefix'=>'delete'],function(){
-      Route::get('/{id}','ClaimController@destroy');	
+      Route::get('/{id}','ClaimController@destroy');
     });
   });
-  
+
   Route::group(['prefix'=>'approver'],function()  {
 	Route::get('/received','ApproverController@showReceived');
 	Route::get('/approved','ApproverController@showApproved');
@@ -40,8 +40,8 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 
   });
 
-  
-  
+
+
 
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
