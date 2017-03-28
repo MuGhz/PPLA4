@@ -23,9 +23,9 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
 
   Route::group(['prefix'=>'approver'],function()  {
-	Route::post('/received','ClaimController@index');
-	Route::post('/approved','ClaimController@index');
-	Route::post('/rejected','ClaimController@index');
+    Route::post('/received','ClaimController@index');
+  	Route::post('/approved','ClaimController@index');
+  	Route::post('/rejected','ClaimController@index');
   });
 
     //    Route::get('/link1', function ()    {
@@ -39,5 +39,6 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 Route::group(['prefix'=>'api'],function()  {
   Route::post('/token','OrderController@getToken');
   Route::post('/hotel/list','OrderController@getHotel');
-  Route::post('hotel/detail','OrderController@getHotelDetail');
+  Route::post('/hotel/detail','OrderController@getHotelDetail');
+  Route::post('/book/hotel','OrderController@bookHotel');
 });
