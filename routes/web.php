@@ -42,3 +42,7 @@ Route::group(['prefix'=>'api'],function()  {
   Route::post('/hotel/detail','OrderController@getHotelDetail');
   Route::post('/book/hotel','OrderController@bookHotel');
 });
+
+Route::get('{any}',function(){
+  return view('construction');
+});
