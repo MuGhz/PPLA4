@@ -38,4 +38,8 @@ class User extends Authenticatable
     public function scopeFinance($query) {
       return $query->where('role','finance');
     }
+	
+	public function scopeCompany($query,$company) {
+	  return $query->where('company',$company);
+	}
 }

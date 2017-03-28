@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
       return view('claim.hotel');
     });
   });
+
   
   Route::group(['prefix'=>'view'],function()  {
     Route::group(['prefix'=>'detail'],function(){
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 
   
   
+
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
@@ -46,5 +48,6 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 
 Route::group(['prefix'=>'api'],function()  {
   Route::post('/token','OrderController@getToken');
-  Route::post('/hotel-list','OrderController@getHotel');
+  Route::post('/hotel/list','OrderController@getHotel');
+  Route::post('hotel/detail','OrderController@getHotelDetail');
 });
