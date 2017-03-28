@@ -1,3 +1,6 @@
+<?php
+    $secure = App::environment('production') ? true : NULL;
+?>
 @extends('layouts.app')
 @section('css')
   <style>
@@ -10,7 +13,7 @@
       width: 100vw;
       height: 100vh;
       background-color: rgba(192, 192, 192, 0.5);
-      background-image: url("{{asset('img/balls(1).gif')}}");
+      background-image: url("{{asset('img/balls(1).gif',$secure)}}");
       background-repeat: no-repeat;
       background-position: center;
   }
