@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
 
 Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
