@@ -38,12 +38,18 @@
 									$i= 1;
 									@endphp
 									@foreach($allClaim as $key => $value)
+									@php
+									$cType=$value->claim_type ;
+									$cType= $cType==1?"Hotel":"Pesawat";
+									$status=$value->claim_status;
+									$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+									@endphp
 									<tr>
-										<td name="id" id="id">{{ $i }}</td>
-										<td name="claim_type" id="claim_type">{{ $value->claim_type }}</td>
+										<td name="no" id="No">{{ $i }}</td>
+										<td name="claim_type" id="claim_type">{{ $cType}}</td>
 										<td name="created_at" id="created_at">{{ $value->created_at }}</td>
-										<td name="created_at" id="created_at">{{ $value->updated_at }}</td>
-										<td name="claim_status" id="claim_status">{{ $value->claim_status }}</td>
+										<td name="updated_at" id="updated_at">{{ $value->updated_at }}</td>
+										<td name="claim_status" id="claim_status">{{ $status }}</td>
 										<td><a href="{{URL::to('home/claim/detail')}}/{{$value->id}}" class="btn btn-default btn-flat" >Detail</a></td>
 									</tr>
 									@php

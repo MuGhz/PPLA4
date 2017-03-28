@@ -6,6 +6,7 @@
 $id = $value -> id;
 $token = $value -> claim_data_id ; 
 $status = $value -> claim_status;
+$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
 @endphp
 @endforeach
 
@@ -56,7 +57,7 @@ $status = $value -> claim_status;
 				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Sampai :"+e.myorder.data[0].detail.enddate+"</p>";
 				temp+= "</div>";
-			temp+="<p>Status : "+{{$status}}+"</p>";
+			temp+="<p>Status : "+'{{$status}}'+"</p>";
 			temp+="<p>Total : Rp. "+e.myorder.total	+"</p>";
 			temp+="<p>Order Expired : "+e.myorder.data[0].order_expire_datetime+"</p><br>";
 			temp+= "</div>";
