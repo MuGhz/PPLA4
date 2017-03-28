@@ -164,5 +164,11 @@
         $('#detail').modal('show');
       });
     }
+
+    function book(uri) {
+      $.post("{{action('OrderController@bookHotel')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
+
+      });
+    }
   </script>
 @endsection

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
+
+use App\Claim;
+use App\User;
 
 class OrderController extends Controller
 {
@@ -39,6 +43,28 @@ class OrderController extends Controller
       $url = "$target&token=$token&output=json";
 
       echo $this->curlCall($url);
+    }
+
+    public function bookHotel() {
+      $target = Input::get('target');
+      $token = Input::get('token');
+      $url = "$target&token=$token&output=json";
+
+      $mess = $this->curlCall($url);
+      if($mess) {
+        $claimer = Auth::user();
+        $claim = new Claim();
+        $claim->claim_type = 1;
+        $claim->claim_data_id = $token;
+        $claim->claimer_id = $claimer->id;
+        $claim->approver_id = User::approver($claimer)->id;
+        $claim->finance_id = User::finance($claimer)->id;
+        $claim->claim_status = 1;
+        $claim->save();
+        dd($claim);
+      }
+
+      return view();
     }
 
 
