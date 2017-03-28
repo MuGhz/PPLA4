@@ -9,14 +9,10 @@ $token = $value -> claim_data_id ;
 
 <div class="container">
 	<center><h3 class="box-title">Detail Claim</h3></center>
+	<div class="detail">
+	</div>
 	<div class="row">
-      <div class="form-group col-md-8">
-        <label>Type: Hotel</label>
-      </div>
-    </div>
-	
-	<div class="row">
-      <div class="form-group col-md-8">
+      <div class="form-group col-md-11">
         <div class="form-group col-md-4">
 			<button class="btn btn-primary btn-block">Cancel claim</button>
 		</div>
@@ -32,15 +28,6 @@ $token = $value -> claim_data_id ;
 @endsection
 
 @section('js')
-
-
-<script>
-$.post("{{action('OrderController@getDetail')}}",{$token}).done.(function(e){
-	
-	});
-</script>
-
-
 
 
 @endsection
