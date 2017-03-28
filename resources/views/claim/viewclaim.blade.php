@@ -43,7 +43,7 @@ $status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($sta
 			temp+= "</div>";
 			temp+="<div class='col-md-6 panel panel-default container' align='left'>";
 			temp+= "<br><p>Tipe :"+e.myorder.data[0].order_type+"</p>";
-			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data.order_name_detail+"</p>";
+			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
 			temp+= "<p>Nomor kamar :"+e.myorder.data[0].detail.room_id+"</p>";
   				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Dewasa :"+e.myorder.data[0].detail.adult+"</p>";

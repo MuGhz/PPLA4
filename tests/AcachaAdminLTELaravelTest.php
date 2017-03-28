@@ -34,16 +34,16 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
         passthru('composer dumpautoload');
     }
 
-    /**
+    /** TODO
      * Test Landing Page.
      *
      * @return void
      */
-    public function testLandingPage()
+/*     public function testLandingPage()
     {
         $this->visit('/')
              ->see('Sign in to start your session');
-    }
+    } */
 
     /**
      * Test Landing Page.
@@ -54,8 +54,9 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     {
         $company = factory(App\Company::class)->create();
         $user = factory(App\User::class)->create(['company' => $company->id]);
+        
         $this->actingAs($user)
-            ->visit('/')
+            ->visit('/home')
             ->see('Business Travel Booking')
             ->see($user->name);
     }
@@ -71,13 +72,13 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
             ->see('Sign in to start your session');
     }
 
-    /** TODO
+    /**
      * Test Login.
      *
      * @return void
      *
      */
-/*     public function testLogin()
+    public function testLogin()
     {
         Config::set('auth.providers.users.field', 'email');
         $company = factory(App\Company::class)->create();
@@ -92,23 +93,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
             ->press('Sign In')
             ->seePageIs('/home')
             ->see($user->name);
-    } */
-
-    /** TODO
-     * Test Login.
-     *
-     * @return void
-     */
-/*     public function testLoginRequiredFieldsWithEmailLogin()
-    {
-        Config::set('auth.providers.users.field', 'email');
-        $this->visit('/login')
-            ->type('', 'password')
-            ->type('', 'email')
-            ->press('Sign In')
-            ->see('The email field is required')
-            ->see('The password field is required');
-    } */
+    } 
 
     /**
      * Test Register Page.
@@ -176,7 +161,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
         $this->actingAs($user)
             ->visit('/home')
             ->makeRequestUsingForm($form)
-            ->seePageIs('/login');
+            ->seePageIs('/');
     }
 
     /**
