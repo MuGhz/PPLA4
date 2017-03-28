@@ -45,7 +45,11 @@ class OrderController extends Controller
 
       echo $this->curlCall($url);
     }
-
+	public function getOrder(){
+		$token = Input::get('token');
+		$url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
+		echo $this->curlCall($url);
+	}
     public function bookHotel() {
       $target = Input::get('target');
       $token = Input::get('token');
