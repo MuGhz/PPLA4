@@ -167,7 +167,9 @@
     }
 
     function detail(uri) {
+      show('loading',true);
       $.post("{{action('OrderController@getHotelDetail')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
+        show('loading',false);
         e = JSON.parse(e);
         console.log(e);
         temp = "<div class='row'>";
@@ -199,8 +201,10 @@
     }
 
     function book(uri) {
+      show('loading',true);
       $.post("{{action('OrderController@bookHotel')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
-        if(e)
+        show('loading',false);
+          if(e)
           window.location.replace("{{url('/home')}}");
       });
     }
