@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Claim;
 
 class ClaimController extends Controller
@@ -82,6 +83,10 @@ class ClaimController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Auth::user();
+		$claim = Claim::find($id);
+		if ($user->id == $claim->claimer_id && $claim->claim_status < 2) {
+			$claim->delete()
+		}
     }
 }

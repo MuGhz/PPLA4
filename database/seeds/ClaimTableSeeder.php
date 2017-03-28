@@ -16,16 +16,15 @@ class ClaimTableSeeder extends Seeder
         //
         $faker = Faker\Factory::create();
         $claimer = User::claimer()->get();
-        $approver = User::approver()->get();
-        $finance = User::finance()->get();
         $limit = 500;
         for($i = 0; $i < $limit; $i++)  {
+          $temp = $claimer[$faker->numberBetween(0,count($claimer)-1)];
           Claim::create([
             'claim_type' => $faker->numberBetween(1,2),
             'claim_data_id' => $faker->randomNumber($nbDigits = 6),
-            'claimer_id' => $claimer[$faker->numberBetween(0,count($claimer)-1)]->id,
-            'approver_id' => $approver[$faker->numberBetween(0,count($approver)-1)]->id,
-            'finance_id' => $finance[$faker->numberBetween(0,count($finance)-1)]->id,
+            'claimer_id' => $temp->id,
+            'approver_id' => User::approver($temp)->id,
+            'finance_id' => User::finance($temp)->id,
           ]);
         }
     }

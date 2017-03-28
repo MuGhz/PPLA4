@@ -33,10 +33,10 @@
         <ul class="sidebar-menu">
             <li class="header">{{ trans('adminlte_lang::message.cia') }}</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.createclaim') }}</span></a></li>
+            <li class="active"><a href="{{ url('home/order/hotel') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.createclaim') }}</span></a></li>
             
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.viewclaim') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.viewclaim') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="#">{{ trans('adminlte_lang::message.sent') }}</a></li>
                     <li><a href="#">{{ trans('adminlte_lang::message.approved') }}</a></li>
