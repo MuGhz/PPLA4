@@ -41,8 +41,6 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
 
 
-
-
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
@@ -61,4 +59,4 @@ Route::group(['prefix'=>'api'],function()  {
 
 Route::get('{any}',function(){
   return view('construction');
-});
+})->where('any','^.+');

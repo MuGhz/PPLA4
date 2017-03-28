@@ -38,12 +38,12 @@
             <li class="treeview">
                 <a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.viewclaim') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">{{ trans('adminlte_lang::message.sent') }}</a></li>
-                    <li><a href="#">{{ trans('adminlte_lang::message.approved') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.reported') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.disbursed') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.closed') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.rejected') }}</a></li>
+                    <li><a href="{{ URL::to('home/claim/sent') }}">{{ trans('adminlte_lang::message.sent') }}</a></li>
+                    <li><a href="{{ URL::to('home/claim/approved') }}">{{ trans('adminlte_lang::message.approved') }}</a></li>
+					<li><a href="{{ URL::to('home/claim/reported') }}">{{ trans('adminlte_lang::message.reported') }}</a></li>
+					<li><a href="{{ URL::to('home/claim/disbursed') }}">{{ trans('adminlte_lang::message.disbursed') }}</a></li>
+					<li><a href="{{ URL::to('home/claim/closed') }}">{{ trans('adminlte_lang::message.closed') }}</a></li>
+					<li><a href="{{ URL::to('home/claim/rejected') }}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
 			
@@ -62,13 +62,13 @@
             <li class="treeview">
 				<a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.finance') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">{{ trans('adminlte_lang::message.received') }}</a></li>
-                    <li><a href="#">{{ trans('adminlte_lang::message.approved') }}</a></li>
-					<li><a href="#">{{ trans('adminlte_lang::message.rejected') }}</a></li>
+                    <li><a href="{{URL::to('home/approver/received')}}">{{ trans('adminlte_lang::message.received') }}</a></li>
+                    <li><a href="{{URL::to('home/approver/approved')}}">{{ trans('adminlte_lang::message.approved') }}</a></li>
+					<li><a href="{{URL::to('home/approver/rejected')}}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
 			@endif
-			<li class="active"><a href=""><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.settings') }}</span></a></li>
+			<li class="active"><a href="home/settings"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.settings') }}</span></a></li>
             
             <li class="active"><a href="{{ url('/logout') }}" onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.signout') }}</span></a></li>
