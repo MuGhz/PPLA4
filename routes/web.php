@@ -23,9 +23,13 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
 
   
-  Route::group(['prefix'=>'view'],function()  {
+  
+  Route::group(['prefix'=>'claim'],function()  {
     Route::group(['prefix'=>'detail'],function(){
       Route::get('/{id}','ClaimController@show');	
+    });
+	Route::group(['prefix'=>'delete'],function(){
+      Route::get('/{id}','ClaimController@destroy');	
     });
   });
   

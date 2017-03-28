@@ -3,6 +3,7 @@
 @section('content')
 @foreach($detailClaim as $key => $value)
 @php
+$id = $value -> id;
 $token = $value -> claim_data_id ; 
 $status = $value -> claim_status;
 @endphp
@@ -16,13 +17,13 @@ $status = $value -> claim_status;
 	<div class="row">
       <div class="form-group col-md-11">
         <div class="form-group col-md-4">
-			<button class="btn btn-primary btn-block">Cancel claim</button>
+			<a class="btn btn-primary btn-block btn-danger" href="{{URL::to('home/claim/delete')}}/{{$id}}">Cancel claim</a>
 		</div>
 		<div class="form-group col-md-4">
 	        <button class="btn btn-primary btn-block">Upload proof</button>
 		</div>
 		<div class="form-group col-md-4">
-	        <button class="btn btn-primary btn-block">Return</button>
+	        <a class="btn btn-primary btn-block"href="{{URL::to('home')}}">Return</a>
 		</div>
       </div>
     </div>
