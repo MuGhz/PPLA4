@@ -26,22 +26,29 @@
 							<table class="table table-striped" id="domestic">
 								<thead>
 									<tr>
-										<th>ID</th>
+										<th>No.</th>
 										<th>Type</th>
 										<th>Created</th>
+										<th>Last Modified</th>
 										<th>Claim Status</th>
 									</tr>
 								</thead>
 								<tbody>
+									@php
+									$i= 1;
+									@endphp
 									@foreach($allClaim as $key => $value)
 									<tr>
-										<td name="id" id="id">{{ $value->id }}</td>
+										<td name="id" id="id">{{ $i }}</td>
 										<td name="claim_type" id="claim_type">{{ $value->claim_type }}</td>
 										<td name="created_at" id="created_at">{{ $value->created_at }}</td>
+										<td name="created_at" id="created_at">{{ $value->updated_at }}</td>
 										<td name="claim_status" id="claim_status">{{ $value->claim_status }}</td>
 										<td><a href="{{URL::to('home/claim/detail')}}/{{$value->id}}" class="btn btn-default btn-flat" >Detail</a></td>
 									</tr>
-									
+									@php
+									$i++;
+									@endphp
 									@endforeach
 								</tbody>
 							</table>
