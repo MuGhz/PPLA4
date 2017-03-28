@@ -22,7 +22,7 @@
 
 @section('content')
 <div class="container">
-  <form action="" method="POST" class="container">
+  <form action="" method="POST" class="container col-md-offset-2">
     <div class="row">
       <div class="form-group col-md-8">
         <label>Kota: </label>
@@ -73,6 +73,7 @@
       <button class="btn btn-primary btn-block" type="button" id="submit">Cari Hotel</button>
     </div>
   </form>
+  <hr>
   <div class="results container">
 
   </div>
@@ -141,32 +142,36 @@
           e = JSON.parse(e);
           console.log(e);
           console.log(e['results']['result']);
-          var temp = "<div class='col-md-12 row row-eq-height'>";
-          var length = e.results.result.length;
-          e.results.result.forEach(function(f,i)  {
-            if(i%2 == 0)
-              temp+="<div class='row row-eq-height'>";
-            temp+="<div class='col-md-6 panel panel-default container'>";
-              temp+="<h2>"+f.name+"</h2>";
-              temp+="<img src='"+f.photo_primary+"'>";
-              temp+="<p>"+f.room_facility_name+"</p>";
-              temp+="<p>Harga  : "+f.price+"</p>";
-              temp+="<p>Daerah : "+f.regional+"</p>";
-              temp+="<p>Rating : "+f.rating+"</p>";
-              temp+="<p>Alamat : "+f.address+"</p>";
-              temp+="<div class='form-group'>";
-                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+          if(e.results.result.length==0)  {
+            $(".results").html("<h2>Tidak ada hotel</h2>");
+          } else {
+            var temp = "<div class='col-md-12 row row-eq-height'>";
+            var length = e.results.result.length;
+            e.results.result.forEach(function(f,i)  {
+              if(i%2 == 0)
+                temp+="<div class='row row-eq-height'>";
+              temp+="<div class='col-md-6 panel panel-default container'>";
+                temp+="<h2>"+f.name+"</h2>";
+                temp+="<img src='"+f.photo_primary+"'>";
+                temp+="<p>"+f.room_facility_name+"</p>";
+                temp+="<p>Harga  : "+f.price+"</p>";
+                temp+="<p>Daerah : "+f.regional+"</p>";
+                temp+="<p>Rating : "+f.rating+"</p>";
+                temp+="<p>Alamat : "+f.address+"</p>";
+                temp+="<div class='form-group'>";
+                  temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+                temp+="</div>";
+              if(i%2 != 0 || i == length-1)
+                temp+="</div>";
               temp+="</div>";
-            if(i%2 != 0 || i == length-1)
-              temp+="</div>";
+            });
+            for(var i = 1; i <= e.pagination.lastPage; i++)  {
+              temp+="<button class='btn btn-default' onclick='getHotel("+i+")'>"+i+"</button>";
+            }
             temp+="</div>";
-          });
-          for(var i = 1; i <= e.pagination.lastPage; i++)  {
-            temp+="<button class='btn btn-default' onclick='getHotel("+i+")'>"+i+"</button>";
+            $(".results").html(temp);
           }
-          temp+="</div>";
-          $(".results").html(temp);
-      });
+        });
     }
 
     function detail(uri) {
@@ -182,7 +187,7 @@
             temp+="<p><b>"+f.room_name+"</b></p>";
             temp+="<img src='"+f.photo_url+"'><br>";
             temp+=f.room_description;
-            temp+="<p>Harga : "+f.price+"</p>";
+            temp+="<p>Harga : "+f.currency+" "+f.price+"</p>";
             temp+="<p>Sarapan : "+(f.with_breakfast == "1" ? "Ya" : "Tidak");
             temp+="<p>Minimum : "+f.minimum_stays+" malam</p>";
             temp+="<p>Kamar Kosong: "+f.room_available+"</p>";
@@ -198,10 +203,12 @@
         temp+="<p><b>Alamat</b> : "+e.general.address+"<p>"
         temp+="</div>";
         temp+="<div class='row'>";
-        temp+="<p><b>Informasi Tambahan</b></p>"
-        e.addinfos.addinfo.forEach(function(f)  {
-          temp+="<p>"+f+"</p>";
-        });
+        if(e.addinfos != null)  {
+          temp+="<p><b>Informasi Tambahan</b></p>"
+          e.addinfos.addinfo.forEach(function(f)  {
+            temp+="<p>"+f+"</p>";
+          });
+        }
         temp+="<p><b>Fasilitas </b></p>";
         e.avail_facilities.avail_facilitiy.forEach(function(f) {
           temp+="<p>"+f.facility_name+"</p>"
