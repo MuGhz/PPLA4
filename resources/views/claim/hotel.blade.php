@@ -12,13 +12,13 @@
     <div class="row">
       <div class="form-group col-md-8">
         <label>Check in: </label>
-        <input class="form-control" name="in" id="in">
+        <input class="form-control datepicker" name="in" id="in">
       </div>
     </div>
     <div class="row">
       <div class="form-group col-md-8">
         <label>Check out: </label>
-        <input class="form-control" name="out" id="out">
+        <input class="form-control datepicker" name="out" id="out">
       </div>
     </div>
     <div class="row">
@@ -82,6 +82,11 @@
 @endsection
 @section('js')
   <script>
+    $(".datepicker").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd"
+    });
     var token = "";
     $("#submit").click(function() {
       $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
