@@ -1,4 +1,21 @@
 @extends('layouts.app')
+@section('css')
+  <style>
+  #loading {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(192, 192, 192, 0.5);
+      background-image: url("http://i.stack.imgur.com/MnyxU.gif");
+      background-repeat: no-repeat;
+      background-position: center;
+  }
+  </style>
+@endsection
 
 @section('content')
 <div class="container">
@@ -78,6 +95,7 @@
 
     </div>
   </div>
+  <div id="loading"></div>
 </div>
 @endsection
 @section('js')
@@ -87,6 +105,12 @@
       changeYear: true,
       dateFormat: "yy-mm-dd"
     });
+
+    function show(id, value) {
+      console.log('called');
+      $("#"+id).css('display', (value ? 'block' : 'none'));
+    }
+
     var token = "";
     $("#submit").click(function() {
       $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
@@ -99,6 +123,7 @@
     });
 
     function getHotel(page) {
+      show('loading',true);
       var ins = $("#in").val();
       var out = $("#out").val();
       var room = $("#room").val();
@@ -108,6 +133,8 @@
       $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,page:page,_token:"{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
           //console.log(data.result);
+
+          show('loading',false);
           e = JSON.parse(e);
           console.log(e);
           console.log(e['results']['result']);
