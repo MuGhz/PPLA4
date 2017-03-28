@@ -9,9 +9,8 @@ class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
     public function getToken(Request $request)  {
-      $key = '059651551ad205d5fc25173a554776a4';
-      $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken
-        &secretkey=$key&output=json";
+      $key = '4723b888e4285907f058245a7c52f8bc';
+      $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
       echo $this->curlCall($url);
 
     }
@@ -28,9 +27,7 @@ class OrderController extends Controller
       $token = Input::get('token');
       $night = $out-$in;
 
-      $url = "https://api-sandbox.tiket.com/search/hotel?q=$city
-        &startdate=$in&night=1&enddate=$out&room=$room&adult=$adult
-        &child=$child&token=$token&output=json";
+      $url = "https://api-sandbox.tiket.com/search/hotel?q=$city&startdate=$in&night=1&enddate=$out&room=$room&adult=$adult&child=$child&token=$token&output=json";
       echo $this->curlCall($url);
     }
 
@@ -41,17 +38,17 @@ class OrderController extends Controller
       $token = Input::get('token');
       $url = "$target&token=$token&output=json";
 
-      echo $this->callCurl($url);
+      echo $this->curlCall($url);
     }
 
 
     //do curl call to url
     public function curlCall($url)  {
+      //dd($url);
       $curl = curl_init();
-
-
+      curl_setopt($curl,CURLOPT_URL,$url);
       curl_setopt_array($curl, array(
-        CURLOPT_URL => $url,
+      //  CURLOPT_URL => "$url",
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
