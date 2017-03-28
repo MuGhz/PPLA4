@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <form action="" method="POST">
+  <form action="" method="POST" class="container">
     <div class="row">
       <div class="form-group col-md-8">
         <label>Kota: </label>
@@ -53,7 +53,7 @@
       <button class="btn btn-primary btn-block" type="button" id="submit">Cari Hotel</button>
     </div>
   </form>
-  <div class="results">
+  <div class="results container">
 
   </div>
   <!-- Modal -->
@@ -91,51 +91,53 @@
     $("#submit").click(function() {
       $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
-          //console.log(data.result);
-          console.log(e);
           e = JSON.parse(e);
           token = e.token;
           localStorage.token = token;
-          var ins = $("#in").val();
-          var out = $("#out").val();
-          var room = $("#room").val();
-          var city = $("#city").val();
-          var adult = $("#adult").val();
-          var child = $("#child").val();
-          $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,_token:"{{csrf_token()}}"}).done(function(e){
-              // Display the returned data in browser
-              //console.log(data.result);
-              console.log(e);
-              e = JSON.parse(e);
-              console.log(e['results']['result']);
-              var temp = "<div class='col-md-12'>";
-              e.results.result.forEach(function(f)  {
-                temp+="<div class='col-md-6 panel panel-default'>";
-                temp+="<p>"+f.id+"</p>";
-                temp+="<p>"+f.latitude+"</p>";
-                temp+="<p>"+f.longitude+"</p>";
-                temp+="<p>"+f.province_name+"</p>";
-                temp+="<p>"+f.kecamatan_name+"</p>";
-                temp+="<p>"+f.kelurahan_name+"</p>";
-                temp+="<img src='"+f.photo_primary+"'>";
-                temp+="<p>"+f.room_facility_name+"</p>";
-                temp+="<p>"+f.wifi+"</p>";
-                temp+="<p>"+f.promo_name+"</p>";
-                temp+="<p>"+f.price+"</p>";
-                temp+="<p>"+f.regional+"</p>";
-                temp+="<p>"+f.rating+"</p>";
-                temp+="<p>"+f.name+"</p>";
-                temp+="<p>"+f.address+"</p>";
-                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
-                temp+="<a href=# class='btn btn-primary'>Pilih</a>";
-                temp+="</div>";
-              });
-              temp+="<button type='button' class='btn btn-primary'>Next</button>";
-              temp+="</div>";
-              $(".results").html(temp);
-          });
+          getHotel(1);
       });
     });
+
+    function getHotel(page) {
+      var ins = $("#in").val();
+      var out = $("#out").val();
+      var room = $("#room").val();
+      var city = $("#city").val();
+      var adult = $("#adult").val();
+      var child = $("#child").val();
+      $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,page:page,_token:"{{csrf_token()}}"}).done(function(e){
+          // Display the returned data in browser
+          //console.log(data.result);
+          e = JSON.parse(e);
+          console.log(e);
+          console.log(e['results']['result']);
+          var temp = "<div class='col-md-12 row row-eq-height'>";
+          var length = e.results.result.length;
+          e.results.result.forEach(function(f,i)  {
+            if(i%2 == 0)
+              temp+="<div class='row row-eq-height'>";
+            temp+="<div class='col-md-6 panel panel-default container'>";
+            temp+="<h2>"+f.name+"</h2>";
+            temp+="<img src='"+f.photo_primary+"'>";
+            temp+="<p>"+f.room_facility_name+"</p>";
+            temp+="<p>Harga  : "+f.price+"</p>";
+            temp+="<p>Daerah : "+f.regional+"</p>";
+            temp+="<p>Rating : "+f.rating+"</p>";
+            temp+="<p>Alamat : "+f.address+"</p>";
+            temp+="<div class='form-group'>";
+            temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+            temp+="</div>";
+            if(i%2 != 0 || i == length-1)
+              temp+="</div>";
+            temp+="</div>";
+          });
+          for(var i = 1; i <= e.pagination.lastPage; i++)  {
+            temp+="<button class='btn btn-default' onclick='getHotel("+i+")'>"+i+"</button>";
+          }
+          temp+="</div>";
+          $(".results").html(temp);
+      });
+    }
 
     function detail(uri) {
       $.post("{{action('OrderController@getHotelDetail')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
@@ -163,7 +165,6 @@
         temp+="</div>";
         temp+="<div class='row'>"
         temp+="<p>"+e.general.address+"<p>"
-        temp+="<p>"+e.general.description+"<p>"
         temp+="</div>";
         $('#det').html(temp);
         $('#detail').modal('show');
@@ -172,7 +173,8 @@
 
     function book(uri) {
       $.post("{{action('OrderController@bookHotel')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
-
+        if(e)
+          window.location.replace("{{url('/home')}}");
       });
     }
   </script>

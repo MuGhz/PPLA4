@@ -29,9 +29,10 @@ class OrderController extends Controller
       $adult = Input::get('adult');
       $child = Input::get('child');
       $token = Input::get('token');
+      $page = Input::get('page');
       $night = $out-$in;
 
-      $url = "https://api-sandbox.tiket.com/search/hotel?q=$city&startdate=$in&night=1&enddate=$out&room=$room&adult=$adult&child=$child&token=$token&output=json";
+      $url = "https://api-sandbox.tiket.com/search/hotel?q=$city&startdate=$in&night=1&enddate=$out&room=$room&adult=$adult&child=$child&page=$page&token=$token&output=json";
       echo $this->curlCall($url);
     }
 
@@ -61,10 +62,10 @@ class OrderController extends Controller
         $claim->finance_id = User::finance($claimer)->id;
         $claim->claim_status = 1;
         $claim->save();
-        dd($claim);
+      //  dd($claim);
       }
 
-      return view();
+      return "true";
     }
 
 
