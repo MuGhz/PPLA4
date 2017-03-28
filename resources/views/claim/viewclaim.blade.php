@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@foreach($detailClaim as $key => $value)
+@php
+$token = $value -> claim_data_id ; 
+@endphp
+@endforeach
+
 <div class="container">
 	<center><h3 class="box-title">Detail Claim</h3></center>
 	<div class="row">
@@ -59,3 +65,16 @@
 </div>
 @endsection
 
+@section('js')
+
+
+<script>
+$.post("{{action('OrderController@getDetail')}}",{$token}).done.(function(e){
+	
+	});
+</script>
+
+
+
+
+@endsection

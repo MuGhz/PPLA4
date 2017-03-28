@@ -27,26 +27,21 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Claim Type</th>
-										<th>Claim Data</th>
-										<th>Created At</th>
-										<th>Updated At</th>
+										<th>Type</th>
+										<th>Created</th>
 										<th>Claim Status</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($allClaim as $key => $value)
-									<form  action="{{URL::to('home/view/detail')}}" method="POST">
 									<tr>
 										<td name="id" id="id">{{ $value->id }}</td>
 										<td name="claim_type" id="claim_type">{{ $value->claim_type }}</td>
-										<td name="claim_data_id" id="claim_data_id">{{ $value->claim_data_id }}</td>
 										<td name="created_at" id="created_at">{{ $value->created_at }}</td>
-										<td name="updated_at" id="updated_at">{{ $value->updated_at }}</td>
 										<td name="claim_status" id="claim_status">{{ $value->claim_status }}</td>
-										<td><button class="btn btn-default btn-flat" type="button" id="submit">Detail</button></td>
+										<td><a href="{{URL::to('home/view/detail/')}}/{{$value->id}}" class="btn btn-default btn-flat" >Detail</a></td>
 									</tr>
-									</form>
+									
 									@endforeach
 								</tbody>
 							</table>

@@ -23,8 +23,8 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
   
   Route::group(['prefix'=>'view'],function()  {
-    Route::any('detail',function(){
-      return view('claim.viewclaim');
+    Route::group(['prefix'=>'detail'],function(){
+      Route::get('/{id}','ClaimController@show');	
     });
   });
   

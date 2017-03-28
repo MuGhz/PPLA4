@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Claim;
 
 class ClaimController extends Controller
-{
+{	
+	
     /**
      * Display a listing of the resource.
      *
@@ -44,8 +46,9 @@ class ClaimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {	
+		$detailClaim =  Claim::where('id', $id)->get();
+        return view('claim.viewclaim',compact('detailClaim'));
     }
 
     /**
