@@ -179,9 +179,13 @@
         temp = "<div class='row'>";
         e.results.result.forEach(function(f)  {
           temp+="<div class='col-md-6 items'>";
-            temp+="<img src='"+f.photo_url+"'>";
-            temp+="<p>Kamar Kosong: "+f.room_available+"</p>";
+            temp+="<p><b>"+f.room_name+"</b></p>";
+            temp+="<img src='"+f.photo_url+"'><br>";
+            temp+=f.room_description;
             temp+="<p>Harga : "+f.price+"</p>";
+            temp+="<p>Sarapan : "+(f.with_breakfast == "1" ? "Ya" : "Tidak");
+            temp+="<p>Minimum : "+f.minimum_stays+" malam</p>";
+            temp+="<p>Kamar Kosong: "+f.room_available+"</p>";
             temp+="<div class='form-group'>";
               temp+="<button onclick=\"book('"+f.bookUri+"')\">Book</button>";
             temp+="</div><hr>";
