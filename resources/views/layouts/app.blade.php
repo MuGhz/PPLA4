@@ -1,3 +1,6 @@
+<?php
+    $secure = App::environment('production') ? true : NULL;
+?>
 <!DOCTYPE html>
 <html lang="en">
 @section('htmlheader')
@@ -14,7 +17,7 @@
     <title>{{ config('app.name', 'Jojonomic') }}</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css',$secure) }}" rel="stylesheet">
     @yield('css')
 
     <!-- Scripts -->
@@ -54,7 +57,7 @@
 
     <!-- Scripts -->
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js', $secure) }}"></script>
     <script
 			  src="https://code.jquery.com/jquery-3.2.0.min.js"
 			  integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="

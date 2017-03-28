@@ -1,3 +1,6 @@
+<?php
+    $secure = App::environment('production') ? true : NULL;
+?>
 <!DOCTYPE html>
 <!--
 Landing page based on Pratt: http://blacktie.co/demo/pratt/
@@ -26,7 +29,7 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
     <title>{{ trans('adminlte_lang::message.landingdescriptionpratt') }}</title>
 
     <!-- Custom styles for this template -->
-    <link href="{{ asset('/css/all-landing.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/all-landing.css',$secure) }}" rel="stylesheet">
 
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
@@ -81,14 +84,14 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
                     <div class="col-lg-2">
                         <h5>{{ trans('adminlte_lang::message.amazing') }}</h5>
                         <p>{{ trans('adminlte_lang::message.basedadminlte') }}</p>
-                        <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/img/arrow1.png') }}">
+                        <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/img/arrow1.png',$secure) }}">
                     </div>
                     <div class="col-lg-8">
-                        <img class="img-responsive" src="{{ asset('/img/app-bg.png') }}" alt="">
+                        <img class="img-responsive" src="{{ asset('/img/app-bg.png',$secure) }}" alt="">
                     </div>
                     <div class="col-lg-2">
                         <br>
-                        <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/img/arrow2.png') }}">
+                        <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/img/arrow2.png',$secure) }}">
                         <h5>{{ trans('adminlte_lang::message.awesomepackaged') }}</h5>
                         <p>... {{ trans('adminlte_lang::message.by') }} <a href="http://acacha.org/sergitur">Sergi Tur Badenas</a> {{ trans('adminlte_lang::message.at') }} <a href="http://acacha.org">acacha.org</a> {{ trans('adminlte_lang::message.readytouse') }}</p>
                     </div>
@@ -106,17 +109,17 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
                     <br>
                     <br>
                     <div class="col-lg-4">
-                        <img src="{{ asset('/img/intro01.png') }}" alt="">
+                        <img src="{{ asset('/img/intro01.png',$secure) }}" alt="">
                         <h3>{{ trans('adminlte_lang::message.community') }}</h3>
                         <p>{{ trans('adminlte_lang::message.see') }} <a href="https://github.com/acacha/adminlte-laravel">{{ trans('adminlte_lang::message.githubproject') }}</a>, {{ trans('adminlte_lang::message.post') }} <a href="https://github.com/acacha/adminlte-laravel/issues">{{ trans('adminlte_lang::message.issues') }}</a> {{ trans('adminlte_lang::message.and') }} <a href="https://github.com/acacha/adminlte-laravel/pulls">{{ trans('adminlte_lang::message.pullrequests') }}</a></p>
                     </div>
                     <div class="col-lg-4">
-                        <img src="{{ asset('/img/intro02.png') }}" alt="">
+                        <img src="{{ asset('/img/intro02.png',$secure) }}" alt="">
                         <h3>{{ trans('adminlte_lang::message.schedule') }}</h3>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
                     <div class="col-lg-4">
-                        <img src="{{ asset('/img/intro03.png') }}" alt="">
+                        <img src="{{ asset('/img/intro03.png',$secure) }}" alt="">
                         <h3>{{ trans('adminlte_lang::message.monitoring') }}</h3>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
@@ -134,7 +137,7 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
                     <br>
                     <br>
                     <div class="col-lg-6 centered">
-                        <img class="centered" src="{{ asset('/img/mobile.png') }}" alt="">
+                        <img class="centered" src="{{ asset('/img/mobile.png',$secure) }}" alt="">
                     </div>
 
                     <div class="col-lg-6">
@@ -221,10 +224,10 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img src="{{ asset('/img/item-01.png') }}" alt="">
+                                    <img src="{{ asset('/img/item-01.png',$secure) }}" alt="">
                                 </div>
                                 <div class="item">
-                                    <img src="{{ asset('/img/item-02.png') }}" alt="">
+                                    <img src="{{ asset('/img/item-02.png',$secure) }}" alt="">
                                 </div>
                             </div>
                         </div>
