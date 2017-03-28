@@ -57,7 +57,7 @@ $status = $value -> claim_status;
 				temp+= "</div>";
 			temp+="<p>Status : "+{{$status}}+"</p>";
 			temp+="<p>Total : Rp. "+e.myorder.total	+"</p>";
-			temp+="<p>Order Expired : "+e.myorder.data[0].order_expire_datetime+"</p>";
+			temp+="<p>Order Expired : "+e.myorder.data[0].order_expire_datetime+"</p><br>";
 			temp+= "</div>";
 		temp+= "</div></center>";
 		temp+="<div class='col-md-3'>";
