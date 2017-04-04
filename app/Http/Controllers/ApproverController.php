@@ -10,6 +10,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
+
 use App\Claim;
 use App\User;
 use App\Company;
@@ -38,7 +40,10 @@ class ApproverController extends Controller
      */
     public function showReceived()
     {
-        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '1')->get();
+        $allClaim = DB::transaction(function()  {
+          $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '1')->get();
+          return $allClaim;
+        });
         return view('adminlte::home', compact('allClaim'));
     }
 

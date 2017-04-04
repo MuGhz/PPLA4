@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Claim;
 use App\User;
@@ -45,11 +46,13 @@ class OrderController extends Controller
 
       echo $this->curlCall($url);
     }
-	public function getOrder(){
-		$token = Input::get('token');
-		$url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
-		echo $this->curlCall($url);
-	}
+
+  	public function getOrder(){
+  		$token = Input::get('token');
+  		$url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
+  		echo $this->curlCall($url);
+  	}
+  
     public function bookHotel() {
       $target = Input::get('target');
       $token = Input::get('token');
@@ -57,15 +60,18 @@ class OrderController extends Controller
 
       $mess = $this->curlCall($url);
       if($mess) {
-        $claimer = Auth::user();
-        $claim = new Claim();
-        $claim->claim_type = 1;
-        $claim->claim_data_id = $token;
-        $claim->claimer_id = $claimer->id;
-        $claim->approver_id = User::approver($claimer)->id;
-        $claim->finance_id = User::finance($claimer)->id;
-        $claim->claim_status = 1;
-        $claim->save();
+        DB::transaction(function($token) use($token)  {
+          $claimer = Auth::user();
+
+          $claim = new Claim();
+          $claim->claim_type = 1;
+          $claim->claim_data_id = $token;
+          $claim->claimer_id = $claimer->id;
+          $claim->approver_id = User::approver($claimer)->id;
+          $claim->finance_id = User::finance($claimer)->id;
+          $claim->claim_status = 1;
+          $claim->save();
+        });
       //  dd($claim);
       }
 

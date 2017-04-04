@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 use App\Claim;
 
 class ClaimController extends Controller
@@ -17,7 +19,10 @@ class ClaimController extends Controller
     public function index($status)
     {
         //
-				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
+      $claims =  DB::transaction(function($status) use ($status) {
+  				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
+          return $claims;
+        });
 				return view('tickets.list',compact('claims'));
     }
 
