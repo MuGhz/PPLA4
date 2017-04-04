@@ -25,6 +25,7 @@
 
 @section('content')
 <div class="container">
+  <h2>Booking Hotel</h2>
   <form action="" method="POST" class="container col-md-offset-2">
     <div class="row">
       <div class="form-group col-md-8">
@@ -163,9 +164,9 @@
             $('#error').modal('show');
             return;
           }
-          e = JSON.parse(e);
-          console.log(e);
-          console.log(e['results']['result']);
+          // e = JSON.parse(e);
+          //console.log(e);
+          // console.log(e['results']['result']);
           if(e.results.result.length==0)  {
             $(".results").html("<h2>Tidak ada hotel</h2>");
           } else {

@@ -8,9 +8,10 @@
         "php": ">=5.6.4",
         "acacha/admin-lte-template-laravel": "4.*",
         "fzaninotto/faker": "^1.6",
+        "laravel/dusk": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "phpunit/phpunit": "5.7.15"
+        "phpunit/phpunit": "6.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*"
