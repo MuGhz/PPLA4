@@ -30,8 +30,10 @@ class OrderController extends Controller
       $child = Input::get('child');
       $token = Input::get('token');
       $page = Input::get('page');
-      $night = $out-$in;
-
+      $night = strtotime($out)-strtotime($in);
+      $today = date_diff(date_create_from_format('Y-m-d',date('Y-m-d')),date_create_from_format('Y-m-d',"$in"))->format('%R%a');
+      if($night < 1 || $today < 0)
+        return "error";
       $url = "https://api-sandbox.tiket.com/search/hotel?q=$city&startdate=$in&night=1&enddate=$out&room=$room&adult=$adult&child=$child&page=$page&token=$token&output=json";
       echo $this->curlCall($url);
     }
