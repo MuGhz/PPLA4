@@ -37,6 +37,21 @@ class OrderController extends Controller
       echo $this->curlCall($url);
     }
 
+    public function getPlane(Request $request)  {
+
+      $url = "http://api-sandbox.tiket.com/search/flight?";
+
+      echo $this->curlCall($url);
+    }
+
+    public function getAirport(Request $request)  {
+
+      $token = Input::get('token');
+      $url = "https://api-sandbox.tiket.com/flight_api/all_airport?token=$token&output=json";
+
+      echo $this->curlCall($url);
+    }
+
     //return the detail of 1 hotel
     public function getHotelDetail()  {
 
@@ -52,7 +67,7 @@ class OrderController extends Controller
   		$url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
   		echo $this->curlCall($url);
   	}
-  
+
     public function bookHotel() {
       $target = Input::get('target');
       $token = Input::get('token');

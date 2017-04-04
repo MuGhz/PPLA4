@@ -17,8 +17,11 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   Route::group(['prefix'=>'order'],function()  {
-    Route::get('hotel',function(){
+    Route::get('hotel',function() {
       return view('claim.hotel');
+    });
+    Route::get('plane',function() {
+      return view('claim.pesawat');
     });
   });
 
@@ -53,8 +56,11 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 Route::group(['prefix'=>'api'],function()  {
   Route::post('/token','OrderController@getToken');
   Route::post('/hotel/list','OrderController@getHotel');
+  Route::post('/plane/list','OrderController@getPlane');
   Route::post('/hotel/detail','OrderController@getHotelDetail');
+  Route::post('/plane/detail','OrderController@getPlaneDetail');
   Route::post('/book/hotel','OrderController@bookHotel');
+  Route::post('/book/plane','OrderController@bookPlane');
   Route::post('/claim/detil','OrderController@getOrder');
 });
 
