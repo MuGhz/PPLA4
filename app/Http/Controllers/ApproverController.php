@@ -19,7 +19,7 @@ use App\Company;
  * Class HomeController
  * @package App\Http\Controllers
  */
-class HomeController extends Controller
+class ApproverController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -36,9 +36,21 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function showReceived()
     {
-        $allClaim = Claim::where('claimer_id', '=', Auth::id())->get();
+        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '1')->get();
+        return view('adminlte::home', compact('allClaim'));
+    }
+
+    public function showApproved()
+    {
+        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '!=', '1')->where('claim_status', '!=', '6')->get();
+        return view('adminlte::home', compact('allClaim'));
+    }
+
+    public function showRejected()
+    {
+        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '6')->get();
         return view('adminlte::home', compact('allClaim'));
     }
 }

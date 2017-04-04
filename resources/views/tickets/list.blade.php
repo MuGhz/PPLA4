@@ -37,7 +37,7 @@
 									@php
 									$i= 1;
 									@endphp
-									@foreach($allClaim as $key => $value)
+									@foreach($claims as $key => $value)
 									@php
 									$cType=$value->claim_type ;
 									$cType= $cType==1?"Hotel":"Pesawat";
@@ -62,7 +62,7 @@
 
 					</div>
 					<div class="box-body">
-						
+
 					</div>
 					<!-- /.box-body -->
 				</div>
