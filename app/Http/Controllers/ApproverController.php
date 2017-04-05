@@ -36,21 +36,46 @@ class ApproverController extends Controller
      *
      * @return Response
      */
+     public function show($id)
+     {
+        $detailClaim =  Claim::where('id',$id)->get();
+           if(empty($detailClaim) || !isset($detailClaim[0]))
+             return abort('404','404 - Page not found');
+        return view('approve.viewclaim',compact('detailClaim'));
+     }
+     public function approve($id){
+       $update_claim = Claim::where('id','=',$id)->first();
+          if($update_claim->approver_id != Auth::id())
+            abort('403','forbidden access');
+          $new_status = 2;
+          $update_claim->claim_status = $new_status;
+          $update_claim->save();
+          return redirect('/home/approver/received');
+        }
+     public function reject($id){
+       $update_claim = Claim::where('id','=',$id)->first();
+          if($update_claim->approver_id != Auth::id())
+            abort('403','forbidden access');
+          $new_status = 6;
+          $update_claim->claim_status = $new_status;
+          $update_claim->save();
+          return redirect('/home/approver/received');
+        }
     public function showReceived()
     {
-        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '1')->get();
-        return view('adminlte::home', compact('allClaim'));
+        $claims = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '1')->get();
+        return view('approve.list', compact('claims'));
     }
 
     public function showApproved()
     {
-        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '!=', '1')->where('claim_status', '!=', '6')->get();
-        return view('adminlte::home', compact('allClaim'));
+        $claims = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '!=', '1')->where('claim_status', '!=', '6')->get();
+        return view('approve.list', compact('claims'));
     }
 
     public function showRejected()
     {
-        $allClaim = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '6')->get();
-        return view('adminlte::home', compact('allClaim'));
+        $claims = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '6')->get();
+        return view('approve.list', compact('claims'));
     }
 }
