@@ -49,6 +49,8 @@ class ApproverController extends Controller
             abort('403','forbidden access');
           $new_status = 2;
           $update_claim->claim_status = $new_status;
+          $new_time = date("Y-m-d H:i:s");
+          $update_claim->updated_at = $new_time;
           $update_claim->save();
           return redirect('/home/approver/received');
         }
@@ -58,6 +60,8 @@ class ApproverController extends Controller
             abort('403','forbidden access');
           $new_status = 6;
           $update_claim->claim_status = $new_status;
+          $new_time = date("Y-m-d H:i:s");
+          $update_claim->updated_at = $new_time;
           $update_claim->save();
           return redirect('/home/approver/received');
         }
