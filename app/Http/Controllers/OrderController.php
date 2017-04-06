@@ -17,7 +17,6 @@ class OrderController extends Controller
       $base = "https://api-sandbox.tiket.com/apiv1";
       $url = "$base/payexpress?method=getToken&secretkey=$key&output=json";
       echo $this->curlCall($url);
-
     }
 
     //Returns list of hotels
