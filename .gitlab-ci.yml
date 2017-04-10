@@ -7,7 +7,7 @@ before_script:
   - bash gitlabci/before_script.sh > /dev/null
   - bash gitlabci/install_dependency.sh > /dev/null
   - bash gitlabci/setup_database.sh
-  - bash gitlabci/travis_ci_dependency.sh > /dev/null
+  - bash gitlabci/travis_ci_dependency.sh
 
 services:
   - mysql:latest

@@ -1,4 +1,5 @@
 export DISPLAY=:99.0
+chmod 777 /etc/init.d/xvfb
 sh -e /etc/init.d/xvfb start
 ./vendor/laravel/dusk/bin/chromedriver-linux &
 cp .env .env.dusk.local
