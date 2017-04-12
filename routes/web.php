@@ -40,6 +40,13 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 	Route::get('/rejected','ApproverController@showRejected');
 
   });
+  
+    Route::group(['prefix'=>'finance'],function()  {
+	Route::get('/received','FinanceController@showReceived');
+	Route::get('/approved','FinanceController@showApproved');
+	Route::get('/rejected','FinanceController@showRejected');
+
+  });
 
 
     //    Route::get('/link1', function ()    {
