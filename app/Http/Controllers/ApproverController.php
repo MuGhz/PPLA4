@@ -43,28 +43,28 @@ class ApproverController extends Controller
              return abort('404','404 - Page not found');
         return view('approve.viewclaim',compact('detailClaim'));
      }
-     public function approve($id){
-       $updateClaim = Claim::where('id','=',$id)->first();
-          if($updateClaim->approver_id != Auth::id())
+    public function approve($id){
+        $updateClaim = Claim::where('id','=',$id)->first();
+        if($updateClaim->approver_id != Auth::id())
             abort('403','forbidden access');
-          $newStatus = 2;
-          $updateClaim->claim_status = $newStatus;
-          $newTime = date("Y-m-d H:i:s");
-          $updateClaim->updated_at = $newTime;
-          $updateClaim->save();
-          return redirect('/home/approver/received');
-        }
-     public function reject($id){
-       $updateClaim = Claim::where('id','=',$id)->first();
-          if($updateClaim->approver_id != Auth::id())
+        $newStatus = 2;
+        $updateClaim->claim_status = $newStatus;
+        $newTime = date("Y-m-d H:i:s");
+        $updateClaim->updated_at = $newTime;
+        $updateClaim->save();
+        return redirect('/home/approver/received');
+    }
+    public function reject($id){
+        $updateClaim = Claim::where('id','=',$id)->first();
+        if($updateClaim->approver_id != Auth::id())
             abort('403','forbidden access');
-          $newStatus = 6;
-          $updateClaim->claim_status = $newStatus;
-          $newTime = date("Y-m-d H:i:s");
-          $updateClaim->updated_at = $newTime;
-          $updateClaim->save();
-          return redirect('/home/approver/received');
-        }
+        $newStatus = 6;
+        $updateClaim->claim_status = $newStatus;
+        $newTime = date("Y-m-d H:i:s");
+        $updateClaim->updated_at = $newTime;
+        $updateClaim->save();
+        return redirect('/home/approver/received');
+    }
     public function showReceived()
     {
         $claims = Claim::where('approver_id', '=', Auth::id())->where('claim_status', '=', '1')->get();
