@@ -49,7 +49,7 @@
 										<td name="created_at" id="created_at">{{ $value->created_at }}</td>
 										<td name="updated_at" id="updated_at">{{ $value->updated_at }}</td>
 										<td name="claim_status" id="claim_status">{{ $status }}</td>
-										<td><a href="{{URL::to('home/approver/detail')}}/{{$value->id}}" class="btn btn-default btn-flat" >Detail</a></td>
+										<td><a href="{{URL::to('home/approver/detail')}}/{{$value->id}}" class="btn btn-default btn-flat" id="detail" >Detail</a></td>
 									</tr>
 									@php
 									$i++;
