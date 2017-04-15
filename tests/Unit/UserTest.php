@@ -14,14 +14,14 @@ class UserTest extends TestCase
 
 	private $testData;
 	
-	public function makeCompany($name, $id = -1)
+	private function makeCompany($name, $id = -1)
 	{
 		return factory(Company::class)->create([
 			'name' => $name,
 		]);
 	}
 	
-	public function makeUser($name, $email, $company, $role)
+	private function makeUser($name, $email, $company, $role)
 	{
 		return factory(User::class)->create([
 			'name' => $name,
@@ -37,7 +37,7 @@ class UserTest extends TestCase
 		$this->generateTestData();
 	}
 	
-	public function generateTestData()
+	private function generateTestData()
 	{
 		// Test companies
 		$company1 = $this->makeCompany('Company 1');
@@ -94,8 +94,6 @@ class UserTest extends TestCase
 		$queryResult = User::claimer()->get();
 		
 		// How to assert? (Issues: Claimers in database is not empty, $queryResult type is different from $testClaimers, wasRecentlyCreated is true on $testClaimers, false on $queryResult
-		// $this->assertEquals($queryResult, "Data");
-		
 		// Manual assertion - All test elements contained(O(N^2))
 		$allClaimersContained = true;
 		foreach ($testClaimers as $claimer) {
@@ -144,8 +142,6 @@ class UserTest extends TestCase
 		$queryResult = User::company($testCompany->id)->get();
 
 		// How to assert? (Issues: wasRecentlyCreated is true on $testClaimers, false on $queryResult)
-		// $this->assertEquals($queryResult,'Data');
-		
 		// Manual assertion - Same size & all test elements contained (O(N^2))
 		$this->assertSameSize($queryResult,$testUsers);
 		$allUsersContained = true;
