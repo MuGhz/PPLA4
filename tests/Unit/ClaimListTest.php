@@ -74,7 +74,7 @@ class ClaimListTest extends TestCase
 		);
 	}
 	
-    public function testViewHasData()
+    public function testViewHasAllClaimData()
     {
 		$testData = $this->testData;
 		$user = $testData['claimer'][0];
