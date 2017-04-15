@@ -12,74 +12,60 @@ class UserTest extends TestCase
 {
 	use DatabaseTransactions;
 
+	private $testData;
+	
+	public function makeCompany($name, $id = -1)
+	{
+		return factory(Company::class)->create([
+			'name' => $name,
+		]);
+	}
+	
+	public function makeUser($name, $email, $company, $role)
+	{
+		return factory(User::class)->create([
+			'name' => $name,
+			'email' => $email,
+			'company' => $company,
+			'role' => $role,
+		]);
+	}
+	
+	public function setUp()
+	{
+		parent::setUp();
+		$this->generateTestData();
+	}
+	
 	public function generateTestData()
 	{
 		// Test companies
-		$company1 = factory(Company::class)->create([
-			'name' => 'Company 1'
-		]);
-		$company2 = factory(Company::class)->create([
-			'name' => 'Company 2'
-		]);
-		// Test admins
-		$admin1 = factory(User::class)->create([
-			'name' => 'Admin 1',
-			'company' => $company1->id,
-			'role' => 'admin'
-		]);
-		$admin2 = factory(User::class)->create([
-			'name' => 'Admin 2',
-			'company' => $company2->id,
-			'role' => 'admin'
-		]);
-		// Test claimers
-		$claimer11 = factory(User::class)->create([
-			'name' => 'Claimer 1-1',
-			'company' => $company1->id,
-			'role' => 'claimer'
-		]);
-		$claimer12 = factory(User::class)->create([
-			'name' => 'Claimer 1-2',
-			'company' => $company1->id,
-			'role' => 'claimer'
-		]);
-		$claimer21 = factory(User::class)->create([
-			'name' => 'Claimer 2-1',
-			'company' => $company2->id,
-			'role' => 'claimer'
-		]);
-		$claimer22 = factory(User::class)->create([
-			'name' => 'Claimer 2-2',
-			'company' => $company2->id,
-			'role' => 'claimer'
-		]);
-		// Test approvers
-		$approver1 = factory(User::class)->create([
-			'name' => 'Approver 1',
-			'company' => $company1->id,
-			'role' => 'approver'
-		]);
-		$approver2 = factory(User::class)->create([
-			'name' => 'Approver 2',
-			'company' => $company2->id,
-			'role' => 'approver'
-		]);
-		// Test finances
-		$finance1 = factory(User::class)->create([
-			'name' => 'Finance 1',
-			'company' => $company1->id,
-			'role' => 'finance'
-		]);
-		$finance2 = factory(User::class)->create([
-			'name' => 'Finance 2',
-			'company' => $company2->id,
-			'role' => 'finance'
-		]);
-		
+		$company1 = $this->makeCompany('Company 1');
+		$company2 = $this->makeCompany('Company 2');
+		// Company IDs
 		$id1 = $company1->id;
 		$id2 = $company2->id;
-		return array(
+		// Test admins
+		$admin1 =$this->makeUser('Admin 1','Admin@Company1.test', $id1, 'admin');
+		$admin2 =$this->makeUser('Admin 2','Admin@Company2.test', $id2, 'admin');
+		// Test claimers
+		$claimer11 =$this->makeUser('Claimer 1-1','Claimer1@Company1.test', $id1, 'claimer');
+		$claimer12 =$this->makeUser('Claimer 1-2','Claimer1@Company2.test', $id1, 'claimer');
+		$claimer21 =$this->makeUser('Claimer 2-1','Claimer2@Company1.test', $id2, 'claimer');
+		$claimer22 =$this->makeUser('Claimer 2-2','Claimer2@Company2.test', $id2, 'claimer');
+		// Test approvers
+		$approver1 =$this->makeUser('Approver 1','Approver@Company1.test', $id1, 'approver');
+		$approver2 =$this->makeUser('Approver 2','Approver@Company2.test', $id2, 'approver');
+		// Test finances
+		$finance1 =$this->makeUser('Finance 1','Finance@Company1.test', $id1,'finance');
+		$finance2 =$this->makeUser('Finance 2','Finance@Company2.test', $id2,'finance');
+		
+		$this->testData = array(
 			'key' => array($id1, $id2),
+			'admin' => array(
+				$id1 => $admin1,
+				$id2 => $admin2
+			),
 			'company' => array(
 				$id1 => $company1,
 				$id2 => $company2
@@ -101,16 +87,75 @@ class UserTest extends TestCase
 	
 	public function testScopeClaimer()
 	{
-		$testData = $this->generateTestData();
-		// $queryResult = User::claimer()->get();
-		// $claimers = array_merge($testData['claimer'][$testData['key'][0]],$testData['claimer'][$testData['key'][1]]);
-		// $this->assertEquals($queryResult,$queryResult->intersect($claimers));
+		$testData = $this->testData;
+		
+		$testClaimers = array_merge($testData['claimer'][$testData['key'][0]],$testData['claimer'][$testData['key'][1]]);
+		
+		$queryResult = User::claimer()->get();
+		
+		// How to assert? (Issues: Claimers in database is not empty, $queryResult type is different from $testClaimers, wasRecentlyCreated is true on $testClaimers, false on $queryResult
+		// $this->assertEquals($queryResult, "Data");
+		
+		// Manual assertion - All test elements contained(O(N^2))
+		$allClaimersContained = true;
+		foreach ($testClaimers as $claimer) {
+			$claimerContained = false;
+			foreach ($queryResult as $resultElement) {
+				$claimerContained = $claimerContained || ($resultElement->id == $claimer->id);
+			}
+			$allClaimersContained = $allClaimersContained && $claimerContained;
+		}
+		
+		$this->assertTrue($allClaimersContained);
 	}
 	
 	public function testScopeApprover()
 	{
-		$testData = $this->generateTestData();
+		$testData = $this->testData;
+		
 		$testClaimer = $testData['claimer'][$testData['key'][0]][0];
-		$queryResult = User::approver($testClaimer)->get();
+		$testApprover  = $testData['approver'][$testData['key'][0]];
+		
+		$queryResult = User::approver($testClaimer);
+
+		$this->assertEquals($queryResult->id,$testApprover->id);
+	}
+	
+	public function testScopeFinance()
+	{
+		$testData = $this->testData;
+		
+		$testClaimer = $testData['claimer'][$testData['key'][0]][0];
+		$testFinance  = $testData['finance'][$testData['key'][0]];
+		
+		$queryResult = User::finance($testClaimer);
+
+		$this->assertEquals($queryResult->id,$testFinance->id);
+	}
+	
+	public function testScopeCompany()
+	{
+		$testData = $this->testData;
+		
+		$testCompany = $testData['company'][$testData['key'][0]];
+		$testUsers = $testData['claimer'][$testData['key'][0]];
+		array_push($testUsers,$testData['admin'][$testData['key'][0]],$testData['approver'][$testData['key'][0]],$testData['finance'][$testData['key'][0]]);
+		
+		$queryResult = User::company($testCompany->id)->get();
+
+		// How to assert? (Issues: wasRecentlyCreated is true on $testClaimers, false on $queryResult)
+		// $this->assertEquals($queryResult,'Data');
+		
+		// Manual assertion - Same size & all test elements contained (O(N^2))
+		$this->assertSameSize($queryResult,$testUsers);
+		$allUsersContained = true;
+		foreach ($testUsers as $user) {
+			$userContained = false;
+			foreach ($queryResult as $resultElement) {
+				$userContained = $userContained || ($resultElement->id == $user->id);
+			}
+			$allUsersContained = $allUsersContained && $userContained;
+		}
+		$this->assertTrue($allUsersContained);
 	}
 }
