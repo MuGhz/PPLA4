@@ -14,49 +14,125 @@ class ClaimListTest extends TestCase
 {
 	use DatabaseTransactions;
 	
+	private $testData;
+	
+	public function setUp()
+	{
+		parent::setUp();
+		$this->generateTestData();
+	}
+	
+	private function makeCompany($name)
+	{
+		return factory(Company::class)->create([
+			'name' => $name
+		]);
+	}
+	
+	private function makeUser($name, $email, $companyId, $role)
+	{
+		return factory(User::class)->create([
+			'name' => $name,
+			'email' => $email,
+			'company' => $companyId,
+			'role' => $role
+		]);
+	}
+	
+	private function makeClaim($claimType, $claimerId, $approverId, $financeId, $claimStatus)
+	{
+		return factory(Claim::class)->create([
+			'claim_type' => $claimType,
+			'claimer_id' => $claimerId,
+			'approver_id' => $approverId,
+			'finance_id' => $financeId,
+			'claim_status' => $claimStatus
+		]);
+	}
+	
+	private function generateTestData()
+	{
+		$company = $this->makeCompany('Test Company');
+		$claimer1 = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+		$claimer2 = $this->makeUser('Claimer 2', 'Claimer2@Company.test', $company->id, 'claimer');
+		$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+		$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+		$claim11 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 1);
+		$claim12 = $this->makeClaim(2, $claimer1->id, $approver->id, $finance->id, 1);
+		$claim21 = $this->makeClaim(3, $claimer2->id, $approver->id, $finance->id, 1);
+		$claim22 = $this->makeClaim(2, $claimer2->id, $approver->id, $finance->id, 1);
+		
+		$this->testData = array(
+			'company' => $company,
+			'claimer' => array($claimer1, $claimer2),
+			'approver' => $approver,
+			'finance' => $finance,
+			'claim' => array(
+				$claimer1->id => array($claim11, $claim12),
+				$claimer2->id => array($claim21, $claim22)
+			)
+		);
+	}
+	
     public function testReturnsView()
     {
-		$company = factory(Company::class)->create(['name' => 'Test Company']);
-		$user = factory(User::class)->create([
-			'name' => 'Test User',
-			'email' => 'Test_User_Email@testdomain.test',
-			'password' => 'Test User Password',
-			'role' => 'claimer',
-			'company' => $company->id
-		]);
+		$testData = $this->testData;
+		$user = $testData['claimer'][0];
 		
 		$this->actingAs($user)
 			 ->withSession(['user' => $user]);
 		
 		$hc = new HomeController();
-		$response = $hc->index();
+		$response = $hc->index()
+		               ->getData();
 		
-		// This should be changed to comparing with view manually made here
-		$this->assertInstanceof('Illuminate\View\View',$response);
+		$this->assertArrayHasKey('allClaim',$response);
     }
 	
-	// public function testViewHasAllClaimsData()
-    // {
-		// $company = factory(Company::class)->create(['name' => 'Test Company']);
-		// $user = factory(User::class)->create([
-			// 'name' => 'Test User',
-			// 'email' => 'Test_User_Email@testdomain.test',
-			// 'password' => 'Test User Password',
-			// 'role' => 'claimer',
-			// 'company' => $company->id
-		// ]);
+	public function testReturnedClaimsBelongToUser()
+    {
+		$testData = $this->testData;
+		$user = $testData['claimer'][0];
+		$allClaim = $testData['claim'][$user->id];
 		
-		// $response = $this->actingAs($user)
-						 // ->withSession(['user' => 'user'])
-						 // ->get('/home');
+		$this->actingAs($user)
+			 ->withSession(['user' => $user]);
 		
-		// $hc = new HomeController();
-		// $response = $hc->index();
-		// $response = $this->createTestResponse($response)
-						 // ->assertViewHas('allClaim');
-		// $response = $response->call('GET','/home');
+		$hc = new HomeController();
+		$response = $hc->index()
+		               ->getData()
+					   ['allClaim'];
 		
-		// $this->assertArrayHasKey('allClaim',$response->getOriginalContent());
-		// $this->assertEquals($response->getOriginalContent(),'This');
-    // }
+		$allClaimBelongToUser = true;
+		foreach ($response as $returnedClaim) {
+			$allClaimBelongToUser = $allClaimBelongToUser || ($returnedClaim->claimer_id == $user->id);
+		}
+		$this->assertTrue($allClaimBelongToUser);
+    }
+	
+	public function testViewHasAllClaimsData()
+    {
+		$testData = $this->testData;
+		$user = $testData['claimer'][0];
+		$allClaim = $testData['claim'][$user->id];
+		
+		$this->actingAs($user)
+			 ->withSession(['user' => $user]);
+		
+		$hc = new HomeController();
+		$response = $hc->index()
+		               ->getData()
+					   ['allClaim'];
+		
+		$allClaimsReturned = true;
+		foreach ($allClaim as $claim) {
+			$claimReturned = false;
+			foreach ($response as $returnedClaim) {
+				$claimReturned = $claimReturned || ($returnedClaim->id == $claim->id);
+			}
+			$allClaimsReturned = $allClaimsReturned && $claimReturned;
+		}
+		
+		$this->assertTrue($allClaimsReturned);
+    }
 }
