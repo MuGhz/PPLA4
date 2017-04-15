@@ -20,17 +20,17 @@ class DeleteClaimTest extends TestCase
 	private function generateTestData()
 	{
 		$company = $this->makeCompany('TestCompany');
-		$approver = $this->makeUser('TestApprover','Approver@Company.test',$company,'approver');
-		$finance = $this->makeUser('TestFinance','Finance@Company.test',$company,'finance');
-		$claimer1 = $this->makeUser('TestClaimer1','Claimer1@Company.test',$company,'claimer');
-		$claimer2 = $this->makeUser('TestClaimer2','Claimer2@Company.test',$company,'claimer');
+		$finance = $this->makeUser('TestFinance','Finance@Company.test',$company->id,'finance');
+		$approver = $this->makeUser('TestApprover','Approver@Company.test',$company->id,'approver');
+		$claimer1 = $this->makeUser('TestClaimer1','Claimer1@Company.test',$company->id,'claimer');
+		$claimer2 = $this->makeUser('TestClaimer2','Claimer2@Company.test',$company->id,'claimer');
 		
 		$this->testData = compact('company', 'approver', 'finance', 'claimer1', 'claimer2');
 	}
 	
 	private function makeCompany($name)
 	{
-		return factory(User::class)->create([
+		return factory(Company::class)->create([
 			'name' => $name
 		]);
 	}
@@ -40,7 +40,7 @@ class DeleteClaimTest extends TestCase
 		return factory(User::class)->create([
 			'name' => $name,
 			'email' => $email,
-			'company' => $company->id,
+			'company' => $company,
 			'role' => $role
 		]);
 	}
@@ -92,7 +92,7 @@ class DeleteClaimTest extends TestCase
 	{
 		$testData = $this->testData;
 		$claimer1 = $testData['claimer1'];
-		$claimer2 = $testData['claimer21'];
+		$claimer2 = $testData['claimer2'];
 		$approver = $testData['approver'];
 		$finance = $testData['finance'];
 		$claim = $this->makeClaim($claimer1,$approver,$finance,rand(1,5));
