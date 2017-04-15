@@ -13,29 +13,46 @@ use App\Company;
 
 class DeleteClaimTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+	use DatabaseTransactions;
 	
-	public function makeClaimer($company)
+	private $testData;
+	
+	private function generateTestData()
 	{
-		$claimer = factory(User::class)->create([
-			'company' => $company->id,
-			'role' => 'claimer'
-		]);
-		return $claimer;
+		$company = $this->makeCompany('TestCompany');
+		$approver = $this->makeUser('TestApprover','Approver@Company.test',$company,'approver');
+		$finance = $this->makeUser('TestFinance','Finance@Company.test',$company,'finance');
+		$claimer1 = $this->makeUser('TestClaimer1','Claimer1@Company.test',$company,'claimer');
+		$claimer2 = $this->makeUser('TestClaimer2','Claimer2@Company.test',$company,'claimer');
+		
+		$this->testData = compact('company', 'approver', 'finance', 'claimer1', 'claimer2');
 	}
 	
-	public function makeClaim($claimer,$status)
+	private function makeCompany($name)
 	{
-		$approver = User::approver($claimer);
-		$finance = User::finance($claimer);
+		return factory(User::class)->create([
+			'name' => $name
+		]);
+	}
+	
+	private function makeUser($name,$email,$company,$role)
+	{
+		return factory(User::class)->create([
+			'name' => $name,
+			'email' => $email,
+			'company' => $company->id,
+			'role' => $role
+		]);
+	}
+	
+	public function setUp()
+	{
+		parent::setUp();
+		$this->generateTestData();
+	}
+	
+	public function makeClaim($claimer,$approver,$finance,$status)
+	{
 		$claim = factory(Claim::class)->create([
 			'claimer_id' => $claimer->id,
 			'claim_status' => $status,
@@ -47,9 +64,11 @@ class DeleteClaimTest extends TestCase
 	
 	public function testDeleteSameUserStatus1()
 	{
-		$company = Company::find(1);
-		$claimer = $this->makeClaimer($company);
-		$claim = $this->makeClaim($claimer,1);
+		$testData = $this->testData;
+		$claimer = $testData['claimer1'];
+		$approver = $testData['approver'];
+		$finance = $testData['finance'];
+		$claim = $this->makeClaim($claimer,$approver,$finance,1);
 
 		$response = $this->actingAs($claimer)->get('/home/claim/delete/'.$claim->id);
 
@@ -58,9 +77,11 @@ class DeleteClaimTest extends TestCase
 	
 	public function testDeleteSameUserStatusNot1()
 	{
-		$company = Company::find(1);
-		$claimer = $this->makeClaimer($company);
-		$claim = $this->makeClaim($claimer,rand(2,5));
+		$testData = $this->testData;
+		$claimer = $testData['claimer1'];
+		$approver = $testData['approver'];
+		$finance = $testData['finance'];
+		$claim = $this->makeClaim($claimer,$approver,$finance,rand(2,5));
 
 		$response = $this->actingAs($claimer)->get('/home/claim/delete/'.$claim->id);
 
@@ -69,10 +90,12 @@ class DeleteClaimTest extends TestCase
 	
 	public function testDeleteDifferentUser()
 	{
-		$company = Company::find(1);
-		$claimer1 = $this->makeClaimer($company);
-		$claimer2 = $this->makeClaimer($company);
-		$claim = $this->makeClaim($claimer1,rand(1,5));
+		$testData = $this->testData;
+		$claimer1 = $testData['claimer1'];
+		$claimer2 = $testData['claimer21'];
+		$approver = $testData['approver'];
+		$finance = $testData['finance'];
+		$claim = $this->makeClaim($claimer1,$approver,$finance,rand(1,5));
 
 		$response = $this->actingAs($claimer2)->get('/home/claim/delete/'.$claim->id);
 
