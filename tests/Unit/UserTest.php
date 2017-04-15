@@ -14,27 +14,27 @@ class UserTest extends TestCase
 
 	private $testData;
 	
-	private function makeCompany($name, $id = -1)
-	{
-		return factory(Company::class)->create([
-			'name' => $name,
-		]);
-	}
-	
-	private function makeUser($name, $email, $company, $role)
-	{
-		return factory(User::class)->create([
-			'name' => $name,
-			'email' => $email,
-			'company' => $company,
-			'role' => $role,
-		]);
-	}
-	
 	public function setUp()
 	{
 		parent::setUp();
 		$this->generateTestData();
+	}
+	
+	private function makeCompany($name)
+	{
+		return factory(Company::class)->create([
+			'name' => $name
+		]);
+	}
+	
+	private function makeUser($name, $email, $companyId, $role)
+	{
+		return factory(User::class)->create([
+			'name' => $name,
+			'email' => $email,
+			'company' => $companyId,
+			'role' => $role
+		]);
 	}
 	
 	private function generateTestData()
