@@ -11,19 +11,20 @@ use App\Http\Controllers\ApproverController;
 
 class ApproverTest extends TestCase
 {
-    public function setup()
-    {
+    $this ->be(User::where('role','=','approver')->first());
+    $claim = Claim::where('approver_id','=',$this->id)->where('claim_status','=','1')->first();
+    $ac = new ApproverController();
 
-    }
     public function approveTest($idClaim)
     {
-        $this->withoutMiddleware();
-        $this->be(Claim::where('claim_status','=','1')->first());
+      $response = $ac->approve($idClaim);
+      $response -> assertRedirect('/home/approver/received');
 
     }
     public function rejectTest($idClaim)
     {
-
+      $response = $ac->approve($idClaim);
+      $response -> assertRedirect('/home/approver/received');
     }
     public function showReceivedTest()
     {
