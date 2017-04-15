@@ -38,9 +38,3 @@ $factory->define(App\Claim::class, function(Faker\Generator $faker){
 		'claim_status' => rand(1,5)
 	];
 });
-
-$factory->define(App\Company::class, function(Faker\Generator $faker) {
-	return [
-		'name' => $faker->name
-	];
-});
