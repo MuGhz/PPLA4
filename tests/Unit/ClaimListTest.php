@@ -110,7 +110,7 @@ class ClaimListTest extends TestCase
 		$this->assertTrue($allClaimBelongToUser);
     }
 	
-	public function testViewHasAllClaimsData()
+	public function testReturnsAllUserClaims()
     {
 		$testData = $this->testData;
 		$user = $testData['claimer'][0];
