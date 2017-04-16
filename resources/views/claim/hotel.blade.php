@@ -167,7 +167,28 @@
           // e = JSON.parse(e);
           //console.log(e);
           // console.log(e['results']['result']);
-          if(e.results.result.length==0)  {
+		  
+		  // Script untuk dummy data, comment aja (s/d else) buat nge-disable
+		  if("undefined" === typeof e.results) {
+			  var temp = "<div class='col-md-12 row row-eq-height'>"
+						+"<div class='row row-eq-height'>"
+						+"<div class='col-md-6 panel panel-default container'>"
+						+"<h2>"+"Dummy Hotel"+"</h2>"
+						+"<img src='"+"/temp/img/small.png"+"' style='max-width:100%'>"
+						+"<p>"+"Fasilitas canggih"+"</p>"
+						+"<p>Harga  : "+"1 Miliar Rupiah"+"</p>"
+						+"<p>Daerah : "+"Jakarta"+"</p>"
+						+"<p>Rating : "+"5/5"+"</p>"
+						+"<p>Alamat : "+"Jalan Antahberantah No.3"+"</p>"
+						+"<div class='form-group'>"
+						+"<button class='btn btn-success' onclick=\"detail('"+"dummy"+"')\">detail</button>"
+						+"</div>"
+						+"</div>";
+						$(".results").html(temp);
+						console.log("Dummy data loaded");
+		  }
+          else 
+			  if(e.results.result.length==0)  {
             $(".results").html("<h2>Tidak ada hotel</h2>");
           } else {
             var temp = "<div class='col-md-12 row row-eq-height'>";
@@ -175,7 +196,7 @@
             e.results.result.forEach(function(f,i)  {
               if(i%2 == 0)
                 temp+="<div class='row row-eq-height'>";
-              temp+="<div class='col-md-6 panel panel-default container'>";
+				temp+="<div class='col-md-6 panel panel-default container'>";
                 temp+="<h2>"+f.name+"</h2>";
                 temp+="<img src='"+f.photo_primary+"'>";
                 temp+="<p>"+f.room_facility_name+"</p>";
@@ -184,7 +205,7 @@
                 temp+="<p>Rating : "+f.rating+"</p>";
                 temp+="<p>Alamat : "+f.address+"</p>";
                 temp+="<div class='form-group'>";
-                  temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
