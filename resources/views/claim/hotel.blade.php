@@ -154,6 +154,14 @@
       var city = $("#city").val();
       var adult = $("#adult").val();
       var child = $("#child").val();
+	  
+	  // Buat ngehandle wait forever pas ins-nya kosong
+	  if(!ins) {
+		show('loading',false);
+		$('#error').modal('show');
+        return;
+	  }
+	  
       $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,page:page,_token:"{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
           //console.log(data.result);
