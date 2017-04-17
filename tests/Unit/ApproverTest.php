@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\User;
 use App\Claim;
+use App\Company;
 use App\Http\Controllers\ApproverController;
 
 class ApproverTest extends TestCase
@@ -17,9 +18,41 @@ class ApproverTest extends TestCase
     private $approver;
     private $claimer;
     private $finance;
-    private $claim;
+    private $sentClaim;
+    private $approvedClaim;
+    private $rejectedClaim;
+    private $company;
+
+    public function setUp()
+    {
+      parent::setUp();
+      $this->generateTestData();
+    }
+
+    public function generateTestData() 
+    {
+          $this->ac = new ApproverController();
+          $this->company = $this->makeCompany('company1');
+          $company = $this->company;
+          $this->claimer = $this->makeUser('claimer1','claimerr1@email.com',$company->id,'claimer');
+          $this->approver = $this->makeUser('approver1','approver1@email.com',$company->id,'approver');
+          $this->finance = $this->makeUser('finance1','finance1@email.com',$company->id,'finance');
+          $idClaimer = $this->claimer->id;
+          $idApprover = $this->approver->id;
+          $idFinance = $this->finance->id;
+          $this->sentClaim = $this->makeClaim('1',$idClaimer,$idApprover,$idFinance,'1');
+          $this->approvedClaim = $this->makeClaim('1',$idClaimer,$idApprover,$idFinance,'2');
+          $this->rejectedClaim = $this->makeClaim('1',$idClaimer,$idApprover,$idFinance,'6');
+    }
+
+    private function makeCompany($name)
+    {
+          return factory(Company::class)->create([
+              'name' => $name
+          ]);
+    }
     public function makeUser($name, $email, $company, $role)
-	   {
+	  {
 		     return factory(User::class)->create([
 			        'name' => $name,
 			        'email' => $email,
@@ -38,67 +71,50 @@ class ApproverTest extends TestCase
 		     ]);
 	  }
 
-    public function testApprover()
-    {
-      $this->ac = new ApproverController();
-      $this->claimer = $this->makeUser('claimer1','claimerr1@email.com','company1','claimer');
-      $this->approver = $this->makeUser('approver1','approver1@email.com','company1','approver');
-      $this->finance = $this->makeUser('finance1','finance1@email.com','company1','finance');
-      $idClaimer = $this->claimer->id;
-      $idApprover = $this->approver->id;
-      $idFinance = $this->finance->id;
-      $this->claim = $this->makeClaim('1',$idClaimer,$idApprover,$idFinance,'1');
-      $id=$this->claim->id;
-      $this->approveTest($id);
-      $this->rejectTest($id);
-      $this->showDetailTest($id);
-    }
-    public function approveTest($idClaim)
+    // public function testApproved()
+    // {
+    //     $this->actingAs($this->approver)
+    //          ->withSession(['user' => $this->approver]);
+    //     $idClaim = $this->approvedClaim->id;     
+    //     $response = $this->ac->approve($idClaim);
+    //     $status = $this->approvedClaim->claim_status;
+    //     $approve = 2;
+    //     $this->assertEquals($status,$approve);
+    // }
+    // public function testReject()
+    // {
+    //    $this->actingAs($this->approver)
+    //        ->withSession(['user' => $this->approver]);
+    //     $response = $this->ac->reject($idClaim);
+    //     $status = $this->rejectedClaim->claim_status;
+    //     $reject = 6;
+    //     $this->assertEquals($status,$reject);
+    // }
+    public function testShowReceived()
     {
         $this->actingAs($this->approver)
              ->withSession(['user' => $this->approver]);
-        $response = $this->ac->approve($idClaim);
-        $response->assertRedirect('/home/approver/received');
-        $status = $this->claim->claim_status;
-        $approve = 2;
-        $this->assertEquals($status,$approve);
-    }
-    public function rejectTest($idClaim)
-    {
-       $this->actingAs($this->approver)
-           ->withSession(['user' => $this->approver]);
-        $response = $this->ac->approve($idClaim);
-        $response->assertRedirect('/home/approver/received');
-        $status = $this->claim->claim_status;
-        $reject = 6;
-        $this->assertEquals($status,$reject);
-    }
-    public function testShowReceived()
-    {
-        $this->actingAs($this->user)
-             ->withSession(['user' => $this->user]);
         $response=$this->ac->showReceived();
-        $this->assertInstanceOf('\Illuminate\View\View', $response);
+        $data = $response->getData();
+        $retrievedClaim = $data['claims'][0];
+        $this->assertEquals($retrievedClaim->id, $this->sentClaim->id);
     }
     public function testShowApproved()
     {
-       $this->actingAs($this->approver)
+        $this->actingAs($this->approver)
            ->withSession(['user' => $this->approver]);
         $response=$this->ac->showApproved();
-        $this->assertInstanceOf('\Illuminate\View\View', $response);
+        $data = $response->getData();
+        $retrievedClaim = $data['claims'][0];
+        $this->assertEquals($retrievedClaim->id, $this->approvedClaim->id);
     }
     public function testShowRejected()
     {
-       $this->actingAs($this->approver)
+        $this->actingAs($this->approver)
            ->withSession(['user' => $this->approver]);
         $response=$this->ac->showRejected();
-        $this->assertInstanceOf('\Illuminate\View\View', $response);
-    }
-    public function showDetailTest($idClaim)
-    {
-       $this->actingAs($this->approver)
-           ->withSession(['user' => $this->approver]);
-        $response = $this->ac->show($idClaim);
-        $this->assertInstanceOf('\Illuminate\View\View', $response);
+        $data = $response->getData();
+        $retrievedClaim = $data['claims'][0];
+        $this->assertEquals($retrievedClaim->id, $this->rejectedClaim->id);
     }
 }
