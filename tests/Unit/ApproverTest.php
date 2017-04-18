@@ -93,6 +93,16 @@ class ApproverTest extends TestCase
         $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$reject]);
         //$this->assertEquals($status,$reject);
     }
+    public function testShowDetail()
+    {
+      $this->actingAs($this->approver)
+           ->withSession(['user' => $this->approver]);
+      $id = $this->sentClaim->id;
+      $response = $this->ac->show($id);
+      $data = $response->getData();
+      $claim = $data['detailClaim'][0];
+      $this->assertEquals($claim->id, $id);
+    }
     public function testShowReceived()
     {
         $this->actingAs($this->approver)
