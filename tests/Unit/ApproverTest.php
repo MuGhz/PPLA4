@@ -29,7 +29,7 @@ class ApproverTest extends TestCase
       $this->generateTestData();
     }
 
-    public function generateTestData() 
+    public function generateTestData()
     {
           $this->ac = new ApproverController();
           $this->company = $this->makeCompany('company1');
@@ -71,25 +71,28 @@ class ApproverTest extends TestCase
 		     ]);
 	  }
 
-    // public function testApproved()
-    // {
-    //     $this->actingAs($this->approver)
-    //          ->withSession(['user' => $this->approver]);
-    //     $idClaim = $this->approvedClaim->id;     
-    //     $response = $this->ac->approve($idClaim);
-    //     $status = $this->approvedClaim->claim_status;
-    //     $approve = 2;
-    //     $this->assertEquals($status,$approve);
-    // }
-    // public function testReject()
-    // {
-    //    $this->actingAs($this->approver)
-    //        ->withSession(['user' => $this->approver]);
-    //     $response = $this->ac->reject($idClaim);
-    //     $status = $this->rejectedClaim->claim_status;
-    //     $reject = 6;
-    //     $this->assertEquals($status,$reject);
-    // }
+    public function testApproved()
+    {
+        $this->actingAs($this->approver)
+             ->withSession(['user' => $this->approver]);
+        $idClaim = $this->approvedClaim->id;
+        $response = $this->ac->approve($idClaim);
+        //$status = $this->approvedClaim->claim_status;
+        $approve = 2;
+        //$this->assertEquals($status,$approve);
+        $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$approve]);
+    }
+    public function testReject()
+    {
+       $this->actingAs($this->approver)
+           ->withSession(['user' => $this->approver]);
+        $idClaim = $this->rejectedClaim->id;
+        $response = $this->ac->reject($idClaim);
+        //$status = $this->rejectedClaim->claim_status;
+        $reject = 6;
+        $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$reject]);
+        //$this->assertEquals($status,$reject);
+    }
     public function testShowReceived()
     {
         $this->actingAs($this->approver)
