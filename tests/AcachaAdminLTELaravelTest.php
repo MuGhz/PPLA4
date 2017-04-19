@@ -6,6 +6,7 @@ use App;
 use Artisan;
 use Config;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
  */
 class AcachaAdminLTELaravelTest extends BrowserKitTest
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /**
      * Set up tests.
