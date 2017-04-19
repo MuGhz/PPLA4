@@ -20,10 +20,12 @@ class ApproverTest extends TestCase
     private $approver2;
     private $claimer;
     private $finance;
-    private $sentClaim;
-    private $approvedClaim;
-    private $rejectedClaim;
-	private $toDeleteClaim;
+    private $sentClaim1;
+    private $sentClaim2;
+    private $approvedClaim1;
+    private $approvedClaim2;
+    private $rejectedClaim1;
+    private $rejectedClaim2;
     private $company;
 
     public function setUp()
@@ -37,17 +39,19 @@ class ApproverTest extends TestCase
 		$this->ac = new ApproverController();
 		$this->company = $this->makeCompany('company1');
 		$company = $this->company;
-		$this->claimer = $this->makeUser('claimer1','claimerr1@email.com',$company->id,'claimer');
+		$this->claimer = $this->makeUser('claimer1','claimer1@email.com',$company->id,'claimer');
 		$this->approver1 = $this->makeUser('approver1','approver1@email.com',$company->id,'approver');
 		$this->approver2 = $this->makeUser('approver2','approver2@email.com',$company->id,'approver');
 		$this->finance = $this->makeUser('finance1','finance1@email.com',$company->id,'finance');
 		$idClaimer = $this->claimer->id;
 		$idApprover = $this->approver1->id;
 		$idFinance = $this->finance->id;
-		$this->sentClaim = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,1);
-		$this->approvedClaim = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,1);
-		$this->rejectedClaim = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,1);
-		$this->toDeleteClaim = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,1);
+		$this->sentClaim1 = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,1);
+		$this->sentClaim2 = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,1);
+		$this->approvedClaim1 = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,2);
+		$this->approvedClaim2 = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,2);
+		$this->rejectedClaim1 = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,6);
+		$this->rejectedClaim2 = $this->makeClaim(1,$idClaimer,$idApprover,$idFinance,6);
 	}
 
     private function makeCompany($name)
@@ -76,12 +80,88 @@ class ApproverTest extends TestCase
 			'claim_status' => $claim_status,
 		]);
 	}
+	
+    public function testShowReceived()
+    {
+        $this->actingAs($this->approver1);
+        $response=$this->ac->showReceived();
+        $data = $response->getData();
+        $retrievedClaims = $data['claims'];
+		
+		$expectedClaims = [$this->sentClaim1, $this->sentClaim2];
+		$allClaimsHandledByApprover = true;
+		$allExpectedClaimsReturned = true;
+		// $sentence = "";
+		foreach ($expectedClaims as $expectedClaim) {
+			$claimReturned = false;
+			foreach ($retrievedClaims as $retrievedClaim) {
+				$claimReturned = $claimReturned || ($expectedClaim->id == $retrievedClaim->id);
+			}
+			$allExpectedClaimsReturned = $allExpectedClaimsReturned && $claimReturned;
+		}
+		foreach ($retrievedClaims as $retrievedClaim) {
+			$allClaimsHandledByApprover = $allClaimsHandledByApprover && ($retrievedClaim->approver_id == $this->approver1->id);
+		}
+		
+		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
+		$this->assertTrue($allClaimsHandledByApprover);
+		$this->assertTrue($allExpectedClaimsReturned);
+    }
+    public function testShowApproved()
+    {
+        $this->actingAs($this->approver1);
+        $response = $this->ac->showApproved();
+        $data = $response->getData();
+        $retrievedClaims = $data['claims'];
+		
+		$expectedClaims = [$this->approvedClaim1, $this->approvedClaim2];
+		$allClaimsHandledByApprover = true;
+		$allExpectedClaimsReturned = true;
+		foreach ($expectedClaims as $expectedClaim) {
+			$claimReturned = false;
+			foreach ($retrievedClaims as $retrievedClaim) {
+				$claimReturned = $claimReturned || ($expectedClaim->id == $retrievedClaim->id);
+			}
+			$allExpectedClaimsReturned = $allExpectedClaimsReturned && $claimReturned;
+		}
+		foreach ($retrievedClaims as $retrievedClaim) {
+			$allClaimsHandledByApprover = $allClaimsHandledByApprover && ($retrievedClaim->approver_id == $this->approver1->id);
+		}
+		
+		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
+		$this->assertTrue($allClaimsHandledByApprover);
+		$this->assertTrue($allExpectedClaimsReturned);
+    }
+    public function testShowRejected()
+    {
+        $this->actingAs($this->approver1);
+        $response = $this->ac->showRejected();
+        $data = $response->getData();
+        $retrievedClaims = $data['claims'];
+		
+		$expectedClaims = [$this->rejectedClaim1, $this->rejectedClaim2];
+		$allClaimsHandledByApprover = true;
+		$allExpectedClaimsReturned = true;
+		foreach ($expectedClaims as $expectedClaim) {
+			$claimReturned = false;
+			foreach ($retrievedClaims as $retrievedClaim) {
+				$claimReturned = $claimReturned || ($expectedClaim->id == $retrievedClaim->id);
+			}
+			$allExpectedClaimsReturned = $allExpectedClaimsReturned && $claimReturned;
+		}
+		foreach ($retrievedClaims as $retrievedClaim) {
+			$allClaimsHandledByApprover = $allClaimsHandledByApprover && ($retrievedClaim->approver_id == $this->approver1->id);
+		}
+		
+		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
+		$this->assertTrue($allClaimsHandledByApprover);
+		$this->assertTrue($allExpectedClaimsReturned);
+    }
 
     public function testApproveSuccess()
     {
-        $this->actingAs($this->approver1)
-             ->withSession(['user' => $this->approver1]);
-        $idClaim = $this->approvedClaim->id;
+        $this->actingAs($this->approver1);
+        $idClaim = $this->sentClaim1->id;
         $response = $this->ac->approve($idClaim);
         //$status = $this->approvedClaim->claim_status;
         $approve = 2;
@@ -91,9 +171,8 @@ class ApproverTest extends TestCase
 	
     public function testRejectSuccess()
     {
-       $this->actingAs($this->approver1)
-           ->withSession(['user' => $this->approver1]);
-        $idClaim = $this->rejectedClaim->id;
+       $this->actingAs($this->approver1);
+        $idClaim = $this->sentClaim1->id;
         $response = $this->ac->reject($idClaim);
         //$status = $this->rejectedClaim->claim_status;
         $reject = 6;
@@ -103,35 +182,36 @@ class ApproverTest extends TestCase
 	
 	public function testApproveFailUnauthorizedApprover()
     {
-        $this->actingAs($this->approver2)
-             ->withSession(['user' => $this->approver2]);
-        $idClaim = $this->approvedClaim->id;
+        $this->actingAs($this->approver2);
+        $idClaim = $this->sentClaim1->id;
+		$returnedStatusCode = null;
 		try {
 			$response = $this->ac->approve($idClaim);
 		}
 		catch (HttpException $he) {
-			$this->assertEquals(403,$he->getStatusCode());
+			$returnedStatusCode = $he->getStatusCode();
 		}
+		$this->assertEquals(403, $returnedStatusCode);
     }
 	
 	public function testRejectFailUnauthorizedApprover()
     {
-        $this->actingAs($this->approver2)
-             ->withSession(['user' => $this->approver2]);
-        $idClaim = $this->approvedClaim->id;
+        $this->actingAs($this->approver2);
+        $idClaim = $this->sentClaim1->id;
+		$returnedStatusCode = null;
 		try {
 			$response = $this->ac->reject($idClaim);
 		}
 		catch (HttpException $he) {
-			$this->assertEquals(403,$he->getStatusCode());
+			$returnedStatusCode = $he->getStatusCode();
 		}
+		$this->assertEquals(403, $returnedStatusCode);
     }
 	
     public function testShowExisting()
     {
-      $this->actingAs($this->approver1)
-           ->withSession(['user' => $this->approver1]);
-      $id = $this->sentClaim->id;
+      $this->actingAs($this->approver1);
+      $id = $this->sentClaim1->id;
       $response = $this->ac->show($id);
       $data = $response->getData();
       $claim = $data['detailClaim'][0];
@@ -140,10 +220,10 @@ class ApproverTest extends TestCase
 	
 	public function testShowNonexisting()
 	{
-		$this->actingAs($this->approver1)
-			 ->withSession(['user' => $this->approver1]);
-		$id = $this->toDeleteClaim->id;
-		$this->toDeleteClaim->delete();
+		$toDeleteClaim = $this->makeClaim(1,$this->claimer->id,$this->approver1->id,$this->finance->id,2);
+		$this->actingAs($this->approver1);
+		$id = $toDeleteClaim->id;
+		$toDeleteClaim->delete();
 		try {
 			$this->ac->show($id);
 		}
@@ -151,32 +231,4 @@ class ApproverTest extends TestCase
 			$this->assertEquals(404,$he->getStatusCode());
 		}
 	}
-	
-    public function testShowReceived()
-    {
-        $this->actingAs($this->approver1)
-             ->withSession(['user' => $this->approver1]);
-        $response=$this->ac->showReceived();
-        $data = $response->getData();
-        $retrievedClaim = $data['claims'][0];
-        $this->assertEquals($retrievedClaim->id, $this->sentClaim->id);
-    }
-    public function testShowApproved()
-    {
-        $this->actingAs($this->approver1)
-           ->withSession(['user' => $this->approver1]);
-        $response=$this->ac->showApproved();
-        $data = $response->getData();
-        $retrievedClaim = $data['claims'][0];
-        $this->assertEquals($retrievedClaim->id, $this->approvedClaim->id);
-    }
-    public function testShowRejected()
-    {
-        $this->actingAs($this->approver1)
-           ->withSession(['user' => $this->approver1]);
-        $response=$this->ac->showRejected();
-        $data = $response->getData();
-        $retrievedClaim = $data['claims'][0];
-        $this->assertEquals($retrievedClaim->id, $this->rejectedClaim->id);
-    }
 }
