@@ -80,52 +80,6 @@ class ApproverTest extends TestCase
 			'claim_status' => $claim_status,
 		]);
 	}
-	
-    public function testShowReceived()
-    {
-        $this->actingAs($this->approver1);
-        $response=$this->ac->showReceived();
-        $data = $response->getData();
-        $retrievedClaims = $data['claims'];
-		
-		$expectedClaims = [$this->sentClaim1, $this->sentClaim2];
-		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
-		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
-		
-		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
-		$this->assertTrue($allClaimsHandledByApprover);
-		$this->assertTrue($allExpectedClaimsReturned);
-    }
-    public function testShowApproved()
-    {
-        $this->actingAs($this->approver1);
-        $response = $this->ac->showApproved();
-        $data = $response->getData();
-        $retrievedClaims = $data['claims'];
-		
-		$expectedClaims = [$this->approvedClaim1, $this->approvedClaim2];
-		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
-		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
-		
-		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
-		$this->assertTrue($allClaimsHandledByApprover);
-		$this->assertTrue($allExpectedClaimsReturned);
-    }
-    public function testShowRejected()
-    {
-        $this->actingAs($this->approver1);
-        $response = $this->ac->showRejected();
-        $data = $response->getData();
-        $retrievedClaims = $data['claims'];
-		
-		$expectedClaims = [$this->rejectedClaim1, $this->rejectedClaim2];
-		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
-		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
-		
-		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
-		$this->assertTrue($allClaimsHandledByApprover);
-		$this->assertTrue($allExpectedClaimsReturned);
-    }
 
     public function testApproveSuccess()
     {
@@ -224,6 +178,53 @@ class ApproverTest extends TestCase
 			$this->assertEquals(404,$he->getStatusCode());
 		}
 	}
+	
+    public function testShowReceived()
+    {
+        $this->actingAs($this->approver1);
+        $response=$this->ac->showReceived();
+        $data = $response->getData();
+        $retrievedClaims = $data['claims'];
+		
+		$expectedClaims = [$this->sentClaim1, $this->sentClaim2];
+		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
+		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
+		
+		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
+		$this->assertTrue($allClaimsHandledByApprover);
+		$this->assertTrue($allExpectedClaimsReturned);
+    }
+	
+    public function testShowApproved()
+    {
+        $this->actingAs($this->approver1);
+        $response = $this->ac->showApproved();
+        $data = $response->getData();
+        $retrievedClaims = $data['claims'];
+		
+		$expectedClaims = [$this->approvedClaim1, $this->approvedClaim2];
+		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
+		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
+		
+		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
+		$this->assertTrue($allClaimsHandledByApprover);
+		$this->assertTrue($allExpectedClaimsReturned);
+    }
+    public function testShowRejected()
+    {
+        $this->actingAs($this->approver1);
+        $response = $this->ac->showRejected();
+        $data = $response->getData();
+        $retrievedClaims = $data['claims'];
+		
+		$expectedClaims = [$this->rejectedClaim1, $this->rejectedClaim2];
+		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
+		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
+		
+		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
+		$this->assertTrue($allClaimsHandledByApprover);
+		$this->assertTrue($allExpectedClaimsReturned);
+    }
 	
 	private function arrayElementsHasSpecificValueForAttribute($attribute, $value, $array)
 	{
