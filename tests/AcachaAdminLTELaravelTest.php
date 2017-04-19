@@ -197,22 +197,22 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    public function testNewUserRegistration()
-    {
-        Config::set('auth.providers.users.field', 'email');
-        $user = factory(App\User::class)->create();
-        view()->share('user', $user);
-        $this->visit('/register')
-            ->type('Sergi Tur Badenas', 'name')
-            ->type('sergiturbadenas@gmail.com', 'email')
-            ->check('terms')
-            ->type('passw0RD', 'password')
-            ->type('passw0RD', 'password_confirmation')
-            ->press('Register')
-            ->seePageIs('/home')
-            ->seeInDatabase('users', ['email' => 'sergiturbadenas@gmail.com',
-                                      'name'  => 'Sergi Tur Badenas', ]);
-    }
+    // public function testNewUserRegistration()
+    // {
+        // Config::set('auth.providers.users.field', 'email');
+        // $user = factory(App\User::class)->create();
+        // view()->share('user', $user);
+        // $this->visit('/register')
+            // ->type('Sergi Tur Badenas', 'name')
+            // ->type('sergiturbadenas@gmail.com', 'email')
+            // ->check('terms')
+            // ->type('passw0RD', 'password')
+            // ->type('passw0RD', 'password_confirmation')
+            // ->press('Register')
+            // ->seePageIs('/home')
+            // ->seeInDatabase('users', ['email' => 'sergiturbadenas@gmail.com',
+                                      // 'name'  => 'Sergi Tur Badenas', ]);
+    // }
 
     /**
      * Test required fields on registration page.
