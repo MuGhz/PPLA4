@@ -9,6 +9,7 @@ use App\Http\Controllers\ClaimController;
 use App\Company;
 use App\Claim;
 use App\User;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DetailClaimTest extends TestCase
 {
@@ -53,28 +54,29 @@ class DetailClaimTest extends TestCase
 	private function generateTestData()
 	{
 		$company = $this->makeCompany('Test Company');
-		$claimer = $this->makeUser('Claimer', 'Claimer@Company.test', $company->id, 'claimer');
+		$claimer1 = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+		$claimer2 = $this->makeUser('Claimer 2', 'Claimer2@Company.test', $company->id, 'claimer');
 		$approver = $this->makeUser('Approver', 'Approver@Company.test', $company->id, 'approver');
 		$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-		$claim1 = $this->makeClaim(1, $claimer->id, $approver->id, $finance->id, 1);
-		$claim2 = $this->makeClaim(1, $claimer->id, $approver->id, $finance->id, 1);
-		$claim3 = $this->makeClaim(1, $claimer->id, $approver->id, $finance->id, 1);
+		$claim1 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 1);
+		$claim2 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 1);
 		
-		$this->testData = array(
+		$this->testData = [
 			'company' => $company,
-			'claimer' => $claimer,
+			'claimer' => [$claimer1, $claimer2],
 			'approver' => $approver,
 			'finance' => $finance,
-			'claim' => array($claim1, $claim2, $claim3)
-		);
+			'claim' => [$claim1, $claim2],
+		];
 	}
 	
 	public function testReturnedCorrectView()
 	{
 		$testData = $this->testData;
 		$claim = $testData['claim'][0];
+		$claimer = $testData['claimer'][0];
 		
-		$this->actingAs($testData['claimer']);
+		$this->actingAs($claimer);
 		
 		$cc = new ClaimController();
 		
@@ -88,8 +90,9 @@ class DetailClaimTest extends TestCase
 	{
 		$testData = $this->testData;
 		$claim = $testData['claim'][0];
+		$claimer = $testData['claimer'][0];
 		
-		$this->actingAs($testData['claimer']);
+		$this->actingAs($claimer);
 		
 		$cc = new ClaimController();
 		
@@ -103,8 +106,9 @@ class DetailClaimTest extends TestCase
 	{
 		$testData = $this->testData;
 		$claim = $testData['claim'][0];
+		$claimer = $testData['claimer'][0];
 		
-		$this->actingAs($testData['claimer']);
+		$this->actingAs($claimer);
 		
 		$cc = new ClaimController();
 		
@@ -112,5 +116,43 @@ class DetailClaimTest extends TestCase
 					   ->getData();
 		
 		$this->assertEquals($response['detailClaim'][0]->id,$claim->id);
+	}
+	
+	public function testNonexistentClaimAccess()
+	{
+		$testData = $this->testData;
+		$toDeleteClaim = $testData['claim'][1];
+		$toDeleteClaimId = $toDeleteClaim->id;
+		$claimer = $testData['claimer'][0];
+		
+		$this->actingAs($claimer);
+		$toDeleteClaim->delete();
+		
+		$cc = new ClaimController();
+		
+		try {
+			$cc->show($toDeleteClaimId);
+		}
+		catch (HttpException $he) {
+			$this->assertEquals(404,$he->getStatusCode());
+		}
+	}
+	
+	public function testUnauthorizedClaimerAccess()
+	{
+		$testData = $this->testData;
+		$claim = $testData['claim'][0];
+		$unauthorizedClaimer = $testData['claimer'][1];
+		
+		$this->actingAs($unauthorizedClaimer);
+		
+		$cc = new ClaimController();
+		
+		try {
+			$cc->show($claim->id);
+		}
+		catch (HttpException $he) {
+			$this->assertEquals(403,$he->getStatusCode());
+		}
 	}
 }
