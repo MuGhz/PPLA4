@@ -29,7 +29,7 @@ class HotelTest extends TestCase
       $this->visit('/home/order/hotel')
           ->type('jakarta','city')
           ->type(date('Y-m-d'),"in")
-          ->type((new DateTime('tomorrow'))->format('Y-m-d'),'out')
+          ->type((new \DateTime('tomorrow'))->format('Y-m-d'),'out')
           ->select('1','room')
           ->select('1','adult')
           ->select('0','child')

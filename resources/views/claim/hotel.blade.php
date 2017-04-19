@@ -154,14 +154,14 @@
       var city = $("#city").val();
       var adult = $("#adult").val();
       var child = $("#child").val();
-	  
+
 	  // Buat ngehandle wait forever pas ins-nya kosong
 	  if(!ins) {
 		show('loading',false);
 		$('#error').modal('show');
         return;
 	  }
-	  
+
       $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,page:page,_token:"{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
           //console.log(data.result);
@@ -172,30 +172,10 @@
             $('#error').modal('show');
             return;
           }
-          // e = JSON.parse(e);
-          //console.log(e);
-          // console.log(e['results']['result']);
-		  
-		  // Script untuk dummy data, comment aja (s/d else) buat nge-disable
-		  if("undefined" === typeof e.results) {
-			  var temp = "<div class='col-md-12 row row-eq-height'>"
-						+"<div class='row row-eq-height'>"
-						+"<div class='col-md-6 panel panel-default container'>"
-						+"<h2>"+"Dummy Hotel"+"</h2>"
-						+"<img src='"+"/temp/img/small.png"+"' style='max-width:100%'>"
-						+"<p>"+"Fasilitas canggih"+"</p>"
-						+"<p>Harga  : "+"1 Miliar Rupiah"+"</p>"
-						+"<p>Daerah : "+"Jakarta"+"</p>"
-						+"<p>Rating : "+"5/5"+"</p>"
-						+"<p>Alamat : "+"Jalan Antahberantah No.3"+"</p>"
-						+"<div class='form-group'>"
-						+"<button class='btn btn-success' onclick=\"detail('"+"dummy"+"')\">detail</button>"
-						+"</div>"
-						+"</div>";
-						$(".results").html(temp);
-						console.log("Dummy data loaded");
-		  }
-          else 
+
+          e = JSON.parse(e);
+          console.log(e);
+          console.log(e['results']['result']);
 			  if(e.results.result.length==0)  {
             $(".results").html("<h2>Tidak ada hotel</h2>");
           } else {
@@ -232,6 +212,7 @@
       show('loading',true);
       $.post("{{action('OrderController@getHotelDetail')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
         show('loading',false);
+        console.log(e);
         e = JSON.parse(e);
         console.log(e);
         // temp = "<div class='container'>";
