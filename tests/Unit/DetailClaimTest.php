@@ -129,13 +129,15 @@ class DetailClaimTest extends TestCase
 		$toDeleteClaim->delete();
 		
 		$cc = new ClaimController();
+		$response = null;
 		
 		try {
 			$cc->show($toDeleteClaimId);
 		}
 		catch (HttpException $he) {
-			$this->assertEquals(404,$he->getStatusCode());
+			$response = $he->getStatusCode();
 		}
+		$this->assertEquals(404,$response);
 	}
 	
 	public function testUnauthorizedClaimerAccess()
@@ -147,12 +149,14 @@ class DetailClaimTest extends TestCase
 		$this->actingAs($unauthorizedClaimer);
 		
 		$cc = new ClaimController();
+		$response = null;
 		
 		try {
 			$cc->show($claim->id);
 		}
 		catch (HttpException $he) {
-			$this->assertEquals(403,$he->getStatusCode());
+			$response = $he->getStatusCode();
 		}
+		$this->assertEquals(403,$response);
 	}
 }
