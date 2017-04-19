@@ -91,7 +91,7 @@ class ClaimController extends Controller
     {
         $user = Auth::user();
 		$claim = Claim::find($id);
-		if ($user->id == $claim->claimer_id && $claim->claim_status < 2) {
+		if ($user->id == $claim->claimer_id && $claim->claim_status == 1) {
 			$claim->delete();
 		}
 		return redirect('/home');
