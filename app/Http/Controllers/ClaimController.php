@@ -47,10 +47,16 @@ class ClaimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {	
+	{
 		$detailClaim =  Claim::where('id',$id)->get();
-        return view('claim.viewclaim',compact('detailClaim'));
-    }
+		if(empty($detailClaim) || !isset($detailClaim[0])) {
+			return abort('404','404 - Page not found');
+		}
+		if($detailClaim[0]->claimer_id != Auth::id()) {
+			return abort('403','403 - Unauthorized access');
+		}
+		return view('claim.viewclaim',compact('detailClaim'));
+	}
 
     /**
      * Show the form for editing the specified resource.
