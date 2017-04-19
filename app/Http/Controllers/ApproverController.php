@@ -45,7 +45,7 @@ class ApproverController extends Controller
      }
     public function approve($id){
         $updateClaim = Claim::where('id','=',$id)->first();
-        if($updateClaim->approver_id != Auth::id())
+        if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1)
             abort('403','forbidden access');
         $newStatus = 2;
         $updateClaim->claim_status = $newStatus;
@@ -56,7 +56,7 @@ class ApproverController extends Controller
     }
     public function reject($id){
         $updateClaim = Claim::where('id','=',$id)->first();
-        if($updateClaim->approver_id != Auth::id())
+        if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1)
             abort('403','forbidden access');
         $newStatus = 6;
         $updateClaim->claim_status = $newStatus;
