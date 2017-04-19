@@ -163,9 +163,7 @@ class ApproverTest extends TestCase
         $this->actingAs($this->approver1);
         $idClaim = $this->sentClaim1->id;
         $response = $this->ac->approve($idClaim);
-        //$status = $this->approvedClaim->claim_status;
         $approve = 2;
-        //$this->assertEquals($status,$approve);
         $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$approve]);
     }
 	
@@ -174,12 +172,10 @@ class ApproverTest extends TestCase
        $this->actingAs($this->approver1);
         $idClaim = $this->sentClaim1->id;
         $response = $this->ac->reject($idClaim);
-        //$status = $this->rejectedClaim->claim_status;
         $reject = 6;
         $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$reject]);
-        //$this->assertEquals($status,$reject);
     }
-	
+
 	public function testApproveFailNonsentStatus()
 	{
 		$this->actingAs($this->approver1);
