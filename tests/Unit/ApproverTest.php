@@ -77,7 +77,7 @@ class ApproverTest extends TestCase
 		]);
 	}
 
-    public function testApprove()
+    public function testApproveSuccess()
     {
         $this->actingAs($this->approver1)
              ->withSession(['user' => $this->approver1]);
@@ -89,7 +89,7 @@ class ApproverTest extends TestCase
         $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$approve]);
     }
 	
-    public function testReject()
+    public function testRejectSuccess()
     {
        $this->actingAs($this->approver1)
            ->withSession(['user' => $this->approver1]);
@@ -101,7 +101,7 @@ class ApproverTest extends TestCase
         //$this->assertEquals($status,$reject);
     }
 	
-	public function testApproveFail()
+	public function testApproveFailUnauthorizedApprover()
     {
         $this->actingAs($this->approver2)
              ->withSession(['user' => $this->approver2]);
@@ -114,7 +114,7 @@ class ApproverTest extends TestCase
 		}
     }
 	
-	public function testRejectFail()
+	public function testRejectFailUnauthorizedApprover()
     {
         $this->actingAs($this->approver2)
              ->withSession(['user' => $this->approver2]);
