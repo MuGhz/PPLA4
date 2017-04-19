@@ -180,6 +180,34 @@ class ApproverTest extends TestCase
         //$this->assertEquals($status,$reject);
     }
 	
+	public function testApproveFailNonsentStatus()
+	{
+		$this->actingAs($this->approver1);
+		$nonSentClaim = $this->makeClaim(1,$this->claimer->id,$this->approver1->id,$this->finance->id,2);
+		$returnedStatusCode = null;
+		try {
+			$this->ac->approve($nonSentClaim->id);
+		}
+		catch (HttpException $he) {
+			$returnedStatusCode = $he->getStatusCode();
+		}
+		$this->assertEquals(403, $returnedStatusCode);
+	}
+	
+	public function testRejectFailNonsentStatus()
+	{
+		$this->actingAs($this->approver1);
+		$nonSentClaim = $this->makeClaim(1,$this->claimer->id,$this->approver1->id,$this->finance->id,2);
+		$returnedStatusCode = null;
+		try {
+			$this->ac->reject($nonSentClaim->id);
+		}
+		catch (HttpException $he) {
+			$returnedStatusCode = $he->getStatusCode();
+		}
+		$this->assertEquals(403, $returnedStatusCode);
+	}
+	
 	public function testApproveFailUnauthorizedApprover()
     {
         $this->actingAs($this->approver2);
