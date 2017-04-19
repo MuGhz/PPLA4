@@ -190,7 +190,6 @@ class ApproverTest extends TestCase
 		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
 		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
 		
-		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
@@ -206,7 +205,6 @@ class ApproverTest extends TestCase
 		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
 		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
 		
-		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
@@ -221,7 +219,6 @@ class ApproverTest extends TestCase
 		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
 		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
 		
-		$this->assertEquals(count($expectedClaims), count($retrievedClaims));
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
@@ -245,6 +242,6 @@ class ApproverTest extends TestCase
 			}
 			$allExist = $allExist && $exist;
 		}
-		return $allExist;
+		return $allExist && (count($array1) == count($array2));
 	}
 }
