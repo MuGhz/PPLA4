@@ -51,15 +51,32 @@ class OrderTest extends TestCase
         ]);
     }
 
-    public function testToken()
+    public function curlMock($returnValue)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
                     ->setMethods(array('curlCall'))
                     ->getMock();
 
-        $order->expects($this->once())
+        $order->expects($this->any())
               ->method("curlCall")
-              ->will($this->returnValue("$this->token"));
+              ->will($this->returnValue("$returnValue"));
+        return $order;
+    }
+
+    public function requestMock($map)
+    {
+        $request = $this->getMockBuilder('Illuminate\Http\Request')
+                    ->setMethods(array('input'))
+                    ->getMock();
+        $request->expects($this->any())
+                    ->method('input')
+                    ->will($this->returnValueMap($map));
+        return $request;
+    }
+
+    public function testToken()
+    {
+        $order = $this->curlMock("$this->token");
 
         $this->expectOutputString("$this->token");
         $order->getToken();
@@ -67,12 +84,8 @@ class OrderTest extends TestCase
 
     public function testGetHotelWithAcceptedParameter()
     {
-        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
-        $order->expects($this->once())
-                    ->method("curlCall")
-                    ->will($this->returnValue("$this->hotelList"));
+        $order = $this->curlMock("$this->hotelList");
+
         $this->expectOutputString("$this->hotelList");
 
         $map = [
@@ -86,22 +99,14 @@ class OrderTest extends TestCase
             ["page",null,"1"]
         ];
 
-        $request = $this->getMockBuilder('Illuminate\Http\Request')
-                    ->setMethods(array('input'))
-                    ->getMock();
-        $request->expects($this->any())
-                    ->method('input')
-                    ->will($this->returnValueMap($map));
+        $request = $this->requestMock($map);
         $order->getHotel($request);
     }
 
     public function testGetHotelWithCheckInBeforeToday()
     {
-        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
-        $order->method("curlCall")
-                    ->will($this->returnValue("$this->hotelList"));
+        $order = $this->curlMock($this->hotelList);
+
         $this->expectOutputString("error");
 
         $map = [
@@ -115,22 +120,14 @@ class OrderTest extends TestCase
             ["page",null,"1"]
         ];
 
-        $request = $this->getMockBuilder('Illuminate\Http\Request')
-                    ->setMethods(array('input'))
-                    ->getMock();
-        $request->expects($this->any())
-                    ->method('input')
-                    ->will($this->returnValueMap($map));
+        $request = $this->requestMock($map);
         $order->getHotel($request);
     }
 
     public function testGetHotelWithCheckOutBeforeCheckIn()
     {
-        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
-        $order->method("curlCall")
-                    ->will($this->returnValue("$this->hotelList"));
+        $order = $this->curlMock($this->hotelList);
+
         $this->expectOutputString("error");
 
         $map = [
@@ -144,57 +141,36 @@ class OrderTest extends TestCase
             ["page",null,"1"]
         ];
 
-        $request = $this->getMockBuilder('Illuminate\Http\Request')
-                    ->setMethods(array('input'))
-                    ->getMock();
-        $request->expects($this->any())
-                    ->method('input')
-                    ->will($this->returnValueMap($map));
+        $request = $this->requestMock($map);
+
         $order->getHotel($request);
     }
 
     public function testGetHotelDetail()
     {
-        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
-        $order->expects($this->once())
-                    ->method("curlCall")
-                    ->will($this->returnValue("$this->hotelDetail"));
+        $order = $this->curlMock($this->hotelDetail);
+
         $this->expectOutputString("$this->hotelDetail");
         $map = [
             ["target",null,"target"],
             ["token",null,"token"]
         ];
 
-        $request = $this->getMockBuilder('Illuminate\Http\Request')
-                    ->setMethods(array('input'))
-                    ->getMock();
-        $request->expects($this->any())
-                    ->method('input')
-                    ->will($this->returnValueMap($map));
+        $request = $this->requestMock($map);
+
         $order->getHotelDetail($request);
     }
 
     public function testBookHotel()
     {
-        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
-        $order->expects($this->once())
-                    ->method("curlCall")
-                    ->will($this->returnValue("$this->hotelDetail"));
+        $order = $this->curlMock("success");
+
         $map = [
             ["target",null,"target"],
             ["token",null,"token"]
         ];
 
-        $request = $this->getMockBuilder('Illuminate\Http\Request')
-                    ->setMethods(array('input'))
-                    ->getMock();
-        $request->expects($this->any())
-                    ->method('input')
-                    ->will($this->returnValueMap($map));
+        $request = $this->requestMock($map);
 
         $company = $this->makeCompany('Test Company');
     	$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
