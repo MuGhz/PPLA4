@@ -10,9 +10,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\OrderController;
 
+use App\Company;
+use App\User;
+
 class OrderTest extends TestCase
 {
 
+    use DatabaseTransactions;
     /**
      * A basic test example.
      *
@@ -193,17 +197,16 @@ class OrderTest extends TestCase
                     ->will($this->returnValueMap($map));
 
         $company = $this->makeCompany('Test Company');
-    	$claimer1 = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+    	$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
     	$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
     	$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-
-        $this->actingAs($claimer1);
+        $this->actingAs($claimer);
         $order->bookHotel($request);
         $this->assertDatabaseHas("claims",[
             "claim_data_id" => "token",
             "claim_type" => "1",
             "claim_status" => "1",
-            "claimer_id" => $claimer1->id,
+            "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
         ]);

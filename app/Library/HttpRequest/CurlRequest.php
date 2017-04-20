@@ -21,6 +21,10 @@ class CurlRequest implements HttpRequest
         return curl_getinfo($this->handle, $name);
     }
 
+    public function getError()  {
+        return curl_error($this->handle);
+    }
+
     public function close() {
         curl_close($this->handle);
     }
