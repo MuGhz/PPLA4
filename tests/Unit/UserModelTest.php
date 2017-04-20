@@ -8,6 +8,21 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserModelTest extends TestCase
 {
+    use DatabaseTransactions;
+
+    protected $company;
+    protected $claimer;
+    protected $approver;
+    protected $finance;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->company = $this->makeCompany('Test Company');
+        $this->claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $this->approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $this->finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+    }
     /**
      * A basic test example.
      *
