@@ -69,8 +69,10 @@ class DeleteClaimTest extends TestCase
 		$approver = $testData['approver'];
 		$finance = $testData['finance'];
 		$claim = $this->makeClaim($claimer,$approver,$finance,1);
-
-		$response = $this->actingAs($claimer)->get('/home/claim/delete/'.$claim->id);
+		$cc = new ClaimController();
+		
+		$this->actingAs($claimer);
+		$cc->destroy($claim->id);
 
 		$this->assertDatabaseMissing('claims',['id' => $claim->id]);
 	}
@@ -82,8 +84,10 @@ class DeleteClaimTest extends TestCase
 		$approver = $testData['approver'];
 		$finance = $testData['finance'];
 		$claim = $this->makeClaim($claimer,$approver,$finance,rand(2,5));
+		$cc = new ClaimController();
 
-		$response = $this->actingAs($claimer)->get('/home/claim/delete/'.$claim->id);
+		$response = $this->actingAs($claimer);
+		$cc->destroy($claim->id);
 
 		$this->assertDatabaseHas('claims',['id' => $claim->id]);
 	}
@@ -96,8 +100,10 @@ class DeleteClaimTest extends TestCase
 		$approver = $testData['approver'];
 		$finance = $testData['finance'];
 		$claim = $this->makeClaim($claimer1,$approver,$finance,rand(1,5));
+		$cc = new ClaimController();
 
-		$response = $this->actingAs($claimer2)->get('/home/claim/delete/'.$claim->id);
+		$response = $this->actingAs($claimer2);
+		$cc->destroy($claim->id);
 
 		$this->assertDatabaseHas('claims',['id' => $claim->id]);
 	}
