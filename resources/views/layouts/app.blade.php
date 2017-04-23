@@ -1,3 +1,6 @@
+<?php
+    $secure = App::environment('production') ? true : NULL;
+?>
 <!DOCTYPE html>
 <html lang="en">
 @section('htmlheader')
@@ -11,10 +14,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <title>{{ config('app.name', 'Jojonomic') }}</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css',$secure) }}" rel="stylesheet">
+    @yield('css')
 
     <!-- Scripts -->
     <script>
@@ -48,20 +52,22 @@
     @include('adminlte::layouts.partials.footer')
 
 </div><!-- ./wrapper -->
-        
+
     </div>
 
     <!-- Scripts -->
+
+    <script src="{{ asset('js/app.js', $secure) }}"></script>
     <script
 			  src="https://code.jquery.com/jquery-3.2.0.min.js"
 			  integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
 			  crossorigin="anonymous"></script>
     <script
-	  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-	  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-	  crossorigin="anonymous"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     @yield('js')
-	
+
 </body>
 </html>
