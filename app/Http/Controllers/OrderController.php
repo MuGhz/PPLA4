@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Claim;
 use App\User;
 
+use Carbon\Carbon;
+
 class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
@@ -80,10 +82,15 @@ class OrderController extends Controller
 
     public function rebookHotel($claim)
     {
-      $target = $claim->order_information;
-      $token = '';
-      $url = "$target&token=$token&output=json";
-      $this->curlCall($url);
+      $created = new Carbon($claim->created_at);
+      $now = Carbon::now();
+      $difference = $created->diff($now)->days;
+      if($difference>1){
+          $target = $claim->order_information;
+          $token = '';
+          $url = "$target&token=$token&output=json";
+          $this->curlCall($url);
+      }
     }
     //do curl call to url
     public function curlCall($url)  {
