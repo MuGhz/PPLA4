@@ -12,7 +12,8 @@ use App\User;
 class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
-    public function getToken(Request $request)  {
+    public function getToken(Request $request)
+    {
       $key = '4723b888e4285907f058245a7c52f8bc';
       $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
       echo $this->curlCall($url);
@@ -20,7 +21,8 @@ class OrderController extends Controller
     }
 
     //Returns list of hotels
-    public function getHotel(Request $request) {
+    public function getHotel(Request $request)
+    {
       $sd = 0;
       $in = Input::get('in');
       $out = Input::get('out');
@@ -37,36 +39,40 @@ class OrderController extends Controller
     }
 
     //return the detail of 1 hotel
-    public function getHotelDetail()  {
+    public function getHotelDetail()
+    {
+        $target = Input::get('target');
+        $token = Input::get('token');
+        $url = "$target&token=$token&output=json";
 
-      $target = Input::get('target');
-      $token = Input::get('token');
-      $url = "$target&token=$token&output=json";
-
-      echo $this->curlCall($url);
+       echo $this->curlCall($url);
     }
-	public function getOrder(){
-		$token = Input::get('token');
-		$url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
-		echo $this->curlCall($url);
-	}
-    public function bookHotel() {
-      $target = Input::get('target');
-      $token = Input::get('token');
-      $url = "$target&token=$token&output=json";
+	  public function getOrder()
+    {
+		    $token = Input::get('token');
+		    $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
+		    echo $this->curlCall($url);
+	  }
 
-      $mess = $this->curlCall($url);
-      if($mess) {
-        $claimer = Auth::user();
-        $claim = new Claim();
-        $claim->claim_type = 1;
-        $claim->claim_data_id = $token;
-        $claim->claimer_id = $claimer->id;
-        $claim->approver_id = User::approver($claimer)->id;
-        $claim->finance_id = User::finance($claimer)->id;
-        $claim->claim_status = 1;
-        $claim->save();
-      //  dd($claim);
+    public function bookHotel()
+    {
+        $target = Input::get('target');
+        $token = Input::get('token');
+        $url = "$target&token=$token&output=json";
+
+        $mess = $this->curlCall($url);
+        if($mess) {
+          $claimer = Auth::user();
+          $claim = new Claim();
+          $claim->claim_type = 1;
+          $claim->claim_data_id = $token;
+          $claim->claimer_id = $claimer->id;
+          $claim->approver_id = User::approver($claimer)->id;
+          $claim->finance_id = User::finance($claimer)->id;
+          $claim->claim_status = 1;
+          $claim->order_information = $target;
+          $claim->save();
+        //  dd($claim);
       }
 
       return "true";
