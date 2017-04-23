@@ -78,7 +78,13 @@ class OrderController extends Controller
       return "true";
     }
 
-
+    public function rebookHotel($claim)
+    {
+      $target = $claim->order_information;
+      $token = '';
+      $url = "$target&token=$token&output=json";
+      $this->curlCall($url);
+    }
     //do curl call to url
     public function curlCall($url)  {
       //dd($url);
