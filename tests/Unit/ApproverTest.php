@@ -208,6 +208,7 @@ class ApproverTest extends TestCase
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
+    
     public function testShowRejected()
     {
         $this->actingAs($this->approver1);
