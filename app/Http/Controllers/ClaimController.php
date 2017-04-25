@@ -9,13 +9,9 @@ use App\Claim;
 class ClaimController extends Controller
 {
 <<<<<<< HEAD
-    
-	
-	/**
-=======
 
-    /**
->>>>>>> 9ff154a71dab93018e4e7a7d64170e087855c799
+
+	/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -26,7 +22,7 @@ class ClaimController extends Controller
 				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
 				return view('tickets.list',compact('claims'));
     }
-	
+
     /**
      * Show the form for creating a new resource.
      *
