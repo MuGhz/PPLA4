@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function scopeClaimer($query) {
+      return $query->where('role','claimer');
+    }
+
     public function scopeApprover($query,$claimer) {
       $approvers = $query->where('company',$claimer->company)->where('role','approver')->get();
       // dd($approvers);
