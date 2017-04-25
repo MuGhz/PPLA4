@@ -8,9 +8,6 @@ use App\Claim;
 
 class ClaimController extends Controller
 {
-<<<<<<< HEAD
-
-
 	/**
      * Display a listing of the resource.
      *

@@ -27,10 +27,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function scopeClaimer($query) {
-      return $query->where('role','claimer');
-    }
-
     public function scopeApprover($query,$claimer) {
       $approvers = $query->where('company',$claimer->company)->where('role','approver')->get();
       // dd($approvers);
@@ -41,8 +37,4 @@ class User extends Authenticatable
       $finances =  $query->where('company',$claimer->company)->where('role','finance')->get();
       return $finances[rand(0,count($finances)-1)];
     }
-	
-	public function scopeCompany($query,$company) {
-	  return $query->where('company',$company);
-	}
 }
