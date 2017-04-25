@@ -16,10 +16,17 @@ class OrderController extends Controller
     //this method returns Token required for Tiket.com API call
     public function getToken(Request $request)
     {
-      $key = '4723b888e4285907f058245a7c52f8bc';
+      $key = '07ff7126e34ff51b9564cd9848b339b9';
       $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
       echo $this->curlCall($url);
 
+    }
+    public function decodeJsonToken()
+    {
+      $key = '07ff7126e34ff51b9564cd9848b339b9';
+      $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
+      $response = $this->curlCall($url);
+      return json_decode($response)->token;
     }
 
     //Returns list of hotels
@@ -87,7 +94,8 @@ class OrderController extends Controller
       $difference = $created->diff($now)->days;
       if($difference>1){
           $target = $claim->order_information;
-          $token = '';
+          $token = $this->decodeJsonToken();
+          echo $token;
           $url = "$target&token=$token&output=json";
           $this->curlCall($url);
       }
