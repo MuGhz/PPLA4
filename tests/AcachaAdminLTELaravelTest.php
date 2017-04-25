@@ -170,11 +170,11 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    public function test404Page()
-    {
-        $this->get('asdasdjlapmnnk')
-            ->see('404');
-    }
+    // public function test404Page()
+    // {
+    //     $this->get('asdasdjlapmnnk')
+    //         ->see('404');
+    // }
 
     /**
      * Test user registration.
