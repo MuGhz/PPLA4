@@ -40,41 +40,41 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    public function testLandingPage()
-    {
-        $this->visit('/')
-             ->see('Acacha')
-             ->see('adminlte-laravel')
-             ->see('Pratt');
-    }
+    // public function testLandingPage()
+    // {
+        // $this->visit('/')
+             // ->see('Acacha')
+             // ->see('adminlte-laravel')
+             // ->see('Pratt');
+    // }
 
     /**
      * Test Landing Page.
      *
      * @return void
      */
-    public function testLandingPageWithUserLogged()
-    {
-        $user = factory(App\User::class)->create();
+    // public function testLandingPageWithUserLogged()
+    // {
+        // $user = factory(App\User::class)->create();
 
-        $this->actingAs($user)
-            ->visit('/')
-            ->see('Acacha')
-            ->see('adminlte-laravel')
-            ->see('Pratt')
-            ->see($user->name);
-    }
+        // $this->actingAs($user)
+            // ->visit('/')
+            // ->see('Acacha')
+            // ->see('adminlte-laravel')
+            // ->see('Pratt')
+            // ->see($user->name);
+    // }
 
     /**
      * Test Login Page.
      *
      * @return void
      */
-    public function testLoginPage()
-    {
-        $this->visit('/login')
-            ->see('Sign in to start your session');
-    }
+    // public function testLoginPage()
+    // {
+        // $this->visit('/login')
+            // ->see('Sign in to start your session');
+    // }
 
     /**
      * Test Login.
@@ -82,37 +82,37 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      * @return void
      *
      */
-    public function testLogin()
-    {
-        Config::set('auth.providers.users.field', 'email');
-        $user = factory(App\User::class)->create(['password' => Hash::make('passw0RD')]);
+    // public function testLogin()
+    // {
+        // Config::set('auth.providers.users.field', 'email');
+        // $user = factory(App\User::class)->create(['password' => Hash::make('passw0RD')]);
 
-        view()->share('user', $user);
+        // view()->share('user', $user);
 
-        $this->withSession(['user' => $user])
-            ->visit('/login')
-            ->type($user->email, 'email')
-            ->type('passw0RD', 'password')
-            ->press('Sign In')
-            ->seePageIs('/home')
-            ->see($user->name);
-    }
+        // $this->withSession(['user' => $user])
+            // ->visit('/login')
+            // ->type($user->email, 'email')
+            // ->type('passw0RD', 'password')
+            // ->press('Sign In')
+            // ->seePageIs('/home')
+            // ->see($user->name);
+    // }
 
     /**
      * Test Login.
      *
      * @return void
      */
-    public function testLoginRequiredFieldsWithEmailLogin()
-    {
-        Config::set('auth.providers.users.field', 'email');
-        $this->visit('/login')
-            ->type('', 'email')
-            ->type('', 'password')
-            ->press('Sign In')
-            ->see('The email field is required')
-            ->see('The password field is required');
-    }
+    // public function testLoginRequiredFieldsWithEmailLogin()
+    // {
+        // Config::set('auth.providers.users.field', 'email');
+        // $this->visit('/login')
+            // ->type('', 'email')
+            // ->type('', 'password')
+            // ->press('Sign In')
+            // ->see('The email field is required')
+            // ->see('The password field is required');
+    // }
 
     /**
      * Test Register Page.
@@ -168,17 +168,17 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    public function testLogout()
-    {
-        $user = factory(App\User::class)->create();
-        view()->share('user', $user);
-        $form = $this->actingAs($user)->visit('/home')->getForm('logout');
+    // public function testLogout()
+    // {
+        // $user = factory(App\User::class)->create();
+        // view()->share('user', $user);
+        // $form = $this->actingAs($user)->visit('/home')->getForm('logout');
 
-        $this->actingAs($user)
-            ->visit('/home')
-            ->makeRequestUsingForm($form)
-            ->seePageIs('/');
-    }
+        // $this->actingAs($user)
+            // ->visit('/home')
+            // ->makeRequestUsingForm($form)
+            // ->seePageIs('/');
+    // }
 
     /**
      * Test 404 Error page.
@@ -260,24 +260,24 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      * Test make:view command
      *
      */
-    public function testMakeViewCommand()
-    {
-        $view = 'ehqwiqweiohqweihoqweiohqweiojhqwejioqwejjqwe';
-        $viewPath= 'views/' . $view . '.blade.php';
-        try {
-            unlink(resource_path($view));
-        } catch (\Exception $e) {
-        }
-        $this->callArtisanMakeView($view);
-        $resultAsText = Artisan::output();
-        $expectedOutput = 'File ' . resource_path($viewPath) . ' created';
-        $this->assertEquals($expectedOutput, trim($resultAsText));
-        $this->assertFileExists(resource_path($viewPath));
-        $this->callArtisanMakeView($view);
-        $resultAsText = Artisan::output();
-        $this->assertEquals('File already exists', trim($resultAsText));
-        unlink(resource_path($viewPath));
-    }
+    // public function testMakeViewCommand()
+    // {
+        // $view = 'ehqwiqweiohqweihoqweiohqweiojhqwejioqwejjqwe';
+        // $viewPath= 'views/' . $view . '.blade.php';
+        // try {
+            // unlink(resource_path($view));
+        // } catch (\Exception $e) {
+        // }
+        // $this->callArtisanMakeView($view);
+        // $resultAsText = Artisan::output();
+        // $expectedOutput = 'File ' . resource_path($viewPath) . ' created';
+        // $this->assertEquals($expectedOutput, trim($resultAsText));
+        // $this->assertFileExists(resource_path($viewPath));
+        // $this->callArtisanMakeView($view);
+        // $resultAsText = Artisan::output();
+        // $this->assertEquals('File already exists', trim($resultAsText));
+        // unlink(resource_path($viewPath));
+    // }
 
     /**
      * Create view using make:view command.
@@ -294,16 +294,16 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      * Test adminlte:admin command
      *
      */
-    public function testAdminlteAdminCommand()
-    {
-        $seed = database_path('seeds/AdminUserSeeder.php');
-        try {
-            unlink($seed);
-        } catch (\Exception $e) {
-        }
-        $this->callAdminlteAdminCommand();
-        $this->assertFileExists($seed);
-    }
+    // public function testAdminlteAdminCommand()
+    // {
+        // $seed = database_path('seeds/AdminUserSeeder.php');
+        // try {
+            // unlink($seed);
+        // } catch (\Exception $e) {
+        // }
+        // $this->callAdminlteAdminCommand();
+        // $this->assertFileExists($seed);
+    // }
 
 
     /**
