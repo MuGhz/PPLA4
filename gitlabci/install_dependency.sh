@@ -9,4 +9,5 @@ php composer.phar update
 
 #install laravel
 mv .env.example .env
+mv phpunit.xml.example phpunit.xml
 php artisan key:generate
