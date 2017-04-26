@@ -12,8 +12,10 @@ use App\Http\Controllers\OrderController;
 
 use App\Company;
 use App\User;
+use App\Claim;
 
 use Carbon\Carbon;
+
 
 class OrderTest extends TestCase
 {
@@ -52,6 +54,7 @@ class OrderTest extends TestCase
             'role' => $role
         ]);
     }
+
     public function makeClaim($claim_type, $claimer_id, $approver_id,$finance_id,$claim_status)
 	   {
 		     return factory(Claim::class)->create([
@@ -60,8 +63,9 @@ class OrderTest extends TestCase
 			        'approver_id' => $approver_id,
 			        'finance_id' => $finance_id,
 			        'claim_status' => $claim_status,
-		]);
-	}
+		          ]);
+	    }
+
 
     public function curlMock($returnValue)
     {
@@ -172,6 +176,7 @@ class OrderTest extends TestCase
 
         $order->getHotelDetail($request);
     }
+
     public function testReorder()
     {
         $company = $this->makeCompany('Test Company');
@@ -188,6 +193,7 @@ class OrderTest extends TestCase
         $difference = $claim->updated_at->diff($now)->days;
         $this->assertEquals(0,$difference);
     }
+
     public function testBookHotel()
     {
         $order = $this->curlMock("success");
@@ -199,7 +205,7 @@ class OrderTest extends TestCase
 
         $request = $this->requestMock($map);
 
-        $company = $this->makeCompany('Test Company');
+      $company = $this->makeCompany('Test Company');
     	$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
     	$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
     	$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');

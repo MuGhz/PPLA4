@@ -28,6 +28,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Company::class, function(Faker\Generator $faker){
     return ['name' => $faker->company];
 });
+
 $factory->define(App\Claim::class,function(Faker\Generator $faker){
   return[
     'claim_type' => rand(1,2),
@@ -36,5 +37,6 @@ $factory->define(App\Claim::class,function(Faker\Generator $faker){
     'approver_id' => 2,
     'finance_id' => 3,
     'claim_status' => '1',
+    'order_information' => ''
   ];
 });

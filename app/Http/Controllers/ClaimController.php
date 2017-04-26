@@ -8,8 +8,7 @@ use App\Claim;
 
 class ClaimController extends Controller
 {
-
-    /**
+	/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
