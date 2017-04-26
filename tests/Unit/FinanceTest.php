@@ -16,7 +16,7 @@ class FinanceTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function setupRoles()
+	public function dataset()
 	{
 		$company      = factory(App\Company::class)->create(['name' => 'TestCompany']);
 		$claimer      = factory(App\User::class)->create(['company' => $company->id, 'role' => 'claimer']);
@@ -101,7 +101,7 @@ class FinanceTest extends TestCase
 	}
 	
 	public function testReceived() {
-		extract($this->setupRoles());
+		extract($this->dataset());
 		$this->actingAs($finance);
 		$claims = $fc->showReceived()->getData()['allClaim'];
 		$this->assertEquals(1, sizeof($claims));
@@ -113,7 +113,7 @@ class FinanceTest extends TestCase
 	}
 	
 	public function testApproved() {
-		extract($this->setupRoles());
+		extract($this->dataset());
 		$this->actingAs($finance);
 		$claims = $fc->showApproved()->getData()['allClaim'];
 		$this->assertEquals(1, sizeof($claims));
@@ -125,7 +125,7 @@ class FinanceTest extends TestCase
 	}
 	
 	public function testRejected() {
-		extract($this->setupRoles());
+		extract($this->dataset());
 		$this->actingAs($finance);
 		$claims = $fc->showRejected()->getData()['allClaim'];
 		$this->assertEquals(1, sizeof($claims));
