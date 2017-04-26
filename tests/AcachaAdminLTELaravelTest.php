@@ -6,6 +6,7 @@ use App;
 use Artisan;
 use Config;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
  */
 class AcachaAdminLTELaravelTest extends BrowserKitTest
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /**
      * Set up tests.
@@ -39,6 +40,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
+	 
 /*     public function testLandingPage()
     {
         $this->visit('/')
@@ -59,6 +61,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->visit('/home')
     //         ->see('Business Travel Booking')
     //         ->see($user->name);
+
     // }
 
     /**
@@ -136,15 +139,20 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    // public function testHomePageForAuthenticatedUsers()
-    // {
-    //     $company = factory(App\Company::class)->create();
-    //     $user = factory(App\User::class)->create(['company' => $company->id]);
-    //     view()->share('user', $user);
-    //     $this->actingAs($user)
-    //         ->visit('/home')
-    //         ->see($user->name);
-    // }
+
+    public function testHomePageForAuthenticatedUsers()
+    {
+        $company = factory(App\Company::class)->create(['name' => 'TestCompany']);
+        $user = factory(App\User::class)->create([
+			'name' => 'TestUser',
+			'email' => 'TestUser@Company.test',
+			'company' => $company->id
+		]);
+        view()->share('user', $user);
+        $this->actingAs($user)
+            ->visit('/home')
+            ->see($user->name);
+    }
 
     /**
      * Test log out.
@@ -218,7 +226,8 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    // public function testSendPasswordReset()
+
+	// public function testSendPasswordReset()
     // {
     //     $company = factory(App\Company::class)->create();
     //     $user = factory(App\User::class)->create(['company' => $company->id]);
@@ -240,17 +249,5 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->type('notexistingemail@gmail.com', 'email')
     //         ->press('Send Password Reset Link')
     //         ->see('There were some problems with your input');
-    // }
-
-    /**
-     * Create view using make:view command.
-     *
-     * @param $view
-     */
-    // protected function callArtisanMakeView($view)
-    // {
-    //     Artisan::call('make:view', [
-    //         'name' => $view,
-    //     ]);
     // }
 }

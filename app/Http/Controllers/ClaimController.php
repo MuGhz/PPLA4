@@ -48,14 +48,16 @@ class ClaimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-		    $detailClaim =  Claim::where('id',$id)->get();
-          if(empty($detailClaim) || !isset($detailClaim[0]))
-            return abort('404','404 - Page not found');
-        if($detailClaim[0]->claimer_id != Auth::id())
-          return abort('403','403 - Unauthorized access');
-        return view('claim.viewclaim',compact('detailClaim'));
-    }
+	{
+		$detailClaim =  Claim::where('id',$id)->get();
+		if(empty($detailClaim) || !isset($detailClaim[0])) {
+			return abort('404','404 - Page not found');
+		}
+		if($detailClaim[0]->claimer_id != Auth::id()) {
+			return abort('403','403 - Unauthorized access');
+		}
+		return view('claim.viewclaim',compact('detailClaim'));
+	}
 
     /**
      * Show the form for editing the specified resource.
@@ -90,7 +92,7 @@ class ClaimController extends Controller
     {
         $user = Auth::user();
 		$claim = Claim::find($id);
-		if ($user->id == $claim->claimer_id && $claim->claim_status < 2) {
+		if ($user->id == $claim->claimer_id && $claim->claim_status == 1) {
 			$claim->delete();
 		}
 		return redirect('/home');
