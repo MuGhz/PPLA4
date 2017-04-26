@@ -36,6 +36,6 @@ $factory->define(App\Claim::class,function(Faker\Generator $faker){
     'approver_id' => 2,
     'finance_id' => 3,
     'claim_status' => '1',
-    'order_information' => ''
+    
   ];
 });
