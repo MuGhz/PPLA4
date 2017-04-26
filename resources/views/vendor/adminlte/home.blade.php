@@ -22,6 +22,7 @@
 								<i class="fa fa-times"></i></button>
 						</div>
 						-->
+						<a href="{{URL::to('home/claim/re_order/501')}}" class="btn btn-default btn-flat" >reorder</a>
 						<div class="panel-body">
 							<table class="table table-striped" id="domestic">
 								<thead>
@@ -62,7 +63,7 @@
 
 					</div>
 					<div class="box-body">
-						
+
 					</div>
 					<!-- /.box-body -->
 				</div>

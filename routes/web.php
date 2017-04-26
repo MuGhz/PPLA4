@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
       Route::get('/{id}','ClaimController@destroy');
     });
     Route::get('/list/{status}','ClaimController@index');
+    Route::get('/re_order/{id}','OrderController@rebookHotel');
   });
 
   Route::group(['prefix'=>'approver'],function()  {
@@ -40,7 +41,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 	Route::get('/rejected','ApproverController@showRejected');
 
   });
-  
+
     Route::group(['prefix'=>'finance'],function()  {
 	Route::get('/received','FinanceController@showReceived');
 	Route::get('/approved','FinanceController@showApproved');

@@ -23,10 +23,14 @@ class OrderController extends Controller
     }
     public function decodeJsonToken()
     {
-      $key = '07ff7126e34ff51b9564cd9848b339b9';
-      $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
-      $response = $this->curlCall($url);
-      return json_decode($response)->token;
+        $key = '07ff7126e34ff51b9564cd9848b339b9';
+        $url = "https://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
+        $response = $this->curlCall($url);
+        if($response){
+          return json_decode($response)->token;
+        }else{
+          return abort('404','404 - Page not found');
+        }
     }
 
     //Returns list of hotels
@@ -87,18 +91,22 @@ class OrderController extends Controller
       return "true";
     }
 
-    public function rebookHotel($claim)
+    public function rebookHotel($id)
     {
+      $claim = Claim::where('id','=',$id)->first();
       $created = new Carbon($claim->created_at);
       $now = Carbon::now();
       $difference = $created->diff($now)->days;
       if($difference>1){
-          $target = $claim->order_information;
-          $token = $this->decodeJsonToken();
-          echo $token;
-          $url = "$target&token=$token&output=json";
-          $this->curlCall($url);
+        $target = $claim->order_information;
+        $token = $this->decodeJsonToken();
+        $url = "$target&token=$token&output=json";
+        $this->curlCall($url);
+        $claim->claim_data_id = $token;
+        $claim->updated_at = date("Y-m-d H:i:s");
+        $claim->save();
       }
+      return redirect('/home/');
     }
     //do curl call to url
     public function curlCall($url)  {
