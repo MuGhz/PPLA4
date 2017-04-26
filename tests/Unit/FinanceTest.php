@@ -6,11 +6,12 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\ClaimController;
 use App;
 
 class FinanceTest extends TestCase
 {
-	
+	use DatabaseTransactions;
 	/**
 	 * A basic test example.
 	 *
@@ -51,7 +52,7 @@ class FinanceTest extends TestCase
 			'claimer_id'=>$claimer->id,
 			'approver_id'=>$approver->id,
 			'finance_id'=>$finance->id,
-			'claim_status'=>3
+			'claim_status'=>4
 		]);
 		
 		// Tes claim dengan status rejected (ditampilkan dalam showRejected)
@@ -78,7 +79,7 @@ class FinanceTest extends TestCase
 			'claimer_id'=>$claimer->id,
 			'approver_id'=>$approver->id,
 			'finance_id'=>$otherFinance->id,
-			'claim_status'=>3
+			'claim_status'=>4
 		]);
 		
 		// Tes claim yang telah direject oleh finance lain (tidak ditampilkan)
@@ -121,7 +122,7 @@ class FinanceTest extends TestCase
 		$this->assertEquals($claimer->id, $claim->claimer_id);
 		$this->assertEquals($approver->id, $claim->approver_id);
 		$this->assertEquals($finance->id, $claim->finance_id);
-		$this->assertEquals(3, $claim->claim_status);
+		$this->assertEquals(4, $claim->claim_status);
 	}
 	
 	public function testRejected() {
@@ -135,4 +136,16 @@ class FinanceTest extends TestCase
 		$this->assertEquals($finance->id, $claim->finance_id);
 		$this->assertEquals(6, $claim->claim_status);
 	}
+  
+  public function testRejectClaim() {
+    extract($this->dataset());
+		$this->actingAs($finance);
+		$claims = $fc->showReceived()->getData()['allClaim'];
+		$claim = $claims[0];
+    $cc = new ClaimController();
+    $cc->reject($claim->id);
+    
+    $claims = $fc->showRejected()->getData()['allClaim'];
+    $this->assertEquals(2, sizeof($claims));
+  }
 }

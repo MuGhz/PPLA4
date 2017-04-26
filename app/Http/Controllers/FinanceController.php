@@ -44,7 +44,7 @@ class FinanceController extends Controller
 
     public function showApproved()
     {
-        $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '3')->where('claim_status', '!=', '6')->get();
+        $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '4')->where('claim_status', '!=', '6')->get();
         return view('adminlte::home', compact('allClaim'));
     }
 
