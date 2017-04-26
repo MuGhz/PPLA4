@@ -1,3 +1,4 @@
+/coverage
 /node_modules
 /public/storage
 /public/hot
@@ -7,4 +8,7 @@
 Homestead.json
 Homestead.yaml
 .env
+.env.dusk.local
+.env.testing
 err
+phpunit.xml

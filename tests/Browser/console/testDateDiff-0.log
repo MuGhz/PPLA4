@@ -1,0 +1,8 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "https:\/\/fonts.googleapis.com\/css?family=Raleway:300,400,600 - Failed to load resource: net::ERR_INTERNET_DISCONNECTED",
+        "source": "network",
+        "timestamp": 1492258139169
+    }
+]

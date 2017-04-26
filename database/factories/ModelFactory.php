@@ -29,12 +29,14 @@ $factory->define(App\Company::class, function(Faker\Generator $faker){
     return ['name' => $faker->company];
 });
 
-$factory->define(App\Claim::class, function(Faker\Generator $faker){
-    return [
-		'claim_type' => rand(1,2),
-		'claim_data_id' => str_random(6),
-		'created_at' => $faker->datetime,
-		'updated_at' => $faker->datetime,
-		'claim_status' => rand(1,5)
-	];
+$factory->define(App\Claim::class,function(Faker\Generator $faker){
+  return[
+    'claim_type' => rand(1,2),
+    'claim_data_id' => str_random(6),
+    'claimer_id' => 1,
+    'approver_id' => 2,
+    'finance_id' => 3,
+    'claim_status' => '1',
+    'order_information' => ''
+  ];
 });
