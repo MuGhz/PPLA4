@@ -29,7 +29,7 @@ class OrderTest extends TestCase
      protected $token;
      protected $hotelList;
      protected $hotelDetail;
-     proctected $orderJson;
+     protected $orderJson;
     public function setUp()
     {
         parent::setUp();
