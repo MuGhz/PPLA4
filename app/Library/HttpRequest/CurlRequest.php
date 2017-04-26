@@ -7,6 +7,12 @@ class CurlRequest implements HttpRequest
 
     public function __construct($url) {
         $this->handle = curl_init($url);
+        curl_setopt($this->handle,CURLOPT_HTTPHEADER,array(
+          "Accept: application/json",
+          'Content-Type: application/json'
+        ));
+        curl_setopt($this->handle,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($this->handle,CURLOPT_SSL_VERIFYPEER,false);
     }
 
     public function setOption($name, $value) {

@@ -18,6 +18,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
 {
     use DatabaseTransactions;
 
+
     /**
      * Set up tests.
      */
@@ -47,11 +48,12 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
              ->see('Sign in to start your session');
     } */
 
-    /**
+    /** TODO
      * Test Landing Page.
      *
      * @return void
      */
+
     // public function testLandingPageWithUserLogged()
     // {
     //     $company = factory(App\Company::class)->create();
@@ -63,6 +65,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->see($user->name);
 
     // }
+
 
     /**
      * Test Login Page.
@@ -172,11 +175,12 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->seePageIs('/');
     // }
 
-    /**
+    /**TODO : gak ngembaliin 404?
      * Test 404 Error page.
      *
      * @return void
      */
+
     // public function test404Page()
     // {
     //     $this->get('asdasdjlapmnnk')
@@ -185,11 +189,13 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->see('404');
     // }
 
+
     /**
      * Test user registration.
      *
      * @return void
      */
+
     // public function testNewUserRegistration()
     // {
 
@@ -210,6 +216,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
 
     // }
 
+
     /**
      * Test required fields on registration page.
      *
@@ -224,13 +231,14 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->see('The password field is required');
     // }
 
-    /**
+    /** TODO
      * Test send password reset.
      *
      * @return void
      */
 
 	// public function testSendPasswordReset()
+
     // {
     //     $company = factory(App\Company::class)->create();
     //     $user = factory(App\User::class)->create(['company' => $company->id]);
