@@ -130,28 +130,4 @@ class UserTest extends TestCase
 
 		$this->assertEquals($queryResult->id,$testFinance->id);
 	}
-	
-	public function testScopeCompany()
-	{
-		$testData = $this->testData;
-		
-		$testCompany = $testData['company'][$testData['key'][0]];
-		$testUsers = $testData['claimer'][$testData['key'][0]];
-		array_push($testUsers,$testData['admin'][$testData['key'][0]],$testData['approver'][$testData['key'][0]],$testData['finance'][$testData['key'][0]]);
-		
-		$queryResult = User::company($testCompany->id)->get();
-
-		// How to assert? (Issues: wasRecentlyCreated is true on $testClaimers, false on $queryResult)
-		// Manual assertion - Same size & all test elements contained (O(N^2))
-		$this->assertSameSize($queryResult,$testUsers);
-		$allUsersContained = true;
-		foreach ($testUsers as $user) {
-			$userContained = false;
-			foreach ($queryResult as $resultElement) {
-				$userContained = $userContained || ($resultElement->id == $user->id);
-			}
-			$allUsersContained = $allUsersContained && $userContained;
-		}
-		$this->assertTrue($allUsersContained);
-	}
 }

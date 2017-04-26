@@ -8,4 +8,7 @@
 Homestead.json
 Homestead.yaml
 .env
+.env.dusk.local
+.env.testing
 err
+phpunit.xml

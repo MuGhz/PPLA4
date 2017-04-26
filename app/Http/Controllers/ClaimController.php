@@ -7,16 +7,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Claim;
 
 class ClaimController extends Controller
-{	
-	
-    /**
+{
+	/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status)
     {
         //
+				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
+				return view('tickets.list',compact('claims'));
     }
 
     /**

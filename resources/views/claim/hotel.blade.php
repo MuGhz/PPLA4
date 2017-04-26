@@ -25,6 +25,7 @@
 
 @section('content')
 <div class="container">
+  <h2>Booking Hotel</h2>
   <form action="" method="POST" class="container col-md-offset-2">
     <div class="row">
       <div class="form-group col-md-8">
@@ -102,6 +103,22 @@
 
     </div>
   </div>
+  <div id="error" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <div id="Error">
+            <h2>Data Salah</h2>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="loading"></div>
 </div>
 @endsection
@@ -137,15 +154,29 @@
       var city = $("#city").val();
       var adult = $("#adult").val();
       var child = $("#child").val();
+
+	  // Buat ngehandle wait forever pas ins-nya kosong
+	  if(!ins) {
+		show('loading',false);
+		$('#error').modal('show');
+        return;
+	  }
+
       $.post("{{action('OrderController@getHotel')}}", {in:ins,out:out,room:room,city:city,adult:adult,child:child,token:token,page:page,_token:"{{csrf_token()}}"}).done(function(e){
           // Display the returned data in browser
           //console.log(data.result);
 
           show('loading',false);
+          console.log(e);
+          if(e == "error")  {
+            $('#error').modal('show');
+            return;
+          }
+
           e = JSON.parse(e);
           console.log(e);
           console.log(e['results']['result']);
-          if(e.results.result.length==0)  {
+			  if(e.results.result.length==0)  {
             $(".results").html("<h2>Tidak ada hotel</h2>");
           } else {
             var temp = "<div class='col-md-12 row row-eq-height'>";
@@ -153,7 +184,7 @@
             e.results.result.forEach(function(f,i)  {
               if(i%2 == 0)
                 temp+="<div class='row row-eq-height'>";
-              temp+="<div class='col-md-6 panel panel-default container'>";
+				temp+="<div class='col-md-6 panel panel-default container'>";
                 temp+="<h2>"+f.name+"</h2>";
                 temp+="<img src='"+f.photo_primary+"'>";
                 temp+="<p>"+f.room_facility_name+"</p>";
@@ -162,7 +193,7 @@
                 temp+="<p>Rating : "+f.rating+"</p>";
                 temp+="<p>Alamat : "+f.address+"</p>";
                 temp+="<div class='form-group'>";
-                  temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
@@ -181,6 +212,7 @@
       show('loading',true);
       $.post("{{action('OrderController@getHotelDetail')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
         show('loading',false);
+        console.log(e);
         e = JSON.parse(e);
         console.log(e);
         // temp = "<div class='container'>";

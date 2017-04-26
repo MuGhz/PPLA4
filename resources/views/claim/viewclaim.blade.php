@@ -6,6 +6,7 @@
 $id = $value -> id;
 $token = $value -> claim_data_id ; 
 $status = $value -> claim_status;
+$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
 @endphp
 @endforeach
 
@@ -34,6 +35,9 @@ $status = $value -> claim_status;
 
 @section('js')
 <script>
+<<<<<<< HEAD
+	
+=======
 	 $.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}"}).done(function(e){
 		e = JSON.parse(e);
         console.log(e);
@@ -42,7 +46,7 @@ $status = $value -> claim_status;
 			temp+= "</div>";
 			temp+="<div class='col-md-6 panel panel-default container' align='left'>";
 			temp+= "<br><p>Tipe :"+e.myorder.data[0].order_type+"</p>";
-			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data.order_name_detail+"</p>";
+			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
 			temp+= "<p>Nomor kamar :"+e.myorder.data[0].detail.room_id+"</p>";
   				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Dewasa :"+e.myorder.data[0].detail.adult+"</p>";
@@ -56,7 +60,7 @@ $status = $value -> claim_status;
 				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Sampai :"+e.myorder.data[0].detail.enddate+"</p>";
 				temp+= "</div>";
-			temp+="<p>Status : "+{{$status}}+"</p>";
+			temp+="<p>Status : "+'{{$status}}'+"</p>";
 			temp+="<p>Total : Rp. "+e.myorder.total	+"</p>";
 			temp+="<p>Order Expired : "+e.myorder.data[0].order_expire_datetime+"</p><br>";
 			temp+= "</div>";
@@ -66,5 +70,6 @@ $status = $value -> claim_status;
 		
 		$("#detailClaim").html(temp);
 	 });
+>>>>>>> 9ff154a71dab93018e4e7a7d64170e087855c799
 </script>
 @endsection
