@@ -89,6 +89,7 @@ class OrderController extends Controller
             $claim->approver_id = User::approver($claimer)->id;
             $claim->finance_id = User::finance($claimer)->id;
             $claim->claim_status = 1;
+            $claim->order_information = 'test';
             $claim->save();
         }
 
