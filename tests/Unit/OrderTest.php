@@ -202,7 +202,8 @@ class OrderTest extends TestCase
     public function testOrderHotelSuccess()
     {
         $order = $this->curlMock($this->orderJson);
-
+		$request = $this->requestMock([]);
+		
         $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
@@ -212,12 +213,13 @@ class OrderTest extends TestCase
         $now = Carbon::now();
         $claim->created_at=$date;
         $claim->save();
-        $order->orderHotel($claim->id);
+        $order->orderHotel($request,$claim->id);
         $this->expectOutputString($this->orderJson);
     }
     public function testOrderHotelFail()
     {
       $order = $this->curlMock($this->orderJson);
+		$request = $this->requestMock([]);
 
       $company = $this->makeCompany('Test Company');
       $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
@@ -225,7 +227,7 @@ class OrderTest extends TestCase
       $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
-      $order->orderHotel($claim->id);
+      $order->orderHotel($request,$claim->id);
       $this->expectOutputString($this->orderJson);
     }
     public function testGetOrder(){
