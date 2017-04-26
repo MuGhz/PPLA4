@@ -63,6 +63,9 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 });
 
 Route::group(['prefix'=>'api'],function()  {
+  Route::get('/',function()  {
+    return "200";
+  });
   Route::post('/token','OrderController@getToken');
   Route::post('/hotel/list','OrderController@getHotel');
   Route::post('/hotel/detail','OrderController@getHotelDetail');
