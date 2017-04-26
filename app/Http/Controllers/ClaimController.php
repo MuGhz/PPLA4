@@ -15,9 +15,11 @@ class ClaimController extends Controller
      */
     public function index($status)
     {
+
         //
 				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
 				return view('tickets.list',compact('claims'));
+
     }
 
     /**
@@ -27,6 +29,7 @@ class ClaimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+
     {
 		    $detailClaim =  Claim::where('id',$id)->get();
           if(empty($detailClaim) || !isset($detailClaim[0]))

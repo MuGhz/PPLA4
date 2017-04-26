@@ -31,11 +31,13 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::group(['prefix'=>'delete'],function(){
       Route::get('/{id}','ClaimController@destroy');
     });
+
     Route::group(['prefix'=>'reject'],function(){
       Route::get('/{id}','ClaimController@reject');
     });
     Route::get('/list/{status}','ClaimController@index');
     Route::get('/re_order/{id}','OrderController@rebookHotel');
+
   });
 
   Route::group(['prefix'=>'approve'],function(){
