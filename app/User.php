@@ -41,8 +41,4 @@ class User extends Authenticatable
       $finances =  $query->where('company',$claimer->company)->where('role','finance')->get();
       return $finances[rand(0,count($finances)-1)];
     }
-	
-	public function scopeCompany($query,$company) {
-	  return $query->where('company',$company);
-	}
 }

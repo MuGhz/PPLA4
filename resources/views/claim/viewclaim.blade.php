@@ -35,6 +35,9 @@ $status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($sta
 
 @section('js')
 <script>
+<<<<<<< HEAD
+	
+=======
 	 $.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}"}).done(function(e){
 		e = JSON.parse(e);
         console.log(e);
@@ -67,5 +70,6 @@ $status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($sta
 		
 		$("#detailClaim").html(temp);
 	 });
+>>>>>>> 9ff154a71dab93018e4e7a7d64170e087855c799
 </script>
 @endsection

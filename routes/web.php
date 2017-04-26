@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-  return view('construction');
+    return redirect('/home');
 });
 
 Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
@@ -28,10 +28,9 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::group(['prefix'=>'detail'],function(){
       Route::get('/{id}','ClaimController@show');
     });
-    Route::group(['prefix'=>'delete'],function(){
+	Route::group(['prefix'=>'delete'],function(){
       Route::get('/{id}','ClaimController@destroy');
     });
-    Route::get('/list/{status}','ClaimController@index');
   });
 
   Route::group(['prefix'=>'approver'],function()  {
@@ -40,6 +39,8 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 	Route::get('/rejected','ApproverController@showRejected');
 
   });
+
+
 
 
     //    Route::get('/link1', function ()    {
@@ -56,8 +57,4 @@ Route::group(['prefix'=>'api'],function()  {
   Route::post('/hotel/detail','OrderController@getHotelDetail');
   Route::post('/book/hotel','OrderController@bookHotel');
   Route::post('/claim/detil','OrderController@getOrder');
-});
-
-Route::get('{any}',function(){
-  return view('construction');
 });
