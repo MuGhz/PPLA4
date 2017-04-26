@@ -49,6 +49,8 @@ if($buttonLabel == "Cancel claim") {
 	        <button class="btn btn-primary btn-block">Upload proof</button>
       @elseif(($value->claim_status == 2) && (Auth::user()["role"] == "finance"))
           <a href="{{URL::to('/home/finance/buy/'.$id)}}" class="btn btn-primary btn-block">Beli tiket</a>
+      @elseif(($value->claim_status == 1)&&(Auth::user()["role"]=="approver"))
+         <a href="{{URL::to('/home/approve/'.$id)}}" class="btn btn-primary btn-block">Approve pemesanan</a>
       @endif
 		</div>
 		<div class="form-group col-md-4">
