@@ -30,6 +30,8 @@ class OrderTest extends TestCase
      protected $hotelList;
      protected $hotelDetail;
      protected $orderJson;
+     protected $rebook;
+
     public function setUp()
     {
         parent::setUp();
@@ -39,6 +41,7 @@ class OrderTest extends TestCase
         $this->orderJson = '{"diagnostic":{"status":200,"elapsetime":"0.3230","memoryusage":"23.39MB","unix_timestamp":1493200252,"confirm":"success","lang":"id","currency":"IDR"},"output_type":"json",
         "myorder":{"order_id":"33440460","data":[],"total":0,"total_tax":0,"total_without_tax":0,"count_installment":0,"discount":0,"discount_amount":0},"checkout":"https:\/\/api-sandbox.tiket.com\/order\/checkout\/33440460\/IDR",
         "login_status":"false","token":"6bf08ec096529ad7d610ab9c1a2739892b0b2311"}';
+
     }
 
     private function makeCompany($name)
@@ -181,6 +184,7 @@ class OrderTest extends TestCase
 
     public function testReorder()
     {
+        $order = $this->curlMock($this->hotelDetail);
         $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
@@ -190,13 +194,12 @@ class OrderTest extends TestCase
         $now = Carbon::now();
         $claim->created_at=$date;
         $claim->save();
-        $oc = new OrderController();
-        $oc->rebookHotel($claim->id);
+        $order->rebookHotel($claim->id);
         $difference = $claim->updated_at->diff($now)->days;
         $this->assertEquals(0,$difference);
     }
 
-    public function testOrderHotel()
+    public function testOrderHotelSuccess()
     {
         $order = $this->curlMock($this->orderJson);
 
@@ -205,8 +208,44 @@ class OrderTest extends TestCase
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
         $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
-        $response = $order->orderHotel($claim->id);
-        $this->assertEquals($response,$this->orderJson);
+        $date = Carbon::create(2017,1,1,12);
+        $now = Carbon::now();
+        $claim->created_at=$date;
+        $claim->save();
+        $order->orderHotel($claim->id);
+        $this->expectOutputString($this->orderJson);
+    }
+    public function testOrderHotelFail()
+    {
+      $order = $this->curlMock($this->orderJson);
+
+      $company = $this->makeCompany('Test Company');
+      $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+      $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+      $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+      $order->orderHotel($claim->id);
+      $this->expectOutputString($this->orderJson);
+    }
+    public function testGetOrder(){
+      $order = $this->curlMock($this->orderJson);
+      $map = [
+          ["target",null,"target"],
+          ["token",null,"token"]
+      ];
+
+      $request = $this->requestMock($map);
+      $order->getOrder($request);
+      $this->expectOutputString($this->orderJson);
+
+    }
+
+    public function testCurl()
+    {
+        $oc = new OrderController();
+        $oc->curlCall(url('/api/'));
+        $this->expectOutputString('');
     }
 
     public function testBookHotel()
