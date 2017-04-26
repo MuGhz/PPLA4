@@ -21,6 +21,7 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
+<<<<<<< HEAD:phpunit.xml
             <directory suffix=".php">./app/Http/Controllers</directory>
             <exclude>
               <directory suffix=".php">./app/Http/Middleware</directory>
@@ -38,16 +39,29 @@
   <log type="testdox-html" target="/tmp/testdox.html"/>
   <log type="testdox-text" target="/tmp/testdox.txt"/>
 </logging>
+=======
+            <directory suffix=".php">./app</directory>
+        </whitelist>
+    </filter>
+	<logging>
+	  <log type="coverage-html" target="./coverage" lowUpperBound="35"/>
+	</logging>
+>>>>>>> bdc7af6c1b346f72b38f461702ec23023c19929f:phpunit.example.xml
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+<<<<<<< HEAD:phpunit.xml
     
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_DATABASE" value="PPLA4"/>
 
 
+=======
+	<!--<env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="ppla4test"/>-->
+>>>>>>> bdc7af6c1b346f72b38f461702ec23023c19929f:phpunit.example.xml
         <env name="MAIL_DRIVER" value="log"/>
         <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
     </php>

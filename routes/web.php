@@ -31,9 +31,21 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 	Route::group(['prefix'=>'delete'],function(){
       Route::get('/{id}','ClaimController@destroy');
     });
+    Route::get('/list/{status}','ClaimController@index');
   });
 
+  Route::group(['prefix'=>'approve'],function(){
+    Route::get('/{id}','ApproverController@approve');
+  });
+
+  Route::group(['prefix'=>'reject'],function(){
+    Route::get('/{id}','ApproverController@reject');
+  });
   Route::group(['prefix'=>'approver'],function()  {
+    Route::group(['prefix'=>'detail'],function(){
+      Route::get('/{id}','ApproverController@show');
+    });
+
 	Route::get('/received','ApproverController@showReceived');
 	Route::get('/approved','ApproverController@showApproved');
 	Route::get('/rejected','ApproverController@showRejected');

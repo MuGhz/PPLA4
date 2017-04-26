@@ -40,7 +40,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-	 
+
 /*     public function testLandingPage()
     {
         $this->visit('/')
@@ -181,6 +181,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     // {
     //     $this->get('asdasdjlapmnnk')
     //         ->seeStatusCode(404)
+
     //         ->see('404');
     // }
 
@@ -191,6 +192,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      */
     // public function testNewUserRegistration()
     // {
+
     //     Config::set('auth.providers.users.field', 'email');
     //     $company = factory(App\Company::class)->create();
     //     $user = factory(App\User::class)->create(['company' => $company->id]);
@@ -205,6 +207,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->seePageIs('/home')
     //         ->seeInDatabase('users', ['email' => 'sergiturbadenas@gmail.com',
     //                                   'name'  => 'Sergi Tur Badenas', ]);
+
     // }
 
     /**

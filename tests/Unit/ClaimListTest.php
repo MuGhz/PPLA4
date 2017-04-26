@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ClaimController;
 use App\Company;
 use App\Claim;
 use App\User;
@@ -58,9 +59,13 @@ class ClaimListTest extends TestCase
 		$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
 		$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
 		$claim11 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 1);
-		$claim12 = $this->makeClaim(2, $claimer1->id, $approver->id, $finance->id, 1);
-		$claim21 = $this->makeClaim(3, $claimer2->id, $approver->id, $finance->id, 1);
-		$claim22 = $this->makeClaim(2, $claimer2->id, $approver->id, $finance->id, 1);
+		$claim12 = $this->makeClaim(2, $claimer1->id, $approver->id, $finance->id, 2);
+		$claim13 = $this->makeClaim(2, $claimer1->id, $approver->id, $finance->id, 1);
+		$claim14 = $this->makeClaim(2, $claimer1->id, $approver->id, $finance->id, 2);
+		$claim21 = $this->makeClaim(3, $claimer2->id, $approver->id, $finance->id, 3);
+		$claim22 = $this->makeClaim(2, $claimer2->id, $approver->id, $finance->id, 4);
+		$claim23 = $this->makeClaim(2, $claimer2->id, $approver->id, $finance->id, 3);
+		$claim24 = $this->makeClaim(2, $claimer2->id, $approver->id, $finance->id, 4);
 		
 		$this->testData = array(
 			'company' => $company,
@@ -68,8 +73,8 @@ class ClaimListTest extends TestCase
 			'approver' => $approver,
 			'finance' => $finance,
 			'claim' => array(
-				$claimer1->id => array($claim11, $claim12),
-				$claimer2->id => array($claim21, $claim22)
+				$claimer1->id => array($claim11, $claim12, $claim13, $claim14),
+				$claimer2->id => array($claim21, $claim22, $claim23, $claim24)
 			)
 		);
 	}
@@ -103,11 +108,9 @@ class ClaimListTest extends TestCase
 		               ->getData()
 					   ['allClaim'];
 		
-		$allClaimBelongToUser = true;
-		foreach ($response as $returnedClaim) {
-			$allClaimBelongToUser = $allClaimBelongToUser || ($returnedClaim->claimer_id == $user->id);
-		}
-		$this->assertTrue($allClaimBelongToUser);
+		$returnedClaimsBelongToUser = $this->arrayElementsHasSpecificValueForAttribute('claimer_id', $user->id, $response);
+		
+		$this->assertTrue($returnedClaimsBelongToUser);
     }
 	
 	public function testReturnsAllUserClaims()
@@ -124,15 +127,46 @@ class ClaimListTest extends TestCase
 		               ->getData()
 					   ['allClaim'];
 		
-		$allClaimsReturned = true;
-		foreach ($allClaim as $claim) {
-			$claimReturned = false;
-			foreach ($response as $returnedClaim) {
-				$claimReturned = $claimReturned || ($returnedClaim->id == $claim->id);
-			}
-			$allClaimsReturned = $allClaimsReturned && $claimReturned;
-		}
+		$allUserClaimsReturned = $this->arrayHasSameDataForAttribute('claimer_id',$response,$allClaim);
 		
-		$this->assertTrue($allClaimsReturned);
+		$this->assertTrue($allUserClaimsReturned);
     }
+	
+	public function testSpecificClaimList()
+	{
+		$testData = $this->testData;
+		$user = $testData['claimer'][0];
+		$allClaim = $testData['claim'][$user->id];
+		$claimStat = 1;
+		$expectedClaims = [$allClaim[0],$allClaim[2]];
+		$cc = new ClaimController();
+		$response = $cc->index($claimStat)
+					   ->getData()
+					   ['claims'];
+		
+		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id',$response,$expectedClaims);
+	}
+	
+	private function arrayElementsHasSpecificValueForAttribute($attribute, $value, $array)
+	{
+		$allEqual = true;
+		foreach ($array as $element) {
+			$allEqual = $allEqual && ($element->$attribute == $value);
+		}
+		return $allEqual;
+	}
+	
+	private function arrayHasSameDataForAttribute($attribute, $array1, $array2)
+	{
+		$allExist = true;
+		foreach ($array1 as $element1) {
+			$exist = false;
+			foreach ($array2 as $element2) {
+				$exist = $exist || ($element1->$attribute == $element2->$attribute);
+			}
+			$allExist = $allExist && $exist;
+		}
+		return $allExist && (count($array1) == count($array2));
+	}
+
 }
