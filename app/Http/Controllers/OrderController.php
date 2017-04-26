@@ -117,8 +117,11 @@ class OrderController extends Controller
         }
         $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
         $response = $this->curlCall($url);
-        $checkout = json_decode($response)->checkout;
+
+        $checkout = json_decode($response,true)['checkout'];
+        
         echo $response;
+        return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){
     //     $claim = Claim::where('id','=',$id)->first();

@@ -43,11 +43,11 @@ if($buttonLabel == "Cancel claim") {
       @if($isSelf && ($value->claim_status == 4))
 	        <button class="btn btn-primary btn-block">Upload proof</button>
       @elseif(($value->claim_status == 2) && (Auth::user()["role"] == "finance"))
-          <button class="btn btn-primary btn-block">Beli tiket</button>
+          <a href="{{URL::to('/home/finance/buy/'.$id)}}" class="btn btn-primary btn-block">Beli tiket</a>
       @endif
 		</div>
 		<div class="form-group col-md-4">
-	        <a class="btn btn-primary btn-block"href="{{URL::to('home')}}">Return</a>
+	        <a class="btn btn-primary btn-block"href="{{URL::to('/home')}}">Return</a>
 		</div>
       </div>
 
