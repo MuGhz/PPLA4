@@ -150,7 +150,7 @@ class OrderController extends Controller
 			$request->session()->flash('error','Insufficient Fund');
 			return back();
 		}
-		    echo $responseObject;
+		    
         return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){
