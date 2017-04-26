@@ -26,7 +26,12 @@ if($buttonLabel == "Cancel claim") {
 
 @endphp
 @endforeach
-
+@if(session('error') != null)
+	 <div class="panel panel-danger">
+      <div class="panel-heading">ERROR</div>
+      <div class="panel-body"><b>{{session('error')}}</b></div>
+    </div>
+@endif
 <div class="container">
 	<center><h3 class="box-title">Detail Claim</h3></center>
 	<div id="detailClaim">
