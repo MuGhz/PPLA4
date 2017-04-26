@@ -15,9 +15,8 @@ class ClaimController extends Controller
      */
     public function index($status)
     {
-        //
-				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
-				return view('tickets.list',compact('claims'));
+		$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
+		return view('tickets.list',compact('claims'));
     }
 
     /**

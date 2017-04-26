@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 	Route::group(['prefix'=>'delete'],function(){
       Route::get('/{id}','ClaimController@destroy');
     });
+    Route::get('/list/{status}','ClaimController@index');
   });
 
   Route::group(['prefix'=>'approve'],function(){
