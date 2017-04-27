@@ -25,15 +25,15 @@ class OrderController extends Controller
 
         echo $this->curlCall($url);
     }
+
     public function decodeJsonToken()
     {
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
         $response = $this->curlCall($url);
-        echo json_decode($response,true)['token'];
-
         return json_decode($response,true)['token'];
     }
+
     public function getHotel(Request $request) {
         $sd = 0;
         $in = $request->input('in');
@@ -143,12 +143,10 @@ class OrderController extends Controller
 
 		$responseObject = json_decode($response,true);
         if ($responseObject['diagnostic']['status'] != '200') {
-    		echo $response;
 			session()->flash('error',$responseObject['diagnostic']['error_msgs']);
-			return back();
+    		echo $response; return back();
 		}
-		echo $response;
-        return redirect('/home');
+		echo $response; return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){
     //     $claim = Claim::where('id','=',$id)->first();
