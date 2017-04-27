@@ -131,15 +131,15 @@ class OrderController extends Controller
 		$response = $this->curlCall($url);
 
 		// Login for Checkout Customer
-		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@gmail.com&phone=%2B6282138470931&saveContinue=2&output=json";
+		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931&saveContinue=2&output=json";
 		$response = $this->curlCall($url);
 
 		// Customer Checkout
-		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@gmail.com&phone=%2B6282138470931&conSalutation=Mr&conFirstName=ghozi&conLastName=jojo&conEmailAddress=totorvo901@gmail.com&conPhone=%2B6282138470931&detailId=$orderDetailId&country=id&output=json";
+		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931&conSalutation=Mr&conFirstName=ghozi&conLastName=jojo&conEmailAddress=totorvo901@ymail.com&conPhone=%2B6282138470931&detailId=$orderDetailId&country=id&output=json";
 		$response = $this->curlCall($url);
 
 		// Confirm
-		$url = "https://api-sandbox.tiket.com/partner/transactionApi/confirmPayment?order_id=$orderId&secretkey=$this->key&confirmkey=87db09&username=totorvo901@gmail.com&textarea_note=test&tanggal=2012-12-06&output=json";
+		$url = "https://api-sandbox.tiket.com/partner/transactionApi/confirmPayment?order_id=$orderId&secretkey=$this->key&confirmkey=e1fdb5&username=totorvo901@ymail.com&textarea_note=test&tanggal=2012-12-06&output=json";
 		$response = $this->curlCall($url);
 
 		$responseObject = json_decode($response,true);
