@@ -106,7 +106,7 @@ class OrderController extends Controller
       $claim->claim_data_id = $token;
       $claim->updated_at = date("Y-m-d H:i:s");
       $claim->save();
-      return redirect('/');
+      return $claim;
     }
 
     public function orderHotel(Request $request,$id)
@@ -116,13 +116,11 @@ class OrderController extends Controller
         $now = Carbon::now();
         $difference = $created->diff($now)->days;
         if($difference>1){
-            $this->rebookHotel($id);
+            $claim = $this->rebookHotel($id);
         }
         $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
         $response = $this->curlCall($url);
-
 		$responseObject = json_decode($response,true);
-
 		// Save Order: Get Order ID & Order Detail ID
 		$checkout = $responseObject['checkout'];
         $orderId = $responseObject['myorder']['order_id'];
@@ -149,7 +147,7 @@ class OrderController extends Controller
 
         if ($responseObject['diagnostic']['status'] == '224') {
     		echo $response;
-			$request->session()->flash('error','Insufficient Fund');
+			session()->flash('error','Insufficient Fund');
 			return back();
 		}
 
