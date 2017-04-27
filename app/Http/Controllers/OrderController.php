@@ -17,7 +17,7 @@ class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
 
-    protected $key = '07ff7126e34ff51b9564cd9848b339b9';
+    protected $key = '1c9c54d06eac9e8f7dd6ae643e6797a6';
 
     public function getToken()  {
         $key = $this->key;
@@ -142,10 +142,9 @@ class OrderController extends Controller
 		$response = $this->curlCall($url);
 
 		$responseObject = json_decode($response,true);
-
-        if ($responseObject['diagnostic']['status'] == '224') {
+        if ($responseObject['diagnostic']['status'] != '200') {
     		echo $response;
-			session()->flash('error','Insufficient Fund');
+			session()->flash('error',$responseObject['diagnostic']['error_msgs']);
 			return back();
 		}
 		echo $response;
