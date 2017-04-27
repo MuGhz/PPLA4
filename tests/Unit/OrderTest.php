@@ -268,7 +268,7 @@ class OrderTest extends TestCase
     {
         $order = $this->curlMockWithoutJson($this->token);
 
-        $oder->decodeJsonToken();
+        $order->decodeJsonToken();
         $this->expectOutputString('3b00ae1956bac189967cfff807fff929c4e6415b');
     }
 
