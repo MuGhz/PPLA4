@@ -23,7 +23,6 @@ class OrderController extends Controller
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
 
-
         echo $this->curlCall($url);
     }
     public function decodeJsonToken()
@@ -32,8 +31,8 @@ class OrderController extends Controller
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
         $response = $this->curlCall($url);
         echo json_decode($response,true)['token'];
-        return json_decode($response,true)['token'];
 
+        return json_decode($response,true)['token'];
     }
     public function getHotel(Request $request) {
         $sd = 0;
@@ -93,7 +92,6 @@ class OrderController extends Controller
         }
 
         return "true";
-
     }
 
     public function rebookHotel($id)
@@ -150,7 +148,6 @@ class OrderController extends Controller
 			session()->flash('error','Insufficient Fund');
 			return back();
 		}
-
 		echo $response;
         return redirect('/home');
     }
@@ -175,7 +172,5 @@ class OrderController extends Controller
       $err = $curl->getError();
       $curl->close();
       return $response;
-
-
     }
 }
