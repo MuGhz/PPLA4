@@ -18,7 +18,7 @@ class OrderController extends Controller
     //this method returns Token required for Tiket.com API call
 
     protected $key = '07ff7126e34ff51b9564cd9848b339b9';
-	
+
     public function getToken()  {
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
@@ -120,37 +120,37 @@ class OrderController extends Controller
         $response = $this->curlCall($url);
 
 		$responseObject = json_decode($response,true);
-        
+
 		// Save Order: Get Order ID & Order Detail ID
 		$checkout = $responseObject['checkout'];
         $orderId = $responseObject['myorder']['order_id'];
 		// dd($responseObject);
 		$orderDetailId = $responseObject['myorder']['data'][0]['order_detail_id'];
-        
+
 		echo $response;
-		
+
 		// Request Checkout Page
 		$url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$claim->claim_data_id&output=json";
 		$response = $this->curlCall($url);
-		
+
 		// Login for Checkout Customer
 		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@gmail.com&phone=%2B6282138470931&saveContinue=2&output=json";
 		$response = $this->curlCall($url);
-		
+
 		// Customer Checkout
 		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@gmail.com&phone=%2B6282138470931&conSalutation=Mr&conFirstName=ghozi&conLastName=jojo&conEmailAddress=totorvo901@gmail.com&conPhone=%2B6282138470931&detailId=$orderDetailId&country=id&output=json";
 		$response = $this->curlCall($url);
-		
+
 		// Confirm
 		$url = "https://api-sandbox.tiket.com/partner/transactionApi/confirmPayment?order_id=$orderId&secretkey=$this->key&confirmkey=87db09&username=totorvo901@gmail.com&textarea_note=test&tanggal=2012-12-06&output=json";
 		$response = $this->curlCall($url);
-		
+
 		$responseObject = json_decode($response,true);
 		if ($responseObject['diagnostic']['status'] == '224') {
 			$request->session()->flash('error','Insufficient Fund');
 			return back();
 		}
-		
+
         return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){

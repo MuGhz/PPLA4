@@ -82,6 +82,17 @@ class OrderTest extends TestCase
         return $order;
     }
 
+    public function curlMockMap($map)
+    {
+        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
+                    ->setMethods(array('curlCall'))
+                    ->getMock();
+        $order->expects($this->any())
+                    ->method('curlCall')
+                    ->will($this->returnValueMap($map));
+        return $order;
+    }
+
     public function requestMock($map)
     {
         $request = $this->getMockBuilder('Illuminate\Http\Request')
@@ -218,6 +229,7 @@ class OrderTest extends TestCase
         $order->orderHotel($request,$claim->id);
         $this->expectOutputString($this->orderJson);
     }
+
     public function testOrderHotelFail()
     {
       $order = $this->curlMock($this->orderJson);
@@ -235,6 +247,7 @@ class OrderTest extends TestCase
       $order->orderHotel($request,$claim->id);
       $this->expectOutputString($this->orderJson);
     }
+
     public function testGetOrder(){
       $order = $this->curlMock($this->orderJson);
       $map = [
