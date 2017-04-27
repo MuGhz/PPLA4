@@ -79,7 +79,7 @@ class OrderTest extends TestCase
 
         $order->expects($this->any())
               ->method("curlCall")
-              ->will($this->returnValue("$returnValue"));
+              ->will($this->returnValue($returnValue));
         return $order;
     }
 
@@ -248,7 +248,7 @@ class OrderTest extends TestCase
 
     public function testOrderHotelFail()
     {
-      $order = $this->curlMock($this->orderJson);
+      $order = $this->curlMock($this->confirmFail);
       $map = [
           ["target",null,"target"],
           ["token",null,"token"]
@@ -261,13 +261,12 @@ class OrderTest extends TestCase
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
       $order->orderHotel($request,$claim->id);
-      $this->expectOutputString($this->orderJson);
+      $this->expectOutputString($this->confirmFail);
     }
 
     public function testDecodeJson()
     {
         $order = $this->curlMockWithoutJson($this->token);
-
         $order->decodeJsonToken();
         $this->expectOutputString('3b00ae1956bac189967cfff807fff929c4e6415b');
     }
