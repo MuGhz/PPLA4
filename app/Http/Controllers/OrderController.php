@@ -31,6 +31,7 @@ class OrderController extends Controller
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
         $response = $this->curlCall($url);
+        echo json_decode($response,true)['token'];
         return json_decode($response,true)['token'];
 
     }
