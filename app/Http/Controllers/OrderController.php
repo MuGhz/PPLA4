@@ -31,6 +31,7 @@ class OrderController extends Controller
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
         $response = $this->curlCall($url);
+        echo json_decode($response,true)['token'];
         return json_decode($response,true)['token'];
     }
 
@@ -144,9 +145,11 @@ class OrderController extends Controller
 		$responseObject = json_decode($response,true);
         if ($responseObject['diagnostic']['status'] != '200') {
 			session()->flash('error',$responseObject['diagnostic']['error_msgs']);
-    		echo $response; return back();
+    		return back();
 		}
-		echo $response; return redirect('/home');
+        $claim->claim_status = 3;
+        $claim->save();
+		return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){
     //     $claim = Claim::where('id','=',$id)->first();

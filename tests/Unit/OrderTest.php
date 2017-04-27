@@ -260,7 +260,14 @@ class OrderTest extends TestCase
 
 
         $order->orderHotel($request,$claim->id);
-        $this->expectOutputString($this->confirmSuccess);
+        $this->assertDatabaseHas("claims",[
+            "claim_data_id" => "token",
+            "claim_type" => "1",
+            "claim_status" => "3",
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
     }
 
     public function testOrderHotelFail()
@@ -283,7 +290,14 @@ class OrderTest extends TestCase
       $claim->save();
 
       $order->orderHotel($request,$claim->id);
-      $this->expectOutputString($this->confirmFail);
+      $this->assertDatabaseHas("claims",[
+          "claim_data_id" => "token",
+          "claim_type" => "1",
+          "claim_status" => "2",
+          "claimer_id" => $claimer->id,
+          "approver_id" => $approver->id,
+          "finance_id" => $finance->id,
+      ]);
     }
 
     public function testDecodeJson()
