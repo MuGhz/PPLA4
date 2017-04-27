@@ -90,7 +90,7 @@ class OrderTest extends TestCase
                     ->getMock();
         $order->expects($this->exactly(6))
               ->method("curlCall")
-              ->will($this->onConsecutiveCalls(null,$returnValue,null,null,null,$returnValueElse));
+              ->will($this->onConsecutiveCalls(null,$returnValue,$returnValueElse,$returnValueElse,$returnValueElse,$returnValueElse));
         $order->expects($this->any())
                 ->method("decodeJsonToken")
                 ->will($this->returnValue("token"));
