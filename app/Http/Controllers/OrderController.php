@@ -107,6 +107,7 @@ class OrderController extends Controller
       $claim->save();
       return redirect('/');
     }
+    
     public function orderHotel(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();

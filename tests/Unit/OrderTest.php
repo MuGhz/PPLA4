@@ -71,6 +71,18 @@ class OrderTest extends TestCase
 		          ]);
 	    }
 
+    public function curlMockWithoutJson($returnValue)
+    {
+        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
+                    ->setMethods(array('curlCall'))
+                    ->getMock();
+
+        $order->expects($this->any())
+              ->method("curlCall")
+              ->will($this->returnValue("$returnValue"));
+        return $order;
+    }
+
     public function curlMock($returnValue)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
@@ -250,6 +262,14 @@ class OrderTest extends TestCase
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
       $order->orderHotel($request,$claim->id);
       $this->expectOutputString($this->orderJson);
+    }
+
+    public function testDecodeJson()
+    {
+        $order = $this->curlMockWithoutJson($this->token);
+
+        $oder->decodeJsonToken();
+        $this->expectOutputString('3b00ae1956bac189967cfff807fff929c4e6415b');
     }
 
     public function testGetOrder(){
