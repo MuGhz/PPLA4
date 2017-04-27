@@ -6,6 +6,9 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\User;
+use App\Company;
+
 class UserModelTest extends TestCase
 {
     use DatabaseTransactions;
@@ -19,6 +22,7 @@ class UserModelTest extends TestCase
     {
         parent::setUp();
         $this->company = $this->makeCompany('Test Company');
+        $company = $this->company;
         $this->claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $this->approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $this->finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');

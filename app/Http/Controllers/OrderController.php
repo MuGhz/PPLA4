@@ -127,8 +127,6 @@ class OrderController extends Controller
 		// dd($responseObject);
 		$orderDetailId = $responseObject['myorder']['data'][0]['order_detail_id'];
 
-		echo $response;
-
 		// Request Checkout Page
 		$url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$claim->claim_data_id&output=json";
 		$response = $this->curlCall($url);
@@ -146,11 +144,14 @@ class OrderController extends Controller
 		$response = $this->curlCall($url);
 
 		$responseObject = json_decode($response,true);
-		if ($responseObject['diagnostic']['status'] == '224') {
+
+        if ($responseObject['diagnostic']['status'] == '224') {
+    		echo $response;
 			$request->session()->flash('error','Insufficient Fund');
 			return back();
 		}
 
+		echo $response;
         return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){
