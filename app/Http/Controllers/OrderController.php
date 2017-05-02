@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Library\HttpRequest\CurlRequest;
 
+use Illuminate\Support\Facades\Log;
+
 use App\Claim;
 use App\User;
 

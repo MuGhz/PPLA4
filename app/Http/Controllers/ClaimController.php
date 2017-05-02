@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Claim;
+use Illuminate\Support\Facades\Log;
 
 class ClaimController extends Controller
 {
