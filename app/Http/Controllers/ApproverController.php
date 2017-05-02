@@ -9,6 +9,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Log;
+
 use App\Http\Requests;
 use App\Claim;
 use App\User;
@@ -54,6 +56,7 @@ class ApproverController extends Controller
         $newTime = date("Y-m-d H:i:s");
         $updateClaim->updated_at = $newTime;
         $updateClaim->save();
+        Log::info('user '.(Auth::user()->name)." approve claim ".$updateClaim->id);
         return redirect('/home/approver/received');
     }
 
@@ -67,6 +70,7 @@ class ApproverController extends Controller
         $newTime = date("Y-m-d H:i:s");
         $updateClaim->updated_at = $newTime;
         $updateClaim->save();
+        Log::info('user '.(Auth::user()->name)." reject claim ".$updateClaim->id);
         return redirect('/home/approver/received');
     }
 
