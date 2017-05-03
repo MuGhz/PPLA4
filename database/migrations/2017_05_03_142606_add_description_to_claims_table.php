@@ -14,7 +14,7 @@ class AddDescriptionToClaimsTable extends Migration
     public function up()
     {
         Schema::table('claims', function (Blueprint $table) {
-            $table->longText('description')->default('');
+            $table->longText('description')->nullable()->default('');
         });
     }
 
