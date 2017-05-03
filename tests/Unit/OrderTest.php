@@ -330,8 +330,9 @@ class OrderTest extends TestCase
     public function testBookHotel()
     {
         $order = $this->curlMock("success");
-
+		$description = "I had too many deadlines, I need some days off!";
         $map = [
+			["description",null,$description],
             ["target",null,"target"],
             ["token",null,"token"]
         ];
@@ -351,6 +352,7 @@ class OrderTest extends TestCase
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
+			"description" => $description
         ]);
     }
 }
