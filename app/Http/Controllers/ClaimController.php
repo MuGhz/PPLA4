@@ -59,7 +59,7 @@ class ClaimController extends Controller
 
     public function reject(Request $request,$id)
     {
-			$alasanReject = $request->alasan_reject;
+			$alasanReject = $request->input("alasan_reject");
       $user = Auth::user();
       $claim = Claim::find($id);
       if((($claim->claim_status == 1) && ($user->role == "approver") && ($user->id == $claim->approver_id))
