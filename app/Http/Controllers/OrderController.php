@@ -76,6 +76,7 @@ class OrderController extends Controller
     }
 
     public function bookHotel(Request $request) {
+		$description = $request->input('description');
         $target = $request->input('target');
         $token = $request->input('token');
         $url = "$target&token=$token&output=json";
@@ -90,6 +91,7 @@ class OrderController extends Controller
             $claim->approver_id = User::approver($claimer)->id;
             $claim->finance_id = User::finance($claimer)->id;
             $claim->claim_status = 1;
+			$claim->description = $description;
             $claim->order_information=$target;
             $claim->save();
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
