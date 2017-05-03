@@ -102,6 +102,7 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 				temp+= "</div>";
 			temp+= "<p>Description:</p>";
 			temp+= "<p>"+description+"</p>";
+			temp+= "<hr>";
 			temp+= "<p>Total: Rp. "+e.myorder.total	+"</p>";
 			temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
 			temp+= "<br>";
