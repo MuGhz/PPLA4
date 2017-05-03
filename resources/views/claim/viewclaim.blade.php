@@ -41,7 +41,11 @@ if($buttonLabel == "Cancel claim") {
 	<div class="form-group col-md-6">
         <div class="form-group col-md-4">
       @if ($buttonLabel != "nothing")
-        <a class="btn btn-primary btn-block btn-danger" href="{{$action}}/{{$id}}">{{$buttonLabel}}</a>
+        @if($buttonLabel == "Cancel claim")
+           <a class="btn btn-primary btn-block btn-danger" href="{{$action}}/{{$id}}">{{$buttonLabel}}</a>
+        @elseif($buttonLabel =="Reject claim")
+          <a class="btn btn-primary btn-block btn-danger" id='show'>{{$buttonLabel}}</a>
+        @endif
       @endif
 		</div>
 		<div class="form-group col-md-4">
@@ -56,15 +60,36 @@ if($buttonLabel == "Cancel claim") {
 		<div class="form-group col-md-4">
 	        <a class="btn btn-primary btn-block"href="{{URL::to('/home')}}">Return</a>
 		</div>
-      </div>
+    </div>
 
+    </div>
+
+    <div id='reject' hidden="true">
+      <form action="{{$action}}/{{$id}}" method="post" class="container col-md-offset-2">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <div class="row">
+            <div class="form-group col-md-8">
+              <label>Alasan: </label>
+              <input class="form-control" name="alasan_reject" placeholder="Jelaskan mengapa anda mereject claim" id="alasan_reject" required></textarea>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
+               <input type="submit" class="btn btn-primary btn-block" value="Submit">
+        		</div>
+          </div>
+      </form>
     </div>
 </div>
 @endsection
 
 @section('js')
 <script>
-
+$(document).ready(function(){
+    $("#show").click(function(){
+        $("#reject").toggle();
+    });
+});
 	 $.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}"}).done(function(e){
 		e = JSON.parse(e);
         console.log(e);
