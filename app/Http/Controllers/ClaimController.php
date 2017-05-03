@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Claim;
+use Illuminate\Support\Facades\Log;
 
 class ClaimController extends Controller
 {
@@ -52,8 +53,9 @@ class ClaimController extends Controller
         $user = Auth::user();
 				$claim = Claim::find($id);
 				if ($user->id == $claim->claimer_id && $claim->claim_status == 1) {
-				$claim->delete();
-      	}
+		        	Log::info('user ('.Auth::id().") ".(Auth::user()->name)." cancel claim ".$claim->id);
+					$claim->delete();
+      			}
       return redirect('/home');
     }
 
@@ -65,7 +67,11 @@ class ClaimController extends Controller
         || (($claim->claim_status == 2) && ($user->role == "finance")&& ($user->id == $claim->finance_id))) {
         $claim->claim_status = 6;
         $claim->save();
-      } else {return abort('403','403 - Unauthorized access');}
+		Log::info('user ('.Auth::id().") ".(Auth::user()->name)." reject claim ".$claim->id);
+      } else {
+		  Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$claim, 'user'=>Auth::user()]);
+		  return abort('403','403 - Unauthorized access');
+	  }
       return redirect("/home/".$user->role.'/received');
     }
 }

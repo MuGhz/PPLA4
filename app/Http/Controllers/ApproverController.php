@@ -9,6 +9,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use App\Http\Requests;
 use App\Claim;
 use App\User;
@@ -47,26 +49,32 @@ class ApproverController extends Controller
     public function approve($id)
     {
         $updateClaim = Claim::where('id','=',$id)->first();
-        if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1)
+        if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1) {
+            Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$updateClaim, 'user'=>Auth::user()]);
             abort('403','forbidden access');
+        }
         $newStatus = 2;
         $updateClaim->claim_status = $newStatus;
         $newTime = date("Y-m-d H:i:s");
         $updateClaim->updated_at = $newTime;
         $updateClaim->save();
+        Log::info('user ('.Auth::id().") ".(Auth::user()->name)." approve claim ".$updateClaim->id);
         return redirect('/home/approver/received');
     }
 
     public function reject($id)
     {
         $updateClaim = Claim::where('id','=',$id)->first();
-        if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1)
+        if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1){
+            Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$updateClaim, 'user'=>Auth::user()]);
             abort('403','forbidden access');
+        }
         $newStatus = 6;
         $updateClaim->claim_status = $newStatus;
         $newTime = date("Y-m-d H:i:s");
         $updateClaim->updated_at = $newTime;
         $updateClaim->save();
+        Log::info('user ('.Auth::id().") ".(Auth::user()->name)." reject claim ".$updateClaim->id);
         return redirect('/home/approver/received');
     }
 

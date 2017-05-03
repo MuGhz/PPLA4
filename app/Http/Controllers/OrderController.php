@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Library\HttpRequest\CurlRequest;
 
+use Illuminate\Support\Facades\Log;
+
 use App\Claim;
 use App\User;
 
@@ -90,6 +92,7 @@ class OrderController extends Controller
             $claim->claim_status = 1;
             $claim->order_information=$target;
             $claim->save();
+            Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
         }
 
         return "true";
@@ -99,12 +102,16 @@ class OrderController extends Controller
     {
       $claim = Claim::where('id','=',$id)->first();
       $target = $claim->order_information;
+      $old_token = $claim->claim_data_id;
       $token = $this->decodeJsonToken();
       $url = "$target&token=$token&output=json";
       $this->curlCall($url);
       $claim->claim_data_id = $token;
       $claim->updated_at = date("Y-m-d H:i:s");
       $claim->save();
+      $new_token = $claim->claim_data_id;
+      Log::info('update claim token '.$old_token.' -> '.$new_token);
+
       return $claim;
     }
 
@@ -129,26 +136,32 @@ class OrderController extends Controller
 		// Request Checkout Page
 		$url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$claim->claim_data_id&output=json";
 		$response = $this->curlCall($url);
+        Log::info('user \('.Auth::id().') '.' request checkout page, redirecting to login page');
 
 		// Login for Checkout Customer
 		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931&saveContinue=2&output=json";
 		$response = $this->curlCall($url);
+        Log::info('user \('.Auth::id().') '.' login to tiket.com, redirecting to checkout cart');
 
 		// Customer Checkout
 		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931&conSalutation=Mr&conFirstName=ghozi&conLastName=jojo&conEmailAddress=totorvo901@ymail.com&conPhone=%2B6282138470931&detailId=$orderDetailId&country=id&output=json";
 		$response = $this->curlCall($url);
+        Log::info('user \('.Auth::id().') '.' checkout claim, confirming purchase...');
 
 		// Confirm
 		$url = "https://api-sandbox.tiket.com/partner/transactionApi/confirmPayment?order_id=$orderId&secretkey=$this->key&confirmkey=e1fdb5&username=totorvo901@ymail.com&textarea_note=test&tanggal=2012-12-06&output=json";
 		$response = $this->curlCall($url);
+        Log::info('user \('.Auth::id().') '.' claim confirmed, checking result...');
 
 		$responseObject = json_decode($response,true);
         if ($responseObject['diagnostic']['status'] != '200') {
+            Log::info('user \('.Auth::id().') '.' request failed',['error'=>$responseObject['diagnostic']['error_msgs'],'claim'=>$claim]);
 			session()->flash('error',$responseObject['diagnostic']['error_msgs']);
     		return back();
 		}
         $claim->claim_status = 3;
         $claim->save();
+        Log::info('user \('.Auth::id().') '.' claim succeed',['claim'=>$claim]);
 		return redirect('/home');
     }
     // public function checkoutRequest($id,$checkout){
