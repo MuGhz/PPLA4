@@ -73,6 +73,12 @@
             </div>
       </div>
     </div>
+	<div class="row">
+		<div class="form-group col-md-8">
+			<label>Deskripsi</label>
+			<textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Deskripsi Claim (tujuan penggunaan)"></textarea>
+		</div>
+	</div>
     <div class="col-md-8">
       <button class="btn btn-primary btn-block" type="button" id="submit">Cari Hotel</button>
     </div>
