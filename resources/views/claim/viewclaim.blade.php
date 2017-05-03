@@ -24,6 +24,10 @@ if($buttonLabel == "Cancel claim") {
   $action = URL::to('home/claim/reject');
 }
 
+$namaClaimer  = App\User::find($value->claimer_id)->name;
+$namaApprover = App\User::find($value->approver_id)->name;
+$namaFinance  = App\User::find($value->finance_id)->name;
+
 @endphp
 @endforeach
 @if(session('error') != null)
@@ -94,30 +98,37 @@ $(document).ready(function(){
 		e = JSON.parse(e);
         console.log(e);
 		temp = "<center><div class='row'>";
-			temp+="<div class='col-md-3'>";
+			temp+= "<div class='col-md-3'>";
 			temp+= "</div>";
-			temp+="<div class='col-md-6 panel panel-default container' align='left'>";
-			temp+= "<br><p>Tipe :"+e.myorder.data[0].order_type+"</p>";
+			temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
+			temp+= "<br>";
+			temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
+			temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
+			temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
+			temp+= "<br>";
+			temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+			temp+= "<hr>";
+			temp+= "<p>Tipe: "+e.myorder.data[0].order_type+"</p>";
 			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
-			temp+= "<p>Nomor kamar :"+e.myorder.data[0].detail.room_id+"</p>";
+			temp+= "<p>Nomor kamar: "+e.myorder.data[0].detail.room_id+"</p>";
   				temp+= "<div class='form-group col-md-6'>";
-				temp+= "<p>Dewasa :"+e.myorder.data[0].detail.adult+"</p>";
+				temp+= "<p>Dewasa: "+e.myorder.data[0].detail.adult+"</p>";
 				temp+= "</div>";
 				temp+= "<div class='form-group col-md-6'>";
-				temp+= "<p>Anak-anak :"+e.myorder.data[0].detail.child+"</p>";
+				temp+= "<p>Anak-anak: "+e.myorder.data[0].detail.child+"</p>";
 				temp+= "</div>";
 				temp+= "<div class='form-group col-md-6'>";
-				temp+= "<p>Dari :"+e.myorder.data[0].detail.startdate+"</p>";
+				temp+= "<p>Dari: "+e.myorder.data[0].detail.startdate+"</p>";
 				temp+= "</div>";
 				temp+= "<div class='form-group col-md-6'>";
-				temp+= "<p>Sampai :"+e.myorder.data[0].detail.enddate+"</p>";
+				temp+= "<p>Sampai: "+e.myorder.data[0].detail.enddate+"</p>";
 				temp+= "</div>";
-			temp+="<p>Status : "+'{{$status}}'+"</p>";
-			temp+="<p>Total : Rp. "+e.myorder.total	+"</p>";
-			temp+="<p>Order Expired : "+e.myorder.data[0].order_expire_datetime+"</p><br>";
+			temp+= "<p>Total: Rp. "+e.myorder.total	+"</p>";
+			temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
+			temp+= "<br>";
 			temp+= "</div>";
 		temp+= "</div></center>";
-		temp+="<div class='col-md-3'>";
+		temp+= "<div class='col-md-3'>";
 		temp+= "</div>";
 
 		$("#detailClaim").html(temp);
