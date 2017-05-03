@@ -27,6 +27,7 @@ class ClaimTableSeeder extends Seeder
             'finance_id' => User::finance($temp)->id,
             'order_information' => '',
 			'description' => '',
+            'alasan_reject'=> ''
           ]);
         }
     }

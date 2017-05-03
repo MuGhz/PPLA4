@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     });
 
     Route::group(['prefix'=>'reject'],function(){
-      Route::get('/{id}','ClaimController@reject');
+      Route::post('/{id}','ClaimController@reject');
     });
     Route::get('/list/{status}','ClaimController@index');
     Route::get('/re_order/{id}','OrderController@rebookHotel');
@@ -68,7 +68,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::get('/buy/{id}','OrderController@orderHotel');
     Route::get('/received','FinanceController@showReceived');
     Route::get('/approved','FinanceController@showApproved');
-    Route::get('/rejected','FinanceController@showRejected');
+      Route::get('/rejected','FinanceController@showRejected');
   });
 
 

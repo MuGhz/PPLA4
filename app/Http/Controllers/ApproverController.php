@@ -18,25 +18,25 @@ use App\Company;
 
 
 /**
- * Class HomeController
+ * Class ApproverController
+ * Acts as a Controller for Approver to view and process all Claims sent to him, such as rejecting & approving Claims.
  * @package App\Http\Controllers
  */
 class ApproverController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
     /**
-     * Show the application dashboard.
+     * Shows the detail of a Claim based on the inputted ID.
      *
-     * @return Response
+     * @param $id
+     *	ID of the designated Claim.
+     * @return View
+     *	Shows the detail of the Claim, approver may also reject or approve the Claim at this point.
      */
     public function show($id)
     {
@@ -46,6 +46,12 @@ class ApproverController extends Controller
         return view('approve.viewclaim',compact('detailClaim'));
     }
 
+    /**
+     * Change the status of a Claim from "Sent" into "Approved", so Finance may process the transaction. The "claim_status"
+     * value of a Sent, Approved and Rejected Claim is 1, 2 and 6 respectively.
+     * @param $id
+     *	ID of the designated Claim which claim_status will be changed.
+     */
     public function approve($id)
     {
         $updateClaim = Claim::where('id','=',$id)->first();
@@ -62,6 +68,12 @@ class ApproverController extends Controller
         return redirect('/home/approver/received');
     }
 
+    /**
+     * Change the status of a Claim from "Sent" into "Approved", so Finance may process the transaction. The "claim_status"
+     * value of a Sent, Approved and Rejected Claim is 1, 2 and 6 respectively.
+     * @param $id
+     *	ID of the designated Claim which claim_status will be changed.
+     */
     public function reject($id)
     {
         $updateClaim = Claim::where('id','=',$id)->first();
@@ -78,6 +90,11 @@ class ApproverController extends Controller
         return redirect('/home/approver/received');
     }
 
+    /**
+     * Shows all Claims that this Approver has received; meaning only Claims with value 1 in it's claim_status will be shown.
+     * @return View
+     *	Shows all Claims with "Sent" status.	
+     */
     public function showReceived()
     {
         $claims = Claim::where('approver_id', '=', Auth::id())
@@ -85,6 +102,11 @@ class ApproverController extends Controller
         return view('approve.list', compact('claims'));
     }
 
+    /**
+     * Shows all Claims that this Approver has approved; meaning only Claims with value 2 in it's claim_status will be shown.
+     * @return View
+     *	Shows all Claims with "Approved" status, that was rejected by this Approver.	
+     */
     public function showApproved()
     {
         $claims = Claim::where('approver_id', '=', Auth::id())
@@ -92,6 +114,11 @@ class ApproverController extends Controller
         return view('approve.list', compact('claims'));
     }
 
+    /**
+     * Shows all Claims that this Approver has rejected; meaning only Claims with value 6 in it's claim_status will be shown.
+     * @return View
+     *	Shows all Claims with "Rejected" status, that was rejected by this Approver.	
+     */
     public function showRejected()
     {
         $claims = Claim::where('approver_id', '=', Auth::id())
