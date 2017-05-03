@@ -76,7 +76,7 @@
 	<div class="row">
 		<div class="form-group col-md-8">
 			<label>Deskripsi</label>
-			<textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Deskripsi Claim (tujuan penggunaan)"></textarea>
+			<textarea class="form-control" id="description" name="description" rows="3" placeholder="Deskripsi Claim (tujuan penggunaan)"></textarea>
 		</div>
 	</div>
     <div class="col-md-8">
@@ -262,8 +262,9 @@
     }
 
     function book(uri) {
+	  var description = $("#description").val();
       show('loading',true);
-      $.post("{{action('OrderController@bookHotel')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
+      $.post("{{action('OrderController@bookHotel')}}", {description:description,target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
         show('loading',false);
           if(e)
           window.location.replace("{{url('/home')}}");
