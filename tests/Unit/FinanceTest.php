@@ -38,7 +38,7 @@ class FinanceTest extends TestCase
 		$finance      = factory(App\User::class)->create(['company' => $company->id, 'role' => 'finance']);
 		$otherFinance = factory(App\User::class)->create(['company' => $company->id, 'role' => 'finance']);
 		$fc = new FinanceController();
-		$map =[["alasan_reject",null,"alasan_reject"]];
+		$map =[["alasan_reject",null,"inilah alasannya"]];
 		$request = $this->requestMock($map);
 
 		// DATA SET
@@ -158,7 +158,7 @@ class FinanceTest extends TestCase
 		$claims = $fc->showReceived()->getData()['allClaim'];
 		$claim = $claims[0];
     $cc = new ClaimController();
-    $cc->reject($request->input(),$claim->id);
+    $cc->reject($request,$claim->id);
     $claims = $fc->showRejected()->getData()['allClaim'];
     $this->assertEquals(2, sizeof($claims));
   }
