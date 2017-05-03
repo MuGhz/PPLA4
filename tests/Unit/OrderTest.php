@@ -349,10 +349,10 @@ class OrderTest extends TestCase
             "claim_data_id" => "token",
             "claim_type" => "1",
             "claim_status" => "1",
-			"description" => $description
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
+			"description" => $description
         ]);
     }
 }
