@@ -69,8 +69,10 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 @section('js')
 <script>
 
-	 $.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}"}).done(function(e){
+	 $.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}",id:"{{$id}}"}).done(function(e){
 		e = JSON.parse(e);
+		var description = e.description;
+		e = e.api_data;
         console.log(e);
 		temp = "<center><div class='row'>";
 			temp+= "<div class='col-md-3'>";
@@ -98,6 +100,8 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Sampai: "+e.myorder.data[0].detail.enddate+"</p>";
 				temp+= "</div>";
+			temp+= "<p>Description:</p>";
+			temp+= "<p>"+description+"</p>";
 			temp+= "<p>Total: Rp. "+e.myorder.total	+"</p>";
 			temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
 			temp+= "<br>";
