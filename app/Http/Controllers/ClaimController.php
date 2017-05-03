@@ -57,13 +57,15 @@ class ClaimController extends Controller
       return redirect('/home');
     }
 
-    public function reject($id)
+    public function reject(Request $request,$id)
     {
+			$alasanReject = $request->alasan_reject;
       $user = Auth::user();
       $claim = Claim::find($id);
       if((($claim->claim_status == 1) && ($user->role == "approver") && ($user->id == $claim->approver_id))
         || (($claim->claim_status == 2) && ($user->role == "finance")&& ($user->id == $claim->finance_id))) {
         $claim->claim_status = 6;
+				$claim->alasan_reject= $alasanReject;
         $claim->save();
       } else {return abort('403','403 - Unauthorized access');}
       return redirect("/home/".$user->role.'/received');
