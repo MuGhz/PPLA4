@@ -21,6 +21,10 @@ class OrderController extends Controller
 
     protected $key = '1c9c54d06eac9e8f7dd6ae643e6797a6';
 
+    /**
+    * Returns Token from tiket.com
+    * @return json
+    */
     public function getToken()  {
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
@@ -28,6 +32,10 @@ class OrderController extends Controller
         echo $this->curlCall($url);
     }
 
+    /**
+    * Returns decoded token json
+    * @return string
+    */
     public function decodeJsonToken()
     {
         $key = $this->key;
@@ -37,6 +45,11 @@ class OrderController extends Controller
         return json_decode($response,true)['token'];
     }
 
+    /**
+    * Returns hotel list in json
+    * @param HTTP request
+    * @return json
+    */
     public function getHotel(Request $request) {
         $sd = 0;
         $in = $request->input('in');
@@ -58,7 +71,11 @@ class OrderController extends Controller
         echo $this->curlCall($url);
     }
 
-    //return the detail of 1 hotel
+    /**
+    * Returns detail of hotel in json
+    * @param HTTP request
+    * @return json
+    */
     public function getHotelDetail(Request $request)  {
 
         $target = $request->input('target');
@@ -68,6 +85,11 @@ class OrderController extends Controller
         echo $this->curlCall($url);
     }
 
+    /**
+    * Returns detail of claim
+    * @param HTTP request
+    * @return json
+    */
     public function getOrder(Request $request){
 
         $token = $request->input('token');
@@ -75,6 +97,11 @@ class OrderController extends Controller
         echo $this->curlCall($url);
     }
 
+    /**
+    * Insert claim into database
+    * @param HTTP request
+    * @return boolean
+    */
     public function bookHotel(Request $request) {
         $target = $request->input('target');
         $token = $request->input('token');
@@ -98,6 +125,11 @@ class OrderController extends Controller
         return "true";
     }
 
+    /**
+    * This method will be called when a token has been expired
+    * @param claim Id that will be renewed
+    * @return claim with new token
+    */
     public function rebookHotel($id)
     {
       $claim = Claim::where('id','=',$id)->first();
@@ -115,6 +147,11 @@ class OrderController extends Controller
       return $claim;
     }
 
+    /**
+    * This method will finalized user's order
+    * @param HTTP request, claim Id
+    * @return view
+    */
     public function orderHotel(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();
@@ -164,26 +201,19 @@ class OrderController extends Controller
         Log::info('user \('.Auth::id().') '.' claim succeed',['claim'=>$claim]);
 		return redirect('/home');
     }
-    // public function checkoutRequest($id,$checkout){
-    //     $claim = Claim::where('id','=',$id)->first();
-    //     $token = $claim->claim_data_id;
-    //     $url = "$checkout?token=$token&output=json";
-    //     $response = $this->curlCall($url);
-    // }
-    // public function checkoutLogin($id){
-    //     $claim = Claim::where('id','=',$id)->first();
-    //     $token = $claim->claim_data_id;
-    //     $url = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$token&salutation=Mr&firstName=PPLA4&lastName=DIO&emailAddress=$email&phone=08212253891&saveContinue=2&output=json";
-    //     $response=$this->curlCall($url);
-    // }
-    //do curl call to url
+
+    /**
+    * Do a curl call to url target
+    * @param url target
+    * @return response
+    */
     public function curlCall($url)  {
 
-      $curl = new CurlRequest($url);
+        $curl = new CurlRequest($url);
 
-      $response = $curl->execute();
-      $err = $curl->getError();
-      $curl->close();
-      return $response;
+        $response = $curl->execute();
+        $err = $curl->getError();
+        $curl->close();
+        return $response;
     }
 }

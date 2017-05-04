@@ -84,7 +84,14 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
 
 Route::group(['prefix'=>'api'],function()  {
   Route::get('/',function()  {
-    return "200";
+    return \Response::json(array(
+        'status' => 200,
+    ),200);
+  });
+  Route::get('/err',function()  {
+      return \Response::json(array(
+          'status' => 400,
+      ),400);
   });
   Route::post('/token','OrderController@getToken');
   Route::post('/hotel/list','OrderController@getHotel');
