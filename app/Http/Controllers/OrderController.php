@@ -118,6 +118,7 @@ class OrderController extends Controller
             $claim->finance_id = User::finance($claimer)->id;
             $claim->claim_status = 1;
             $claim->order_information=$target;
+            $claim->alasan_reject="";
             $claim->save();
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
         }
