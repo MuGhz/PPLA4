@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Taken from
  * https://github.com/laravel/framework/blob/5.3/src/Illuminate/Auth/Console/stubs/make/controllers/HomeController.stub
@@ -9,8 +10,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Log;
-
 use App\Claim;
 use App\User;
 use App\Company;
@@ -20,7 +19,7 @@ use App\Company;
  * Class HomeController
  * @package App\Http\Controllers
  */
-class HomeController extends Controller
+class FinanceController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -37,9 +36,21 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function showReceived()
     {
-        $allClaim = Claim::where('claimer_id', '=', Auth::id())->get();
+        $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '2')->get();
+        return view('adminlte::home', compact('allClaim'));
+    }
+
+    public function showApproved()
+    {
+        $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '4')->where('claim_status', '!=', '6')->get();
+        return view('adminlte::home', compact('allClaim'));
+    }
+
+    public function showRejected()
+    {
+        $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '6')->get();
         return view('adminlte::home', compact('allClaim'));
     }
 }

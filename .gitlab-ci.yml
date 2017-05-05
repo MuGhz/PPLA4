@@ -20,8 +20,6 @@ code_coverage:
     - bash gitlabci/install_phpunit.sh > /dev/null
     - bash gitlabci/install_xdebug.sh > /dev/null
     - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  # TODO : temporary skip cheat
-  allow_failure: true
   
 staging:
   stage: deploy
