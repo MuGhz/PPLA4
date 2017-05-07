@@ -31,9 +31,9 @@ staging:
     - develop
 
 pages:
-  dependencies:
-  - code_coverage
-  script:
+  script:    
+  - bash gitlabci/install_phpunit.sh > /dev/null
+  - bash gitlabci/install_xdebug.sh > /dev/null
   - cp -r /tmp/report public
   artifacts:
     paths:
