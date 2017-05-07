@@ -32,6 +32,9 @@ staging:
 
 pages:
   script:
+  - bash gitlabci/install_phpunit.sh > /dev/null
+  - bash gitlabci/install_xdebug.sh > /dev/null
+  - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
   - cp -r /tmp/report public
   artifacts:
     paths:
