@@ -31,6 +31,7 @@ staging:
     - develop
 
 pages:
+  stage: deploy
   script:    
   - bash gitlabci/install_phpunit.sh > /dev/null
   - bash gitlabci/install_xdebug.sh > /dev/null
