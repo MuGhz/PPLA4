@@ -20,6 +20,9 @@ code_coverage:
     - bash gitlabci/install_phpunit.sh > /dev/null
     - bash gitlabci/install_xdebug.sh > /dev/null
     - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
+  artifacts:
+   path:
+   - test/
 
 staging:
   stage: deploy
@@ -32,11 +35,10 @@ staging:
 
 pages:
   stage: deploy
+  dependencies:
+  - code_coverage
   script:    
-  - bash gitlabci/install_phpunit.sh > /dev/null
-  - bash gitlabci/install_xdebug.sh > /dev/null
-  - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  - cp -r /tmp/report public
+  - cp -r /test/report public
   artifacts:
     paths:
-    - public
+    - public/
