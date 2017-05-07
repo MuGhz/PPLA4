@@ -33,7 +33,7 @@ staging:
 pages:
   dependencies:
   - code_coverage
-  scripts:
+  script:
   - cp -r /tmp/report public
   artifacts:
     paths:
