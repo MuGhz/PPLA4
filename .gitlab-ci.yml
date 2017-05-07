@@ -38,7 +38,7 @@ pages:
   dependencies:
   - code_coverage
   script:    
-  - cp -r /test/report public
+  - cp -r test/report public
   artifacts:
     paths:
     - public/
