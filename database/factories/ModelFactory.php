@@ -38,6 +38,7 @@ $factory->define(App\Claim::class,function(Faker\Generator $faker){
     'finance_id' => 3,
     'claim_status' => '1',
     'order_information' => '',
+	'description' => '',
     'alasan_reject'=> ''
   ];
 });
