@@ -324,10 +324,7 @@ class OrderTest extends TestCase
     {
         $controller = new OrderController();
         $ret = $controller->curlCall(url('/api'));
-        $this->assertJsonStringEqualsJsonString(
-            json_encode(['status' => '200']),
-            $ret
-        );
+        $this->assertJson('{"status":200}',$ret);
     }
 
     public function testBookHotel()
