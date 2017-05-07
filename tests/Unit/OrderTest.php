@@ -322,9 +322,12 @@ class OrderTest extends TestCase
 
     public function testCurl()
     {
-        $oc = new OrderController();
-        $ret = $oc->curlCall(url('/api'));
-        $this->assertEquals('{"status":200}',$ret);
+        $controller = new OrderController();
+        $ret = $controller->curlCall(url('/api'));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['status' => '200']),
+            $ret
+        );
     }
 
     public function testBookHotel()
