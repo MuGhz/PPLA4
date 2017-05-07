@@ -57,7 +57,7 @@ class ApproverController extends Controller
         $updateClaim = Claim::where('id','=',$id)->first();
         if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1) {
             Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$updateClaim, 'user'=>Auth::user()]);
-            abort('403','forbidden access');
+            return abort('403','forbidden access');
         }
         $newStatus = 2;
         $updateClaim->claim_status = $newStatus;
@@ -79,7 +79,7 @@ class ApproverController extends Controller
         $updateClaim = Claim::where('id','=',$id)->first();
         if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1){
             Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$updateClaim, 'user'=>Auth::user()]);
-            abort('403','forbidden access');
+            return abort('403','forbidden access');
         }
         $newStatus = 6;
         $updateClaim->claim_status = $newStatus;

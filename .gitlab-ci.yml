@@ -20,7 +20,7 @@ code_coverage:
     - bash gitlabci/install_phpunit.sh > /dev/null
     - bash gitlabci/install_xdebug.sh > /dev/null
     - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  
+
 staging:
   stage: deploy
   script:
@@ -29,3 +29,10 @@ staging:
     - dpl --provider=heroku --app=jojotravel --api-key=$HEROKU_API_KEY
   only:
     - develop
+
+pages:
+  script:
+  - cp -r /tmp/report public
+  artifacts:
+    paths:
+    - public
