@@ -108,9 +108,9 @@ $(document).ready(function(){
 			temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
 			temp+= "<br>";
 			temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
-            if ($status == "Rejected"){
+            @if ($status == "Rejected")
                 temp+= "<p>Ditolak dengan alasan: " +'{{$alasan}}'+"</p>";
-            }
+            @endif
 			temp+= "<hr>";
 			temp+= "<p>Tipe: "+e.myorder.data[0].order_type+"</p>";
 			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
