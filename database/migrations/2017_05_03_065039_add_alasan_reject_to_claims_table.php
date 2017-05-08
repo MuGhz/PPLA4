@@ -14,7 +14,7 @@ class AddAlasanRejectToClaimsTable extends Migration
     public function up()
     {
         Schema::table('claims', function (Blueprint $table) {
-            $table->longText('alasan_reject');
+            $table->longText('alasan_reject')->nullable();
         });
     }
 

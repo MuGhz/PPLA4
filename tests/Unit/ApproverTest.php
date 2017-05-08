@@ -60,7 +60,7 @@ class ApproverTest extends TestCase
 			'name' => $name
 		]);
 	}
-	
+
     public function makeUser($name, $email, $company, $role)
 	{
 		return factory(User::class)->create([
@@ -89,7 +89,7 @@ class ApproverTest extends TestCase
         $approve = 2;
         $this->assertDatabaseHas('claims',['id'=>$idClaim,'claim_status'=>$approve]);
     }
-	
+
     public function testRejectSuccess()
     {
        $this->actingAs($this->approver1);
@@ -112,7 +112,7 @@ class ApproverTest extends TestCase
 		}
 		$this->assertEquals(403, $returnedStatusCode);
 	}
-	
+
 	public function testRejectFailNonsentStatus()
 	{
 		$this->actingAs($this->approver1);
@@ -126,7 +126,7 @@ class ApproverTest extends TestCase
 		}
 		$this->assertEquals(403, $returnedStatusCode);
 	}
-	
+
 	public function testApproveFailUnauthorizedApprover()
     {
         $this->actingAs($this->approver2);
@@ -140,7 +140,7 @@ class ApproverTest extends TestCase
 		}
 		$this->assertEquals(403, $returnedStatusCode);
     }
-	
+
 	public function testRejectFailUnauthorizedApprover()
     {
         $this->actingAs($this->approver2);
@@ -154,7 +154,7 @@ class ApproverTest extends TestCase
 		}
 		$this->assertEquals(403, $returnedStatusCode);
     }
-	
+
     public function testShowExisting()
     {
       $this->actingAs($this->approver1);
@@ -164,7 +164,7 @@ class ApproverTest extends TestCase
       $claim = $data['detailClaim'][0];
       $this->assertEquals($claim->id, $id);
     }
-	
+
 	public function testShowNonexisting()
 	{
 		$toDeleteClaim = $this->makeClaim(1,$this->claimer->id,$this->approver1->id,$this->finance->id,2);
@@ -178,52 +178,52 @@ class ApproverTest extends TestCase
 			$this->assertEquals(404,$he->getStatusCode());
 		}
 	}
-	
+
     public function testShowReceived()
     {
         $this->actingAs($this->approver1);
         $response=$this->ac->showReceived();
         $data = $response->getData();
         $retrievedClaims = $data['claims'];
-		
+
 		$expectedClaims = [$this->sentClaim1, $this->sentClaim2];
 		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
 		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
-		
+
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
-	
+
     public function testShowApproved()
     {
         $this->actingAs($this->approver1);
         $response = $this->ac->showApproved();
         $data = $response->getData();
         $retrievedClaims = $data['claims'];
-		
+
 		$expectedClaims = [$this->approvedClaim1, $this->approvedClaim2];
 		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
 		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
-		
+
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
-    
+
     public function testShowRejected()
     {
         $this->actingAs($this->approver1);
         $response = $this->ac->showRejected();
         $data = $response->getData();
         $retrievedClaims = $data['claims'];
-		
+
 		$expectedClaims = [$this->rejectedClaim1, $this->rejectedClaim2];
 		$allClaimsHandledByApprover = $this->arrayElementsHasSpecificValueForAttribute('approver_id', $this->approver1->id, $retrievedClaims);
 		$allExpectedClaimsReturned = $this->arrayHasSameDataForAttribute('id', $retrievedClaims, $expectedClaims);
-		
+
 		$this->assertTrue($allClaimsHandledByApprover);
 		$this->assertTrue($allExpectedClaimsReturned);
     }
-	
+
 	private function arrayElementsHasSpecificValueForAttribute($attribute, $value, $array)
 	{
 		$allEqual = true;
@@ -232,7 +232,7 @@ class ApproverTest extends TestCase
 		}
 		return $allEqual;
 	}
-	
+
 	private function arrayHasSameDataForAttribute($attribute, $array1, $array2)
 	{
 		$allExist = true;

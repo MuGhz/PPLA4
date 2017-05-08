@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ClaimController;
 use App;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FinanceTest extends TestCase
 {
@@ -140,7 +141,7 @@ class FinanceTest extends TestCase
 		$this->assertEquals(4, $claim->claim_status);
 	}
 
-	public function testRejected() {
+	public function testRejectedSuccess() {
 		extract($this->dataset());
 		$this->actingAs($finance);
 		$claims = $fc->showRejected()->getData()['allClaim'];
@@ -150,6 +151,28 @@ class FinanceTest extends TestCase
 		$this->assertEquals($approver->id, $claim->approver_id);
 		$this->assertEquals($finance->id, $claim->finance_id);
 		$this->assertEquals(6, $claim->claim_status);
+	}
+
+
+	public function testRejectedFailed() {
+		extract($this->dataset());
+		$this->actingAs($approver);
+		$claim = factory(App\Claim::class)->create([
+			'claim_data_id'=>1,
+			'claimer_id'=>$claimer->id,
+			'approver_id'=>$approver->id,
+			'finance_id'=>$finance->id,
+			'claim_status'=>2
+		]);
+		$cc = new ClaimController();
+		$returnedStatusCode = null;
+		try {
+			$response = $cc->reject($request,$claim->id);
+		}
+		catch (HttpException $he) {
+			$returnedStatusCode = $he->getStatusCode();
+		}
+		$this->assertEquals(403, $returnedStatusCode);
 	}
 
   public function testRejectClaim() {

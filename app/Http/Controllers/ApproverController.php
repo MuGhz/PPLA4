@@ -57,7 +57,7 @@ class ApproverController extends Controller
         $updateClaim = Claim::where('id','=',$id)->first();
         if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1) {
             Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$updateClaim, 'user'=>Auth::user()]);
-            abort('403','forbidden access');
+            return abort('403','forbidden access');
         }
         $newStatus = 2;
         $updateClaim->claim_status = $newStatus;
@@ -79,7 +79,7 @@ class ApproverController extends Controller
         $updateClaim = Claim::where('id','=',$id)->first();
         if($updateClaim->approver_id != Auth::id() || $updateClaim->claim_status != 1){
             Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$updateClaim, 'user'=>Auth::user()]);
-            abort('403','forbidden access');
+            return abort('403','forbidden access');
         }
         $newStatus = 6;
         $updateClaim->claim_status = $newStatus;
@@ -93,7 +93,7 @@ class ApproverController extends Controller
     /**
      * Shows all Claims that this Approver has received; meaning only Claims with value 1 in it's claim_status will be shown.
      * @return View
-     *	Shows all Claims with "Sent" status.	
+     *	Shows all Claims with "Sent" status.
      */
     public function showReceived()
     {
@@ -105,7 +105,7 @@ class ApproverController extends Controller
     /**
      * Shows all Claims that this Approver has approved; meaning only Claims with value 2 in it's claim_status will be shown.
      * @return View
-     *	Shows all Claims with "Approved" status, that was rejected by this Approver.	
+     *	Shows all Claims with "Approved" status, that was rejected by this Approver.
      */
     public function showApproved()
     {
@@ -117,7 +117,7 @@ class ApproverController extends Controller
     /**
      * Shows all Claims that this Approver has rejected; meaning only Claims with value 6 in it's claim_status will be shown.
      * @return View
-     *	Shows all Claims with "Rejected" status, that was rejected by this Approver.	
+     *	Shows all Claims with "Rejected" status, that was rejected by this Approver.
      */
     public function showRejected()
     {
