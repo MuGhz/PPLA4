@@ -42,7 +42,7 @@ pages:
   script:
   - mv public public_old
   - mkdir public/
-  - mv test/ public/
+  - mv test/report/ public/
   artifacts:
     paths:
     - public/
