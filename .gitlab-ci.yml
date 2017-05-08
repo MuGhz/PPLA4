@@ -8,11 +8,11 @@ before_script:
 services:
   - mysql:latest
 
-variables:
+#variables:
   # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-  MYSQL_DATABASE: PPLA4
-  MYSQL_ROOT_PASSWORD: secret
-  HEROKU_API_KEY: c55dbde4-e0e8-4a06-bc92-75cac23b7ce5
+  #MYSQL_DATABASE: PPLA4
+  #MYSQL_ROOT_PASSWORD: secret
+  #HEROKU_API_KEY: c55dbde4-e0e8-4a06-bc92-75cac23b7ce5
 
 code_coverage:
   stage: test
