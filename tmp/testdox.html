@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Test Documentation</title>
+        <style>
+            body {
+                text-rendering: optimizeLegibility;
+                font-variant-ligatures: common-ligatures;
+                font-kerning: normal;
+                margin-left: 2em;
+            }
+
+            body > ul > li {
+                font-family: Source Serif Pro, PT Sans, Trebuchet MS, Helvetica, Arial;
+                font-size: 2em;
+            }
+
+            h2 {
+                font-family: Tahoma, Helvetica, Arial;
+                font-size: 3em;
+            }
+
+            ul {
+                list-style: none;
+                margin-bottom: 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 id="Tests\AcachaAdminLTELaravelTest">s\AcachaAdminLTELaravel</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Home page for authenticated users</li>
+        </ul>
+        <h2 id="Tests\Unit\ApproverTest">s\Unit\Approver</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Approve success</li>
+            <li style="color: #ef2929;">❌ Reject success</li>
+            <li style="color: #ef2929;">❌ Approve fail nonsent status</li>
+            <li style="color: #ef2929;">❌ Reject fail nonsent status</li>
+            <li style="color: #ef2929;">❌ Approve fail unauthorized approver</li>
+            <li style="color: #ef2929;">❌ Reject fail unauthorized approver</li>
+            <li style="color: #ef2929;">❌ Show existing</li>
+            <li style="color: #ef2929;">❌ Show nonexisting</li>
+            <li style="color: #ef2929;">❌ Show received</li>
+            <li style="color: #ef2929;">❌ Show approved</li>
+            <li style="color: #ef2929;">❌ Show rejected</li>
+        </ul>
+        <h2 id="Tests\Unit\ClaimListTest">s\Unit\ClaimList</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ View has all claim data</li>
+            <li style="color: #ef2929;">❌ Returned claims belong to user</li>
+            <li style="color: #ef2929;">❌ Returns all user claims</li>
+            <li style="color: #ef2929;">❌ Specific claim list</li>
+        </ul>
+        <h2 id="Tests\Feature\DeleteClaimTest">s\Feature\DeleteClaim</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Delete same user status 1</li>
+            <li style="color: #ef2929;">❌ Delete same user status not 1</li>
+            <li style="color: #ef2929;">❌ Delete different user</li>
+        </ul>
+        <h2 id="Tests\Unit\DetailClaimTest">s\Unit\DetailClaim</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Returned correct view</li>
+            <li style="color: #ef2929;">❌ Returned view has data</li>
+            <li style="color: #ef2929;">❌ Returned data is correct</li>
+            <li style="color: #ef2929;">❌ Nonexistent claim access</li>
+            <li style="color: #ef2929;">❌ Unauthorized claimer access</li>
+        </ul>
+        <h2 id="Tests\Unit\FinanceTest">s\Unit\Finance</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Received</li>
+            <li style="color: #ef2929;">❌ Approved</li>
+            <li style="color: #ef2929;">❌ Rejected success</li>
+            <li style="color: #ef2929;">❌ Rejected failed</li>
+            <li style="color: #ef2929;">❌ Reject claim</li>
+        </ul>
+        <h2 id="Tests\Unit\OrderTest">s\Unit\Order</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Token</li>
+            <li style="color: #ef2929;">❌ Get hotel with accepted parameter</li>
+            <li style="color: #ef2929;">❌ Get hotel with check in before today</li>
+            <li style="color: #ef2929;">❌ Get hotel with check out before check in</li>
+            <li style="color: #ef2929;">❌ Get hotel detail</li>
+            <li style="color: #ef2929;">❌ Reorder</li>
+            <li style="color: #ef2929;">❌ Order hotel success</li>
+            <li style="color: #ef2929;">❌ Order hotel fail</li>
+            <li style="color: #ef2929;">❌ Decode json</li>
+            <li style="color: #ef2929;">❌ Get order</li>
+            <li style="color: #ef2929;">❌ Curl</li>
+            <li style="color: #ef2929;">❌ Book hotel</li>
+        </ul>
+        <h2 id="Tests\Unit\UserModelTest">s\Unit\UserModel</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Example</li>
+        </ul>
+        <h2 id="Tests\Unit\UserTest">s\Unit\User</h2>
+        <ul>
+            <li style="color: #ef2929;">❌ Scope claimer</li>
+            <li style="color: #ef2929;">❌ Scope approver</li>
+            <li style="color: #ef2929;">❌ Scope finance</li>
+        </ul>
+    </body>
+</html>

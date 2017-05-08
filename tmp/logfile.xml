@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="46" assertions="0" failures="1" errors="45" time="2.617733">
+    <testsuite name="Application Test Suite ol Laravel 5.3" tests="46" assertions="0" failures="1" errors="45" time="2.617733">
+      <testsuite name="Tests\AcachaAdminLTELaravelTest" file="/var/www/html/ppla4/tests/AcachaAdminLTELaravelTest.php" tests="1" assertions="0" failures="0" errors="1" time="0.093530">
+        <testcase name="testHomePageForAuthenticatedUsers" class="Tests\AcachaAdminLTELaravelTest" file="/var/www/html/ppla4/tests/AcachaAdminLTELaravelTest.php" line="146" assertions="0" time="0.093530">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\AcachaAdminLTELaravelTest::testHomePageForAuthenticatedUsers
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/browser-kit-testing/src/TestCase.php:112
+/var/www/html/ppla4/vendor/laravel/browser-kit-testing/src/TestCase.php:73
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\ExampleTest" file="/var/www/html/ppla4/tests/Feature/ExampleTest.php" tests="1" assertions="0" failures="1" errors="0" time="0.001940">
+        <testcase name="Warning" assertions="0" time="0.001940">
+          <warning type="PHPUnit_Framework_Warning">Warning
+No tests found in class "Tests\Feature\ExampleTest".
+
+</warning>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" tests="11" assertions="0" failures="0" errors="11" time="0.596573">
+        <testcase name="testApproveSuccess" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="84" assertions="0" time="0.053946">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testApproveSuccess
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testRejectSuccess" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="93" assertions="0" time="0.054822">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testRejectSuccess
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testApproveFailNonsentStatus" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="102" assertions="0" time="0.055339">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testApproveFailNonsentStatus
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testRejectFailNonsentStatus" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="116" assertions="0" time="0.054210">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testRejectFailNonsentStatus
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testApproveFailUnauthorizedApprover" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="130" assertions="0" time="0.050110">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testApproveFailUnauthorizedApprover
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testRejectFailUnauthorizedApprover" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="144" assertions="0" time="0.052103">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testRejectFailUnauthorizedApprover
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testShowExisting" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="158" assertions="0" time="0.050071">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testShowExisting
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testShowNonexisting" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="168" assertions="0" time="0.053250">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testShowNonexisting
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testShowReceived" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="182" assertions="0" time="0.053441">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testShowReceived
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testShowApproved" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="197" assertions="0" time="0.060801">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testShowApproved
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+        <testcase name="testShowRejected" class="Tests\Unit\ApproverTest" file="/var/www/html/ppla4/tests/Unit/ApproverTest.php" line="212" assertions="0" time="0.058480">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ApproverTest::testShowRejected
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ApproverTest.php:33
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\ClaimListTest" file="/var/www/html/ppla4/tests/Unit/ClaimListTest.php" tests="4" assertions="0" failures="0" errors="4" time="0.231788">
+        <testcase name="testViewHasAllClaimData" class="Tests\Unit\ClaimListTest" file="/var/www/html/ppla4/tests/Unit/ClaimListTest.php" line="82" assertions="0" time="0.062113">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ClaimListTest::testViewHasAllClaimData
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ClaimListTest.php:22
+</error>
+        </testcase>
+        <testcase name="testReturnedClaimsBelongToUser" class="Tests\Unit\ClaimListTest" file="/var/www/html/ppla4/tests/Unit/ClaimListTest.php" line="97" assertions="0" time="0.055815">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ClaimListTest::testReturnedClaimsBelongToUser
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ClaimListTest.php:22
+</error>
+        </testcase>
+        <testcase name="testReturnsAllUserClaims" class="Tests\Unit\ClaimListTest" file="/var/www/html/ppla4/tests/Unit/ClaimListTest.php" line="116" assertions="0" time="0.058183">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ClaimListTest::testReturnsAllUserClaims
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ClaimListTest.php:22
+</error>
+        </testcase>
+        <testcase name="testSpecificClaimList" class="Tests\Unit\ClaimListTest" file="/var/www/html/ppla4/tests/Unit/ClaimListTest.php" line="135" assertions="0" time="0.055677">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\ClaimListTest::testSpecificClaimList
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/ClaimListTest.php:22
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Feature\DeleteClaimTest" file="/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php" tests="3" assertions="0" failures="0" errors="3" time="0.176034">
+        <testcase name="testDeleteSameUserStatus1" class="Tests\Feature\DeleteClaimTest" file="/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php" line="65" assertions="0" time="0.060639">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Feature\DeleteClaimTest::testDeleteSameUserStatus1
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php:50
+</error>
+        </testcase>
+        <testcase name="testDeleteSameUserStatusNot1" class="Tests\Feature\DeleteClaimTest" file="/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php" line="80" assertions="0" time="0.060480">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Feature\DeleteClaimTest::testDeleteSameUserStatusNot1
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php:50
+</error>
+        </testcase>
+        <testcase name="testDeleteDifferentUser" class="Tests\Feature\DeleteClaimTest" file="/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php" line="95" assertions="0" time="0.054915">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Feature\DeleteClaimTest::testDeleteDifferentUser
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DeleteClaimTest.php:50
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\DetailClaimTest" file="/var/www/html/ppla4/tests/Unit/DetailClaimTest.php" tests="5" assertions="0" failures="0" errors="5" time="0.292210">
+        <testcase name="testReturnedCorrectView" class="Tests\Unit\DetailClaimTest" file="/var/www/html/ppla4/tests/Unit/DetailClaimTest.php" line="73" assertions="0" time="0.057799">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\DetailClaimTest::testReturnedCorrectView
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DetailClaimTest.php:22
+</error>
+        </testcase>
+        <testcase name="testReturnedViewHasData" class="Tests\Unit\DetailClaimTest" file="/var/www/html/ppla4/tests/Unit/DetailClaimTest.php" line="89" assertions="0" time="0.056957">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\DetailClaimTest::testReturnedViewHasData
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DetailClaimTest.php:22
+</error>
+        </testcase>
+        <testcase name="testReturnedDataIsCorrect" class="Tests\Unit\DetailClaimTest" file="/var/www/html/ppla4/tests/Unit/DetailClaimTest.php" line="105" assertions="0" time="0.058451">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\DetailClaimTest::testReturnedDataIsCorrect
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DetailClaimTest.php:22
+</error>
+        </testcase>
+        <testcase name="testNonexistentClaimAccess" class="Tests\Unit\DetailClaimTest" file="/var/www/html/ppla4/tests/Unit/DetailClaimTest.php" line="121" assertions="0" time="0.062116">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\DetailClaimTest::testNonexistentClaimAccess
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DetailClaimTest.php:22
+</error>
+        </testcase>
+        <testcase name="testUnauthorizedClaimerAccess" class="Tests\Unit\DetailClaimTest" file="/var/www/html/ppla4/tests/Unit/DetailClaimTest.php" line="143" assertions="0" time="0.056887">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\DetailClaimTest::testUnauthorizedClaimerAccess
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/DetailClaimTest.php:22
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\FinanceTest" file="/var/www/html/ppla4/tests/Unit/FinanceTest.php" tests="5" assertions="0" failures="0" errors="5" time="0.292520">
+        <testcase name="testReceived" class="Tests\Unit\FinanceTest" file="/var/www/html/ppla4/tests/Unit/FinanceTest.php" line="120" assertions="0" time="0.058101">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\FinanceTest::testReceived
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+</error>
+        </testcase>
+        <testcase name="testApproved" class="Tests\Unit\FinanceTest" file="/var/www/html/ppla4/tests/Unit/FinanceTest.php" line="132" assertions="0" time="0.060207">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\FinanceTest::testApproved
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+</error>
+        </testcase>
+        <testcase name="testRejectedSuccess" class="Tests\Unit\FinanceTest" file="/var/www/html/ppla4/tests/Unit/FinanceTest.php" line="144" assertions="0" time="0.059039">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\FinanceTest::testRejectedSuccess
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+</error>
+        </testcase>
+        <testcase name="testRejectedFailed" class="Tests\Unit\FinanceTest" file="/var/www/html/ppla4/tests/Unit/FinanceTest.php" line="157" assertions="0" time="0.056593">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\FinanceTest::testRejectedFailed
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+</error>
+        </testcase>
+        <testcase name="testRejectClaim" class="Tests\Unit\FinanceTest" file="/var/www/html/ppla4/tests/Unit/FinanceTest.php" line="178" assertions="0" time="0.058580">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\FinanceTest::testRejectClaim
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" tests="12" assertions="0" failures="0" errors="12" time="0.699555">
+        <testcase name="testToken" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="137" assertions="0" time="0.058328">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testToken
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testGetHotelWithAcceptedParameter" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="145" assertions="0" time="0.059255">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testGetHotelWithAcceptedParameter
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testGetHotelWithCheckInBeforeToday" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="166" assertions="0" time="0.057525">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testGetHotelWithCheckInBeforeToday
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testGetHotelWithCheckOutBeforeCheckIn" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="187" assertions="0" time="0.059764">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testGetHotelWithCheckOutBeforeCheckIn
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testGetHotelDetail" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="209" assertions="0" time="0.056120">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testGetHotelDetail
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testReorder" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="224" assertions="0" time="0.062499">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testReorder
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testOrderHotelSuccess" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="241" assertions="0" time="0.055941">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testOrderHotelSuccess
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testOrderHotelFail" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="273" assertions="0" time="0.055702">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testOrderHotelFail
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testDecodeJson" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="303" assertions="0" time="0.059079">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testDecodeJson
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testGetOrder" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="310" assertions="0" time="0.055649">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testGetOrder
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testCurl" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="323" assertions="0" time="0.061493">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testCurl
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+        <testcase name="testBookHotel" class="Tests\Unit\OrderTest" file="/var/www/html/ppla4/tests/Unit/OrderTest.php" line="330" assertions="0" time="0.058200">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\OrderTest::testBookHotel
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/OrderTest.php:37
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\UserModelTest" file="/var/www/html/ppla4/tests/Unit/UserModelTest.php" tests="1" assertions="0" failures="0" errors="1" time="0.056731">
+        <testcase name="testExample" class="Tests\Unit\UserModelTest" file="/var/www/html/ppla4/tests/Unit/UserModelTest.php" line="53" assertions="0" time="0.056731">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\UserModelTest::testExample
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/UserModelTest.php:23
+</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="Tests\Unit\UserTest" file="/var/www/html/ppla4/tests/Unit/UserTest.php" tests="3" assertions="0" failures="0" errors="3" time="0.176851">
+        <testcase name="testScopeClaimer" class="Tests\Unit\UserTest" file="/var/www/html/ppla4/tests/Unit/UserTest.php" line="88" assertions="0" time="0.062463">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\UserTest::testScopeClaimer
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/UserTest.php:19
+</error>
+        </testcase>
+        <testcase name="testScopeApprover" class="Tests\Unit\UserTest" file="/var/www/html/ppla4/tests/Unit/UserTest.php" line="110" assertions="0" time="0.058146">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\UserTest::testScopeApprover
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/UserTest.php:19
+</error>
+        </testcase>
+        <testcase name="testScopeFinance" class="Tests\Unit\UserTest" file="/var/www/html/ppla4/tests/Unit/UserTest.php" line="122" assertions="0" time="0.056242">
+          <error type="PHPUnit_Framework_ExceptionWrapper">Tests\Unit\UserTest::testScopeFinance
+PDOException: SQLSTATE[HY000] [2002] Connection refused
+
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:68
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:43
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php:24
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php:183
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Connection.php:882
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:108
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php:92
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php:17
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:106
+/var/www/html/ppla4/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php:69
+/var/www/html/ppla4/tests/Unit/UserTest.php:19
+</error>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
