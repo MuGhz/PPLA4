@@ -14,7 +14,7 @@ class AddOrderInformationToClaimsTable extends Migration
     public function up()
     {
         Schema::table('claims', function (Blueprint $table) {
-            $table->longText('order_information');
+            $table->longText('order_information')->nullable();
         });
     }
 
