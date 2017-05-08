@@ -40,6 +40,8 @@ pages:
   dependencies:
   - code_coverage
   script:
+  - mv public public_old
+  - mkdir public/
   - mv test/ public/
   artifacts:
     paths:
