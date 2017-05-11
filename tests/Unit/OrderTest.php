@@ -314,7 +314,7 @@ class OrderTest extends TestCase
       $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
       $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
-	  
+
       $order = $this->curlMock($this->orderJson);
 	  $expectedOutput = '{"api_data":'.$this->orderJson.',"description":"'.$claim->description.'"}';
       $map = [
@@ -348,7 +348,7 @@ class OrderTest extends TestCase
 
         $request = $this->requestMock($map);
 
-      $company = $this->makeCompany('Test Company');
+        $company = $this->makeCompany('Test Company');
     	$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
     	$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
     	$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
