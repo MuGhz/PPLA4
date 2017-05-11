@@ -163,12 +163,15 @@ class OrderController extends Controller
         $claim = Claim::where('id','=',$id)->first();
         $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
         $response = $this->curlCall($url);
-		$responseObject = json_decode($response,true);
+        $responseObject = json_decode($response,true);
         $expireClaim = $responseObject['myorder']['data'][0]['order_expire_datetime'];
         $expire = new Carbon($expireClaim);
         $now = Carbon::now();
         if($now->gt($expire)){
-            $claim = $this->rebookHotel($id);
+           $claim = $this->rebookHotel($id);
+           $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
+           $response = $this->curlCall($url);
+           $responseObject = json_decode($response,true);
         }
 
 		// Save Order: Get Order ID & Order Detail ID
@@ -211,13 +214,13 @@ class OrderController extends Controller
     public function orderHotelRequestCheckout($orderId,$token)
     {
         $url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$token&output=json";
-		$response = $this->curlCall($url);
+        $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' request checkout page, redirecting to login page');
     }
     public function orderHotelLoginCheckout($dataLogin,$token)
     {
         $url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$token&$dataLogin&saveContinue=2&output=json";
-		$response = $this->curlCall($url);
+        $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' login to tiket.com, redirecting to checkout cart');
     }
     /**
