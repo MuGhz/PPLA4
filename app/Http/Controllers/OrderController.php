@@ -175,18 +175,14 @@ class OrderController extends Controller
         $orderId = $responseObject['myorder']['order_id'];
 		// dd($responseObject);
 		$orderDetailId = $responseObject['myorder']['data'][0]['order_detail_id'];
-
+        $token=$claim->claim_data_id;
 
 		// Request Checkout Page
-		$url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$claim->claim_data_id&output=json";
-		$response = $this->curlCall($url);
-        Log::info('user \('.Auth::id().') '.' request checkout page, redirecting to login page');
-
+		$this->orderHotelRequestCheckout($orderId,$token);
 
 		// Login for Checkout Customer
-		$url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$claim->claim_data_id&salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931&saveContinue=2&output=json";
-		$response = $this->curlCall($url);
-        Log::info('user \('.Auth::id().') '.' login to tiket.com, redirecting to checkout cart');
+        $dataLogin = 'salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931';
+		$this->orderHotelLoginCheckout($dataLogin,$token);
 
 
 		// Customer Checkout
@@ -211,7 +207,18 @@ class OrderController extends Controller
 		return redirect('/home');
 
     }
-
+    public function orderHotelRequestCheckout($orderId,$token)
+    {
+        $url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$token&output=json";
+		$response = $this->curlCall($url);
+        Log::info('user \('.Auth::id().') '.' request checkout page, redirecting to login page');
+    }
+    public function orderHotelLoginCheckout($dataLogin,$token)
+    {
+        $url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$token&$dataLogin&saveContinue=2&output=json";
+		$response = $this->curlCall($url);
+        Log::info('user \('.Auth::id().') '.' login to tiket.com, redirecting to checkout cart');
+    }
     /**
     * Do a curl call to url target
     * @param url target
