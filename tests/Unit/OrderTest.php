@@ -60,7 +60,7 @@ class OrderTest extends TestCase
         ]);
     }
 
-    public function makeClaim($claim_type, $claimer_id, $approver_id,$finance_id,$claim_status)
+    public function makeClaim($claim_type, $claimer_id, $approver_id,$finance_id,$claim_status,$description = "")
 	   {
 		     return factory(Claim::class)->create([
 			        'claim_type' => $claim_type,
@@ -68,6 +68,7 @@ class OrderTest extends TestCase
 			        'approver_id' => $approver_id,
 			        'finance_id' => $finance_id,
 			        'claim_status' => $claim_status,
+					'description' => $description
 		          ]);
 	    }
 
@@ -308,15 +309,23 @@ class OrderTest extends TestCase
     }
 
     public function testGetOrder(){
+      $company = $this->makeCompany('Test Company');
+      $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
+      $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+      $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
+	  
       $order = $this->curlMock($this->orderJson);
+	  $expectedOutput = '{"api_data":'.$this->orderJson.',"description":"'.$claim->description.'"}';
       $map = [
+		  ["id",null,$claim->id],
           ["target",null,"target"],
           ["token",null,"token"]
       ];
 
       $request = $this->requestMock($map);
       $order->getOrder($request);
-      $this->expectOutputString($this->orderJson);
+      $this->expectOutputString($expectedOutput);
 
     }
 
@@ -330,8 +339,9 @@ class OrderTest extends TestCase
     public function testBookHotel()
     {
         $order = $this->curlMock("success");
-
+		$description = "I had too many deadlines, I need some days off!";
         $map = [
+			["description",null,$description],
             ["target",null,"target"],
             ["token",null,"token"]
         ];
@@ -351,6 +361,7 @@ class OrderTest extends TestCase
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
+			"description" => $description
         ]);
     }
 }

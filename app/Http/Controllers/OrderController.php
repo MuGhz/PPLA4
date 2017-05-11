@@ -91,10 +91,12 @@ class OrderController extends Controller
     * @return json
     */
     public function getOrder(Request $request){
-
+		$id = $request->input('id');
         $token = $request->input('token');
         $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
-        echo $this->curlCall($url);
+		$claimDescription = Claim::where('id','=',$id)->first()->description;
+		$response = $this->curlCall($url);
+		echo '{"api_data":'.$response.',"description":"'.$claimDescription.'"}';
     }
 
     /**
@@ -103,6 +105,7 @@ class OrderController extends Controller
     * @return boolean
     */
     public function bookHotel(Request $request) {
+		$description = $request->input('description');
         $target = $request->input('target');
         $token = $request->input('token');
         $url = "$target&token=$token&output=json";
@@ -117,6 +120,7 @@ class OrderController extends Controller
             $claim->approver_id = User::approver($claimer)->id;
             $claim->finance_id = User::finance($claimer)->id;
             $claim->claim_status = 1;
+			$claim->description = $description;
             $claim->order_information=$target;
             $claim->alasan_reject="";
             $claim->save();
