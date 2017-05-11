@@ -161,15 +161,16 @@ class OrderController extends Controller
     public function orderHotel(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();
-        $created = new Carbon($claim->created_at);
-        $now = Carbon::now();
-        $difference = $created->diff($now)->days;
-        if($difference>1){
-            $claim = $this->rebookHotel($id);
-        }
         $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
         $response = $this->curlCall($url);
 		$responseObject = json_decode($response,true);
+        $expireClaim = $responseObject['myorder']['data'][0]['order_expire_datetime'];
+        $expire = new Carbon($expireClaim);
+        $now = Carbon::now();
+        if($now->gt($expire)){
+            $claim = $this->rebookHotel($id);
+        }
+
 		// Save Order: Get Order ID & Order Detail ID
 		$checkout = $responseObject['checkout'];
         $orderId = $responseObject['myorder']['order_id'];
