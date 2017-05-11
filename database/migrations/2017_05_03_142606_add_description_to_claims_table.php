@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddOrderInformationToClaimsTable extends Migration
+class AddDescriptionToClaimsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddOrderInformationToClaimsTable extends Migration
     public function up()
     {
         Schema::table('claims', function (Blueprint $table) {
-            $table->longText('order_information')->nullable();
+            $table->longText('description')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddOrderInformationToClaimsTable extends Migration
     public function down()
     {
         Schema::table('claims', function (Blueprint $table) {
-            //
+            $table->dropColumn('description');
         });
     }
 }

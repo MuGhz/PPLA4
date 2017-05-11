@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Claim;
+use Illuminate\Support\Facades\Log;
 
 class ClaimController extends Controller
 {
@@ -15,9 +16,11 @@ class ClaimController extends Controller
      */
     public function index($status)
     {
+
         //
 				$claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
 				return view('tickets.list',compact('claims'));
+
     }
 
     /**
@@ -27,6 +30,7 @@ class ClaimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+
     {
 		    $detailClaim =  Claim::where('id',$id)->get();
           if(empty($detailClaim) || !isset($detailClaim[0]))
@@ -37,6 +41,7 @@ class ClaimController extends Controller
         return view('claim.viewclaim',compact('detailClaim'));
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -45,24 +50,30 @@ class ClaimController extends Controller
      */
     public function destroy($id)
     {
-      $user = Auth::user();
-      $claim = Claim::find($id);
-      if ($user->id == $claim->claimer_id && $claim->claim_status < 2) {
-			$claim->delete();
-      }
+        $user = Auth::user();
+				$claim = Claim::find($id);
+				if ($user->id == $claim->claimer_id && $claim->claim_status == 1) {
+		        	Log::info('user ('.Auth::id().") ".(Auth::user()->name)." cancel claim ".$claim->id);
+					$claim->delete();
+      			}
       return redirect('/home');
     }
 
-    public function reject($id)
+    public function reject(Request $request,$id)
     {
+		$alasanReject = $request->input("alasan_reject");
       $user = Auth::user();
       $claim = Claim::find($id);
       if((($claim->claim_status == 1) && ($user->role == "approver") && ($user->id == $claim->approver_id))
         || (($claim->claim_status == 2) && ($user->role == "finance")&& ($user->id == $claim->finance_id))) {
         $claim->claim_status = 6;
+				$claim->alasan_reject= $alasanReject;
         $claim->save();
-      } else {return abort('403','403 - Unauthorized access');}
+		Log::info('user ('.Auth::id().") ".(Auth::user()->name)." reject claim ".$claim->id);
+      } else {
+		  Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$claim, 'user'=>Auth::user()]);
+		  return abort('403','403 - Unauthorized access');
+	  }
       return redirect("/home/".$user->role.'/received');
     }
 }
-		

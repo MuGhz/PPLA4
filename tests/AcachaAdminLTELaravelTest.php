@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
  */
 class AcachaAdminLTELaravelTest extends BrowserKitTest
 {
+    use DatabaseTransactions;
+
 
     /**
      * Set up tests.
@@ -39,6 +41,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
+
 /*     public function testLandingPage()
     {
         $this->visit('/')
@@ -60,6 +63,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->visit('/home')
     //         ->see('Business Travel Booking')
     //         ->see($user->name);
+
     // }
 
 
@@ -138,15 +142,20 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      *
      * @return void
      */
-    // public function testHomePageForAuthenticatedUsers()
-    // {
-    //     $company = factory(App\Company::class)->create();
-    //     $user = factory(App\User::class)->create(['company' => $company->id]);
-    //     view()->share('user', $user);
-    //     $this->actingAs($user)
-    //         ->visit('/home')
-    //         ->see($user->name);
-    // }
+
+    public function testHomePageForAuthenticatedUsers()
+    {
+        $company = factory(App\Company::class)->create(['name' => 'TestCompany']);
+        $user = factory(App\User::class)->create([
+			'name' => 'TestUser',
+			'email' => 'TestUser@Company.test',
+			'company' => $company->id
+		]);
+        view()->share('user', $user);
+        $this->actingAs($user)
+            ->visit('/home')
+            ->see($user->name);
+    }
 
     /**
      * Test log out.
@@ -176,6 +185,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     // {
     //     $this->get('asdasdjlapmnnk')
     //         ->seeStatusCode(404)
+
     //         ->see('404');
     // }
 
@@ -188,6 +198,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
 
     // public function testNewUserRegistration()
     // {
+
     //     Config::set('auth.providers.users.field', 'email');
     //     $company = factory(App\Company::class)->create();
     //     $user = factory(App\User::class)->create(['company' => $company->id]);
@@ -202,6 +213,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->seePageIs('/home')
     //         ->seeInDatabase('users', ['email' => 'sergiturbadenas@gmail.com',
     //                                   'name'  => 'Sergi Tur Badenas', ]);
+
     // }
 
 
@@ -225,7 +237,8 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      * @return void
      */
 
-    // public function testSendPasswordReset()
+	// public function testSendPasswordReset()
+
     // {
     //     $company = factory(App\Company::class)->create();
     //     $user = factory(App\User::class)->create(['company' => $company->id]);
@@ -247,17 +260,5 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
     //         ->type('notexistingemail@gmail.com', 'email')
     //         ->press('Send Password Reset Link')
     //         ->see('There were some problems with your input');
-    // }
-
-    /**
-     * Create view using make:view command.
-     *
-     * @param $view
-     */
-    // protected function callArtisanMakeView($view)
-    // {
-    //     Artisan::call('make:view', [
-    //         'name' => $view,
-    //     ]);
     // }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Taken from
  * https://github.com/laravel/framework/blob/5.3/src/Illuminate/Auth/Console/stubs/make/controllers/HomeController.stub
@@ -10,6 +9,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Log;
+
 use App\Claim;
 use App\User;
 use App\Company;
