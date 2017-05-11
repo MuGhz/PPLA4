@@ -221,4 +221,16 @@ class OrderController extends Controller
         $curl->close();
         return $response;
     }
+	
+	/**
+	* TODO: stub
+    * Returns flight list in json
+    * @param HTTP request
+    * @return json
+    */
+	public function getFlight(Request $request) {
+		return null;
+	}
+	
+	
 }
