@@ -19,7 +19,7 @@ class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
 
-    protected $key = '1c9c54d06eac9e8f7dd6ae643e6797a6';
+    protected $key = '07ff7126e34ff51b9564cd9848b339b9';
 
     /**
     * Returns Token from tiket.com
@@ -41,7 +41,6 @@ class OrderController extends Controller
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
         $response = $this->curlCall($url);
-        echo json_decode($response,true)['token'];
         return json_decode($response,true)['token'];
     }
 
@@ -207,6 +206,13 @@ class OrderController extends Controller
 		return redirect('/home');
     }
 
+    public function getAirport()
+    {
+        $token = $this->decodeJsonToken();
+        $response = $this->curlCall("https://api-sandbox.tiket.com/flight_api/all_airport?token=$token");
+        echo $response;
+    }
+
     /**
     * Do a curl call to url target
     * @param url target
@@ -221,7 +227,7 @@ class OrderController extends Controller
         $curl->close();
         return $response;
     }
-	
+
 	/**
 	* TODO: stub
     * Returns flight list in json
@@ -231,6 +237,6 @@ class OrderController extends Controller
 	public function getFlight(Request $request) {
 		return null;
 	}
-	
-	
+
+
 }

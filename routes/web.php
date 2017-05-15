@@ -101,5 +101,5 @@ Route::group(['prefix'=>'api'],function()  {
   Route::post('/hotel/detail','OrderController@getHotelDetail');
   Route::post('/book/hotel','OrderController@bookHotel');
   Route::post('/claim/detil','OrderController@getOrder');
-  Route::post('/airport','OrderController@getAirport');
+  Route::get('/airport','OrderController@getAirport');
 });

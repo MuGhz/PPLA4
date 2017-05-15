@@ -308,8 +308,8 @@ class OrderTest extends TestCase
     public function testDecodeJson()
     {
         $order = $this->curlMockWithoutJson($this->token);
-        $this->expectOutputString(json_decode($this->token,true)['token']);
-        $order->decodeJsonToken();
+        $response = $order->decodeJsonToken();
+        $this->assertEquals(json_decode($this->token,true)['token'],$response);
     }
 
     public function testGetOrder(){
@@ -372,9 +372,9 @@ class OrderTest extends TestCase
     public function testGetAirportList()
     {
         $order = $this->curlMock($this->airport);
+        $this->expectOutputString($this->airport);
 
         $order->getAirport();
-        $this->expectOutputString($this->airport);
     }
 
 	public function testGetFlightWithAcceptedParameter()

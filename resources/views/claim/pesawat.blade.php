@@ -63,7 +63,7 @@
     <div class="row">
       <div class="form-group col-md-8">
           <div class="form-group col-md-4">
-            <label>Dewasa (>= 12 tahun)</label>
+            <label>Dewasa (> 12 tahun)</label>
             <select class="form-control" name="adult" id="adult">
               @for($i = 1; $i < 10;$i++)
               <option value="{{$i}}">{{$i}}</option>
@@ -71,7 +71,7 @@
             </select>
           </div>
             <div class="form-group col-md-4">
-              <label>Anak (2 - 11 tahun)</label>
+              <label>Anak (2 - 12 tahun)</label>
               <select class="form-control" name="child" id="child">
                 @for($i = 0; $i < 10;$i++)
                 <option value="{{$i}}">{{$i}}</option>
@@ -79,7 +79,7 @@
               </select>
             </div>
               <div class="form-group col-md-4">
-                <label>Bayi (< 2 tahun)</label>
+                <label>Bayi (<= 23 bulan)</label>
                 <select class="form-control" name="child" id="child">
                   @for($i = 0; $i < 10;$i++)
                   <option value="{{$i}}">{{$i}}</option>
