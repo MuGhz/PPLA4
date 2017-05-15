@@ -26,6 +26,15 @@
 @section('content')
 <div class="container">
   <h2>Booking Pesawat</h2>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active" id="1">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Pulang pergi
+        </label>
+        <label class="btn btn-primary" id="2">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Sekali jalan
+        </label>
+    </div>
+    <hr/>
   <form action="" method="POST" class="container col-md-offset-2">
     <div class="row">
       <div class="col-md-8">
@@ -54,7 +63,7 @@
     <div class="row">
       <div class="form-group col-md-8">
           <div class="form-group col-md-4">
-            <label>Dewasa</label>
+            <label>Dewasa (>= 12 tahun)</label>
             <select class="form-control" name="adult" id="adult">
               @for($i = 1; $i < 10;$i++)
               <option value="{{$i}}">{{$i}}</option>
@@ -70,7 +79,7 @@
               </select>
             </div>
               <div class="form-group col-md-4">
-                <label>Bayi (Kurang dari 2 tahun)</label>
+                <label>Bayi (< 2 tahun)</label>
                 <select class="form-control" name="child" id="child">
                   @for($i = 0; $i < 10;$i++)
                   <option value="{{$i}}">{{$i}}</option>
@@ -146,5 +155,12 @@
       console.log('called');
       $("#"+id).css('display', (value ? 'block' : 'none'));
     }
+    $('#1').click(function(){
+        $('#out').attr('disabled',false);
+    });
+    $('#2').click(function(){
+        $('#out').attr('disabled',true);
+    });
+
   </script>
 @endsection
