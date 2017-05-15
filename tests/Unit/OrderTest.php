@@ -31,7 +31,7 @@ class OrderTest extends TestCase
      protected $hotelDetail;
      protected $orderHotelJson;
 	 protected $planeList;
-	 
+     protected $airport;
      protected $confirm;
 
     public function setUp()
@@ -44,6 +44,7 @@ class OrderTest extends TestCase
         $this->flightList = '{"diagnostic":{"status":200,"elapsetime":"0.4998","memoryusage":"28.34MB","unix_timestamp":1494475178,"confirm":"success","lang":"id","currency":"IDR"},"output_type":"json","round_trip":true,"search_queries":{"from":"CGK","to":"DPS","date":"2017-05-25","ret_date":"2017-05-30","adult":1,"child":0,"infant":0,"sort":false},"go_det":{"dep_airport":{"airport_code":"CGK","international":"1","trans_name_id":"7574","banner_image":"","short_name_trans_id":"1193637","business_name":"Soekarno Hatta","business_name_trans_id":"5935","business_country":"id","business_id":"20361","country_name":"Indonesia","city_name":"Jakarta","province_name":"DKI Jakarta","short_name":"Jakarta","location_name":"Jakarta - Cengkareng"},"arr_airport":{"airport_code":"DPS","international":"1","trans_name_id":"7572","banner_image":"banner-denpasar1.jpg","short_name_trans_id":"1193606","business_name":"Ngurah Rai","business_name_trans_id":"5931","business_country":"id","business_id":"20357","country_name":"Indonesia","city_name":"Denpasar","province_name":"Bali","short_name":"Denpasar","location_name":"Denpasar, Bali"},"date":"2017-05-25","formatted_date":"25 Mei 2017"},"ret_det":{"dep_airport":{"airport_code":"DPS","international":"1","trans_name_id":"7572","banner_image":"banner-denpasar1.jpg","short_name_trans_id":"1193606","business_name":"Ngurah Rai","business_name_trans_id":"5931","business_country":"id","business_id":"20357","country_name":"Indonesia","city_name":"Denpasar","province_name":"Bali","short_name":"Denpasar","location_name":"Denpasar, Bali"},"arr_airport":{"airport_code":"CGK","international":"1","trans_name_id":"7574","banner_image":"","short_name_trans_id":"1193637","business_name":"Soekarno Hatta","business_name_trans_id":"5935","business_country":"id","business_id":"20361","country_name":"Indonesia","city_name":"Jakarta","province_name":"DKI Jakarta","short_name":"Jakarta","location_name":"Jakarta - Cengkareng"},"date":"2017-05-30","formatted_date":"30 Mei 2017"},"departures":{"result":[{"flight_id":"13650959","airlines_name":"CITILINK","flight_number":"QG-856","departure_city":"CGK","arrival_city":"DPS","stop":"Langsung","price_value":"908050.00","price_adult":"908050.00","price_child":"0.00","price_infant":"0.00","timestamp":"2017-05-09 15:15:26","has_food":"0","check_in_baggage":"20","is_promo":0,"airport_tax":true,"check_in_baggage_unit":"Kg","simple_departure_time":"04:55","simple_arrival_time":"07:55","long_via":"","departure_city_name":"Jakarta","arrival_city_name":"Denpasar","full_via":"CGK - DPS (04:55 - 07:55)","markup_price_string":"","need_baggage":0,"best_deal":false,"duration":"2 j 0 m","image":"https:\/\/sandbox.tiket.com\/images\/flight\/logo\/icon_citilink.png","departure_flight_date":"2017-05-25 04:55:00","departure_flight_date_str":"Kamis, 25 Mei 2017","departure_flight_date_str_short":"Kam, 25 Mei 2017","arrival_flight_date":"2017-05-25 07:55:00","arrival_flight_date_str":"Kamis, 25 Mei 2017","arrival_flight_date_str_short":"Kam, 25 Mei 2017","flight_infos":{"flight_info":[{"flight_number":"QG-856","class":"L","departure_city":"CGK","departure_city_name":"Jakarta","arrival_city":"DPS","arrival_city_name":"Denpasar","airlines_name":"CITILINK","departure_date_time":"2017-05-25 04:55:00","string_departure_date":"Kamis, 25 Mei 2017","string_departure_date_short":"Kam, 25 Mei 2017","simple_departure_time":"04:55","arrival_date_time":"2017-05-25 07:55:00","string_arrival_date":"Kamis, 25 Mei 2017","string_arrival_date_short":"Kam, 25 Mei 2017","simple_arrival_time":"07:55","img_src":"https:\/\/sandbox.tiket.com\/images\/flight\/logo\/icon_citilink.png","duration_time":7200,"duration_hour":"2j","duration_minute":"","check_in_baggage":20,"check_in_baggage_unit":"Kg","terminal":"","transit_duration_hour":0,"transit_duration_minute":0,"transit_arrival_text_city":"","transit_arrival_text_time":""}]},"sss_key":null}]},"nearby_go_date":{"nearby":[{"date":"2017-05-20"},{"date":"2017-05-21"},{"date":"2017-05-22","price":"528100.00"},{"date":"2017-05-23"},{"date":"2017-05-24","price":"519200.00"},{"date":"2017-05-25","price":"908050.00"},{"date":"2017-05-26"},{"date":"2017-05-27"},{"date":"2017-05-28"},{"date":"2017-05-29"},{"date":"2017-05-30"}]},"nearby_ret_date":{"nearby":[{"date":"2017-05-25"},{"date":"2017-05-26"},{"date":"2017-05-27"},{"date":"2017-05-28"},{"date":"2017-05-29"},{"date":"2017-05-30","price":"0.00"},{"date":"2017-05-31"},{"date":"2017-06-01","price":"543100.00"},{"date":"2017-06-02"},{"date":"2017-06-03"},{"date":"2017-06-04"}]},"login_status":"false","token":"aa2ab72ac20e0a551cbf52c9a4211607e2963664"}';
 		$this->confirmFail = '{"diagnostic":{"error_msgs":"not enought deposit ,0","status":"224","elapsetime":"0.2753","memoryusage":"20.04MB","unix_timestamp":1493225286,"lang":"id","currency":"IDR"},"output_type":"json","login_status":"false","token":"135552a2851810b2f014d6f6c8868c54ea2a9c41"}';
         $this->confirmSuccess = '{"diagnostic":{"error_msgs":"not enought deposit ,0","status":"200","elapsetime":"0.2753","memoryusage":"20.04MB","unix_timestamp":1493225286,"lang":"id","currency":"IDR"},"output_type":"json","login_status":"false","token":"135552a2851810b2f014d6f6c8868c54ea2a9c41"}';
+        $this->airport = '{"diagnostic":{"status":200,"elapsetime":"0.0504","memoryusage":"5.58MB","unix_timestamp":1399962811,"confirm":"success","lang":"id","currency":"IDR"},"output_type":"json","all_airport":{"airport":[{"airport_name":"PATTIMURA","airport_code":"AMQ","location_name":"Ambon","country_id":"id"},{"airport_name":"SOA","airport_code":"BJW","location_name":"Bajawa","country_id":"id"}}';
     }
 
     private function makeCompany($name)
@@ -317,7 +318,7 @@ class OrderTest extends TestCase
       $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
       $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
       $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
-	  
+
       $order = $this->curlMock($this->orderHotelJson);
 	  $expectedOutput = '{"api_data":'.$this->orderHotelJson.',"description":"'.$claim->description.'"}';
       $map = [
@@ -367,7 +368,15 @@ class OrderTest extends TestCase
 			"description" => $description
         ]);
     }
-	
+
+    public function testGetAirportList()
+    {
+        $order = $this->curlMock($this->airport);
+
+        $order->getAirport();
+        $this->expectOutputString($this->airport);
+    }
+
 	public function testGetFlightWithAcceptedParameter()
     {
         $order = $this->curlMock("$this->flightList");
