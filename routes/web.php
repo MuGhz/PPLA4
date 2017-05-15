@@ -20,6 +20,9 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::get('hotel',function(){
       return view('claim.hotel');
     });
+    Route::get('plane', function(){
+        return view('claim.pesawat');
+    });
   });
 
 
@@ -47,10 +50,10 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   Route::group(['prefix'=>'reject'],function(){
     Route::get('/{id}','ApproverController@reject');
   });
+
   Route::group(['prefix'=>'approver'],function()  {
     Route::group(['prefix'=>'detail'],function(){
-
-      Route::get('/{id}','ClaimController@show');
+    Route::get('/{id}','ClaimController@show');
     });
 //  Todo: masang fungsi approve dan reject
 //  Route::group(['prefix'=>'reject'],function(){
@@ -98,4 +101,5 @@ Route::group(['prefix'=>'api'],function()  {
   Route::post('/hotel/detail','OrderController@getHotelDetail');
   Route::post('/book/hotel','OrderController@bookHotel');
   Route::post('/claim/detil','OrderController@getOrder');
+  Route::post('/airport','OrderController@getAirport');
 });
