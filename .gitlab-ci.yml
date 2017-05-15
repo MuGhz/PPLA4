@@ -20,9 +20,12 @@ code_coverage:
     - bash gitlabci/install_phpunit.sh > /dev/null
     - bash gitlabci/install_xdebug.sh > /dev/null
     - vendor/bin/phpunit --coverage-text --colors=never --configuration phpunit.xml
-  # TODO : temporary skip cheat
-  allow_failure: true
-  
+    - mkdir test/
+    - cp -r /tmp/report test/
+  artifacts:
+   paths:
+   - test/
+
 staging:
   stage: deploy
   script:
@@ -31,3 +34,15 @@ staging:
     - dpl --provider=heroku --app=jojotravel --api-key=$HEROKU_API_KEY
   only:
     - develop
+
+pages:
+  stage: deploy
+  dependencies:
+  - code_coverage
+  script:
+  - mv public public_old
+  - mkdir public/
+  - mv test/ public/
+  artifacts:
+    paths:
+    - public/

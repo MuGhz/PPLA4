@@ -10,7 +10,8 @@
         "fzaninotto/faker": "^1.6",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "phpunit/phpunit": "5.7.15"
+        "phpunit/phpunit": "5.7",
+        "spatie/activitylog": "^2.4"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*"

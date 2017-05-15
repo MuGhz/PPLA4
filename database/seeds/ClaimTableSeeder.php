@@ -25,6 +25,9 @@ class ClaimTableSeeder extends Seeder
             'claimer_id' => $temp->id,
             'approver_id' => User::approver($temp)->id,
             'finance_id' => User::finance($temp)->id,
+            'order_information' => '',
+			'description' => '',
+            'alasan_reject'=> ''
           ]);
         }
     }

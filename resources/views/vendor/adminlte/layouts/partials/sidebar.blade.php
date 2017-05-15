@@ -8,7 +8,7 @@
         @if (! Auth::guest())
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image" />
+                    <img src="{{ Gravatar::get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>{{ Auth::user()->name }}</p>
@@ -62,9 +62,9 @@
             <li class="treeview">
 				<a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.finance') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{URL::to('home/approver/received')}}">{{ trans('adminlte_lang::message.received') }}</a></li>
-                    <li><a href="{{URL::to('home/approver/approved')}}">{{ trans('adminlte_lang::message.approved') }}</a></li>
-					<li><a href="{{URL::to('home/approver/rejected')}}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
+                    <li><a href="{{URL::to('home/finance/received')}}">{{ trans('adminlte_lang::message.received') }}</a></li>
+                    <li><a href="{{URL::to('home/finance/approved')}}">{{ trans('adminlte_lang::message.approved') }}</a></li>
+					<li><a href="{{URL::to('home/finance/rejected')}}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
 			@endif
