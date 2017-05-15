@@ -1,32 +1,30 @@
-@extends('adminlte::page')
-
-@section('htmlheader_title')
-	Change Title here!
+<?php
+    $secure = App::environment('production') ? true : NULL;
+?>
+@extends('layouts.app')
+@section('css')
+  <style>
+  #loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(192, 192, 192, 0.5);
+      background-image: url("{{asset('img/balls(1).gif',$secure)}}");
+      background-repeat: no-repeat;
+      background-position: center;
+  }
+  .items  {
+    border: 1px;
+  }
+  </style>
 @endsection
 
-
-@section('main-content')
-	<div class="container-fluid spark-screen">
-		<div class="row">
-			<div class="col-md-9 col-md-offset-1">
-
-				<div class="box box-success box-solid">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Example box</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        </div>
-                        <!-- /.box-tools -->
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        Put your content here
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-
-			</div>
-		</div>
-	</div>
+@section('content')
+<div class="container">
+    
+</div>
 @endsection

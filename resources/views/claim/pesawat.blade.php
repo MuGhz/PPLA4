@@ -40,11 +40,11 @@
       <div class="col-md-8">
          <div class="col-md-6 form-group">
              <label>Bandara Asal</label>
-             <input type="text" class="form-control" name="airport_origin">
+             <input type="text" class="form-control" name="airport_origin" id="origin"/>
          </div>
          <div class="col-md-6 form-group">
              <label>Bandara Tujuan</label>
-             <input type="text" class="form-control" name="airport_destination">
+             <input type="text" class="form-control" name="airport_destination" id="destination"/>
          </div>
       </div>
     </div>
@@ -144,11 +144,20 @@
 </div>
 @endsection
 @section('js')
+    <script src="{{asset('js/jquery.autocomplete.min.js')}}"></script>
   <script>
     $(".datepicker").datepicker({
       changeMonth: true,
       changeYear: true,
       dateFormat: "yy-mm-dd"
+    });
+
+    function searchString()  {
+        console.log('asd');
+    }
+
+    $('#origin').devbridgeAutocomplete({
+        serviceUrl: "{{url('/api/airport')}}",        
     });
 
     function show(id, value) {

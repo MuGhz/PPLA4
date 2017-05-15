@@ -206,11 +206,26 @@ class OrderController extends Controller
 		return redirect('/home');
     }
 
-    public function getAirport()
+    public function getAirport(Request $request)
     {
         $token = $this->decodeJsonToken();
-        $response = $this->curlCall("https://api-sandbox.tiket.com/flight_api/all_airport?token=$token");
-        echo $response;
+        $id = Auth::id();
+        if(!$request->session()->has("$id"))  {
+            $response = $this->curlCall("https://api-sandbox.tiket.com/flight_api/all_airport?token=$token&output=json");
+            $airports = json_decode($response,true)['all_airport']['airport'];
+            $request->session()->put("$id", $airports);
+        }
+        else {
+            $response = $request->session()->get("$id");
+            $airports = json_decode($response,true)['all_airport']['airport'];
+        }
+        $values = array();
+        foreach($airports as $airport) {
+            $location = $airport['location_name']." (".$airport['airport_code']."), ".$airport['airport_name'];
+            array_push($values, ["value"=>$location, "data"=>$airport['airport_code']]);
+        }
+        $returnValue = array("suggestion"=>$values);
+        return $returnValue;
     }
 
     /**
