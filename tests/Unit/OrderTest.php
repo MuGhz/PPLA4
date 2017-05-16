@@ -368,7 +368,34 @@ class OrderTest extends TestCase
 			"description" => $description
         ]);
     }
+    public function testBookPesawat()
+    {
+        $order = $this->curlMock("success");
+		$description = "TERANGKANLAH, TERANGKANLAH!";
+        $map = [
+			["description",null,$description],
+            ["target",null,"target"],
+            ["token",null,"token"]
+        ];
 
+        $request = $this->requestMock($map);
+
+      $company = $this->makeCompany('Test Company');
+    	$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+    	$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+    	$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $this->actingAs($claimer);
+        $order->bookPesawat($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_data_id" => "token",
+            "claim_type" => "2",
+            "claim_status" => "1",
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+			"description" => $description
+        ]);
+    }
     public function testGetAirportList()
     {
         $order = $this->curlMock($this->airport);
