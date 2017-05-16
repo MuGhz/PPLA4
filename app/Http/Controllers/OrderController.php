@@ -252,6 +252,29 @@ class OrderController extends Controller
 	public function getFlight(Request $request) {
 		return null;
 	}
-
+    public function bookPesawat(Request $request)
+    {
+        $description = $request->input('description');
+        $token = $request->input('token');
+        $target = $request-> input('target');
+        $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
+        $response = $this->curlCall($url);
+        if($response){
+            $claimer = Auth::user();
+            $claim = new Claim();
+            $claim->claim_type = 2;
+            $claim->claim_data_id = $token;
+            $claim->claimer_id = $claimer->id;
+            $claim->approver_id = User::approver($claimer)->id;
+            $claim->finance_id = User::finance($claimer)->id;
+            $claim->claim_status = 1;
+			$claim->description = $description;
+            $claim->order_information=$target;
+            $claim->alasan_reject="";
+            $claim->save();
+            Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
+        }
+        return "true";
+    }
 
 }
