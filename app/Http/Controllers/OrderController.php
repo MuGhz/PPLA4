@@ -252,6 +252,7 @@ class OrderController extends Controller
 	public function getFlight(Request $request) {
 		return null;
 	}
+
     public function bookPesawat(Request $request)
     {
         $description = $request->input('description');
@@ -277,4 +278,9 @@ class OrderController extends Controller
         return "true";
     }
 
+    public function orderFlight(Request $request,$id)
+    {
+        $claim = Claim::where('id','=',$id)->first();
+        return redirect('/home');
+    }
 }
