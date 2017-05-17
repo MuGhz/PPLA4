@@ -56,6 +56,8 @@ return [
     'header'                  => 'HEADER',
 	'cia'					  => 'Cash in Advance',
 	'createclaim'			  => 'Create Claim',
+    'bookhotel'               => 'Book Hotel',
+    'bookflight'              => 'Book Flight',
 	'viewclaim'				  => 'View Claim',
 	'approver'				  => 'Approver',
 	'finance'				  => 'Finance',
