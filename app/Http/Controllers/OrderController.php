@@ -274,6 +274,7 @@ class OrderController extends Controller
 		}
 		echo $this->curlCall($url);
 	}
+
 	public function bookPesawat(Request $request)
 	{
 		$description = $request->input('description');
@@ -299,4 +300,9 @@ class OrderController extends Controller
 		return "true";
 	}
 
+	public function orderFlight(Request $request,$id)
+	{
+		$claim = Claim::where('id','=',$id)->first();
+		return redirect('/home');
+	}
 }

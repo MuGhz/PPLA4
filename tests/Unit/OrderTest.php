@@ -368,6 +368,69 @@ class OrderTest extends TestCase
 			"description" => $description
 		]);
 	}
+
+	public function testOrderFlightSuccess()
+	{
+		$order = $this->curlMockForHotelOrder($this->orderHotelJson,$this->confirmSuccess);
+
+		$map = [
+			["target",null,"target"],
+			["token",null,"token"]
+		];
+		$request = $this->requestMock($map);
+
+		$company = $this->makeCompany('Test Company');
+		$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+		$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+		$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+		$claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+		$date = Carbon::create(2017,1,1,12);
+		$now = Carbon::now();
+		$claim->created_at=$date;
+		$claim->save();
+
+		$order->orderFlight($request,$claim->id);
+		$this->assertDatabaseHas("claims",[
+			"claim_data_id" => "token",
+			"claim_type" => "1",
+			"claim_status" => "3",
+			"claimer_id" => $claimer->id,
+			"approver_id" => $approver->id,
+			"finance_id" => $finance->id,
+		]);
+	}
+
+	public function testOrderFlightFail()
+	{
+		$order = $this->curlMockForHotelOrder($this->orderHotelJson,$this->confirmSuccess);
+
+		$map = [
+			["target",null,"target"],
+			["token",null,"token"]
+		];
+		$request = $this->requestMock($map);
+
+		$company = $this->makeCompany('Test Company');
+		$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+		$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+		$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+		$claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+		$date = Carbon::create(2017,1,1,12);
+		$now = Carbon::now();
+		$claim->created_at=$date;
+		$claim->save();
+
+		$order->orderFlight($request,$claim->id);
+		$this->assertDatabaseHas("claims",[
+			"claim_data_id" => "token",
+			"claim_type" => "1",
+			"claim_status" => "3",
+			"claimer_id" => $claimer->id,
+			"approver_id" => $approver->id,
+			"finance_id" => $finance->id,
+		]);
+	}
+
 	public function testBookPesawat()
 	{
 		$order = $this->curlMock("success");
@@ -400,7 +463,6 @@ class OrderTest extends TestCase
 	{
 		$order = $this->curlMock($this->airport);
 		$this->expectOutputString($this->airport);
-
 		$order->getAirport();
 	}
 
@@ -492,8 +554,6 @@ class OrderTest extends TestCase
 		];
 
 		$request = $this->requestMock($map);
-
 		$order->getFlight($request);
 	}
-
 }
