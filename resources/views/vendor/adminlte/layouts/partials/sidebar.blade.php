@@ -33,7 +33,13 @@
         <ul class="sidebar-menu">
             <li class="header">{{ trans('adminlte_lang::message.cia') }}</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('home/order/hotel') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.createclaim') }}</span></a></li>
+            <li class="treeview">
+                <a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.createclaim') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ URL('home/order/hotel') }}">{{ trans('adminlte_lang::message.bookhotel') }}</a></li>
+                    <li><a href="{{ URL('home/order/plane') }}">{{ trans('adminlte_lang::message.bookflight') }}</a></li>
+                </ul>
+            </li>
 
             <li class="treeview">
                 <a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.viewclaim') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
