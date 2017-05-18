@@ -209,7 +209,7 @@ class OrderController extends Controller
     /**
     * This method will process user's input in attempt to search for airports
     * @param Http request
-    * @return json of airports that matches user's query 
+    * @return json of airports that matches user's query
     */
     public function getAirport(Request $request)
     {
@@ -219,10 +219,11 @@ class OrderController extends Controller
         if(!$request->session()->has("$id"))  {
             $response = $this->curlCall("https://api-sandbox.tiket.com/flight_api/all_airport?token=$token&output=json");
             $airports = json_decode($response,true)['all_airport']['airport'];
-            $request->session()->put("$id", $airports);
+            $request->session()->put("$id", $response);
         }
         else {
-            $airports = $request->session()->get("$id");
+            $response = $request->session()->get("$id");
+            $airports = json_decode($response,true)['all_airport']['airport'];
         }
         $values = array();
         foreach($airports as $airport) {
