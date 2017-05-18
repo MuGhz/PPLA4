@@ -19,18 +19,17 @@ use Carbon\Carbon;
 
 class OrderTest extends TestCase
 {
-
     use DatabaseTransactions;
     /**
-     * A basic test example.
-     *
-     * @return void
-     */
-     protected $token;
-     protected $hotelList;
-     protected $hotelDetail;
-     protected $orderJson;
-     protected $confirm;
+    * A basic test example.
+    *
+    * @return void
+    */
+    protected $token;
+    protected $hotelList;
+    protected $hotelDetail;
+    protected $orderJson;
+    protected $confirm;
 
     public function setUp()
     {
@@ -61,22 +60,22 @@ class OrderTest extends TestCase
     }
 
     public function makeClaim($claim_type, $claimer_id, $approver_id,$finance_id,$claim_status,$description = "")
-	   {
-		     return factory(Claim::class)->create([
-			        'claim_type' => $claim_type,
-			        'claimer_id' => $claimer_id,
-			        'approver_id' => $approver_id,
-			        'finance_id' => $finance_id,
-			        'claim_status' => $claim_status,
-					'description' => $description
-		          ]);
-	    }
+    {
+        return factory(Claim::class)->create([
+            'claim_type' => $claim_type,
+            'claimer_id' => $claimer_id,
+            'approver_id' => $approver_id,
+            'finance_id' => $finance_id,
+            'claim_status' => $claim_status,
+            'description' => $description
+        ]);
+    }
 
     public function curlMockWithoutJson($returnValue)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
+                      ->setMethods(array('curlCall'))
+                      ->getMock();
 
         $order->expects($this->any())
               ->method("curlCall")
@@ -87,51 +86,51 @@ class OrderTest extends TestCase
     public function curlMockForHotelOrder($returnValue, $returnValueElse)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall','decodeJsonToken'))
-                    ->getMock();
+                      ->setMethods(array('curlCall','decodeJsonToken'))
+                      ->getMock();
         $order->expects($this->exactly(7))
               ->method("curlCall")
               ->will($this->onConsecutiveCalls($returnValue,null,$returnValue,$returnValueElse,$returnValueElse,$returnValueElse,$returnValueElse));
         $order->expects($this->any())
-                ->method("decodeJsonToken")
-                ->will($this->returnValue("token"));
+               ->method("decodeJsonToken")
+               ->will($this->returnValue("token"));
         return $order;
     }
 
     public function curlMock($returnValue)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall','decodeJsonToken'))
-                    ->getMock();
+                      ->setMethods(array('curlCall','decodeJsonToken'))
+                      ->getMock();
 
         $order->expects($this->any())
               ->method("curlCall")
               ->will($this->returnValue("$returnValue"));
         $order->expects($this->any())
-                ->method("decodeJsonToken")
-                ->will($this->returnValue("token"));
+               ->method("decodeJsonToken")
+               ->will($this->returnValue("token"));
         return $order;
     }
 
     public function curlMockMap($map)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                    ->setMethods(array('curlCall'))
-                    ->getMock();
+                      ->setMethods(array('curlCall'))
+                      ->getMock();
         $order->expects($this->any())
-                    ->method('curlCall')
-                    ->will($this->returnValueMap($map));
+              ->method('curlCall')
+              ->will($this->returnValueMap($map));
         return $order;
     }
 
     public function requestMock($map)
     {
         $request = $this->getMockBuilder('Illuminate\Http\Request')
-                    ->setMethods(array('input'))
-                    ->getMock();
+                        ->setMethods(array('input'))
+                        ->getMock();
         $request->expects($this->any())
-                    ->method('input')
-                    ->will($this->returnValueMap($map));
+                ->method('input')
+                ->will($this->returnValueMap($map));
         return $request;
     }
 
@@ -247,7 +246,7 @@ class OrderTest extends TestCase
             ["target",null,"target"],
             ["token",null,"token"]
         ];
-	    $request = $this->requestMock($map);
+        $request = $this->requestMock($map);
 
         $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
@@ -261,7 +260,7 @@ class OrderTest extends TestCase
 
 
         $order->orderHotel($request,$claim->id);
-        $this->assertDatabaseHas("claims",[
+        $this->assertDatabaseHas( "claims",[
             "claim_data_id" => "token",
             "claim_type" => "1",
             "claim_status" => "3",
@@ -273,32 +272,32 @@ class OrderTest extends TestCase
 
     public function testOrderHotelFail()
     {
-      $order = $this->curlMockForHotelOrder($this->orderJson, $this->confirmFail);
-      $map = [
-          ["target",null,"target"],
-          ["token",null,"token"]
-      ];
-      $request = $this->requestMock($map);
+        $order = $this->curlMockForHotelOrder($this->orderJson, $this->confirmFail);
+        $map = [
+            ["target",null,"target"],
+            ["token",null,"token"]
+        ];
+        $request = $this->requestMock($map);
 
-      $company = $this->makeCompany('Test Company');
-      $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
-      $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-      $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
-      $date = Carbon::create(2017,1,1,12);
-      $now = Carbon::now();
-      $claim->created_at=$date;
-      $claim->save();
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+        $date = Carbon::create(2017,1,1,12);
+        $now = Carbon::now();
+        $claim->created_at=$date;
+        $claim->save();
 
-      $order->orderHotel($request,$claim->id);
-      $this->assertDatabaseHas("claims",[
-          "claim_data_id" => "token",
-          "claim_type" => "1",
-          "claim_status" => "2",
-          "claimer_id" => $claimer->id,
-          "approver_id" => $approver->id,
-          "finance_id" => $finance->id,
-      ]);
+        $order->orderHotel($request,$claim->id);
+        $this->assertDatabaseHas( "claims",[
+            "claim_data_id" => "token",
+            "claim_type" => "1",
+            "claim_status" => "2",
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
     }
 
     public function testDecodeJson()
@@ -309,24 +308,23 @@ class OrderTest extends TestCase
     }
 
     public function testGetOrder(){
-      $company = $this->makeCompany('Test Company');
-      $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
-      $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-      $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
 
-      $order = $this->curlMock($this->orderJson);
-	  $expectedOutput = '{"api_data":'.$this->orderJson.',"description":"'.$claim->description.'"}';
-      $map = [
-		  ["id",null,$claim->id],
-          ["target",null,"target"],
-          ["token",null,"token"]
-      ];
+        $order = $this->curlMock($this->orderJson);
+        $expectedOutput = '{"api_data":'.$this->orderJson.',"description":"'.$claim->description.'"}';
+        $map = [
+            ["id",null,$claim->id],
+            ["target",null,"target"],
+            ["token",null,"token"]
+        ];
 
-      $request = $this->requestMock($map);
-      $order->getOrder($request);
-      $this->expectOutputString($expectedOutput);
-
+        $request = $this->requestMock($map);
+        $order->getOrder($request);
+        $this->expectOutputString($expectedOutput);
     }
 
     public function testCurl()
@@ -339,9 +337,9 @@ class OrderTest extends TestCase
     public function testBookHotel()
     {
         $order = $this->curlMock("success");
-		$description = "I had too many deadlines, I need some days off!";
+        $description = "I had too many deadlines, I need some days off!";
         $map = [
-			["description",null,$description],
+            ["description",null,$description],
             ["target",null,"target"],
             ["token",null,"token"]
         ];
@@ -349,9 +347,9 @@ class OrderTest extends TestCase
         $request = $this->requestMock($map);
 
         $company = $this->makeCompany('Test Company');
-    	$claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
-    	$approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-    	$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
         $this->actingAs($claimer);
         $order->bookHotel($request);
         $this->assertDatabaseHas("claims",[
@@ -361,7 +359,7 @@ class OrderTest extends TestCase
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
-			"description" => $description
+            "description" => $description
         ]);
     }
 }
