@@ -26,7 +26,7 @@ class AddAlasanRejectToClaimsTable extends Migration
     public function down()
     {
         Schema::table('claims', function (Blueprint $table) {
-            //
+            $table->dropColumn('alasan_reject');
         });
     }
 }
