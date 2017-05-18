@@ -157,7 +157,7 @@
     }
 
     $('#origin').devbridgeAutocomplete({
-        serviceUrl: "{{url('/api/airport')}}",        
+        serviceUrl: "{{url('/api/airport')}}",
     });
 
     function show(id, value) {
