@@ -271,12 +271,11 @@ class OrderController extends Controller
         $page = $request->input('page');
         $night = strtotime($ret_date)-strtotime($date);
         $today = date_diff(date_create_from_format('Y-m-d',date('Y-m-d')),date_create_from_format('Y-m-d',"$date"))->format('%R%a');
-        if(($ret_date != "false") && ($night < 1 || $today < 0))  {
+        if(($ret_date != "false") && $ret_date && ($night < 1 || $today < 0))  {
             echo "error";
             return;
         }
-        if($ret_date) {
-            
+        if(($ret_date != "false")) {
             $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&ret_date=$ret_date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
         } else {
             $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
