@@ -260,11 +260,9 @@ class OrderController extends Controller
     * @return json
     */
     public function getFlight(Request $request) {
-        $sd = 0;
         $d = $request->input('d');
         $a = $request->input('a');
         $date = $request->input('date');
-        $enable_ret_date = $request->input('enable_ret_date');
         $ret_date = $request->input('ret_date');
         $adult = $request->input('adult');
         $child = $request->input('child');
@@ -273,14 +271,15 @@ class OrderController extends Controller
         $page = $request->input('page');
         $night = strtotime($ret_date)-strtotime($date);
         $today = date_diff(date_create_from_format('Y-m-d',date('Y-m-d')),date_create_from_format('Y-m-d',"$date"))->format('%R%a');
-        if($ret_date && $night < 1 || $today < 0)  {
+        if(($ret_date != "false") && ($night < 1 || $today < 0))  {
             echo "error";
             return;
         }
         if($ret_date) {
-            $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
-        } else {
+            
             $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&ret_date=$ret_date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
+        } else {
+            $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
         }
         echo $this->curlCall($url);
     }
