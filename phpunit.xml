@@ -46,7 +46,7 @@
         <env name="QUEUE_DRIVER" value="sync"/>
 
         <env name="DB_CONNECTION" value="mysql"/>
-        <env name="DB_DATABASE" value="ppla4test"/>
+        <env name="DB_DATABASE" value="ppla4"/>
 
         <env name="MAIL_DRIVER" value="log"/>
         <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
