@@ -102,4 +102,6 @@ Route::group(['prefix'=>'api'],function()  {
   Route::post('/book/hotel','OrderController@bookHotel');
   Route::post('/claim/detil','OrderController@getOrder');
   Route::get('/airport','OrderController@getAirport');
+  Route::post('/plane/list', 'OrderController@getFlight');
+
 });

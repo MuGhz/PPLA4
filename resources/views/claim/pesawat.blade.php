@@ -52,11 +52,11 @@
       <div class="col-md-8">
           <div class="col-md-6 form-group">
             <label>Tanggal Berangkat</label>
-            <input class="form-control datepicker" name="depart" id="in">
+            <input class="form-control datepicker" name="depart" id="depart">
         </div>
           <div class="form-group col-md-6">
             <label>Tanggal Kembali: </label>
-            <input class="form-control datepicker" name="return" id="out">
+            <input class="form-control datepicker" name="return" id="return">
           </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
             </div>
               <div class="form-group col-md-4">
                 <label>Bayi (<= 23 bulan)</label>
-                <select class="form-control" name="child" id="child">
+                <select class="form-control" name="child" id="infant">
                   @for($i = 0; $i < 10;$i++)
                   <option value="{{$i}}">{{$i}}</option>
                   @endfor
@@ -95,7 +95,7 @@
 		</div>
 	</div>
     <div class="col-md-8">
-      <button class="btn btn-primary btn-block" type="button" id="submit">Cari Hotel</button>
+      <button class="btn btn-primary btn-block" type="button" id="submit">Cari Tiket</button>
     </div>
   </form>
   <hr>
@@ -170,6 +170,47 @@
     $('#2').click(function(){
         $('#out').attr('disabled',true);
     });
+    var token = "";
+    $("#submit").click(function() {
+      $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
+          // Display the returned data in browser
+          e = JSON.parse(e);
+          token = e.token;
+          localStorage.token = token;
+          getTicket(1);
+      });
+    });
+
+    function getTicket(page) {
+      show('loading',true);
+      var origin = $("#origin").val();
+      var destination = $("#destination").val();
+      var depart = $("#depart").val();
+      var returns = $("#return").val();
+      var adult = $("#adult").val();
+      var child = $("#child").val();
+      var infant = $("#infant").val();
+      console.log(origin, destination, depart, returns, adult, child, infant)
+	  // Buat ngehandle wait forever pas ins-nya kosong
+	  if(!ins) {
+		show('loading',false);
+		$('#error').modal('show');
+        return;
+	  }
+
+      $.post("{{action('OrderController@getFlight')}}", {d:origin,a:destination,date:depart,ret_date:returns,adult:adult,child:child,infant:infant,page:page,token:token,_token:"{{csrf_token()}}"}).done(function(e){
+          // Display the returned data in browser
+          //console.log(data.result);
+
+          show('loading',false);
+          console.log(e);
+          if(e == "error")  {
+            $('#error').modal('show');
+            return;
+          }
+
+        });
+    }
 
   </script>
 @endsection
