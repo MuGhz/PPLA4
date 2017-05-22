@@ -20,6 +20,12 @@
   .items  {
     border: 1px;
   }
+    .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+    .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+    .autocomplete-selected { background: #F0F0F0; }
+    .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+    .autocomplete-group { padding: 2px 5px; }
+    .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
   </style>
 @endsection
 
@@ -39,7 +45,7 @@
     <div class="row">
       <div class="col-md-8">
          <div class="col-md-6 form-group">
-             <label>Bandara Asal</label>    
+             <label>Bandara Asal</label>
              <input type="text" class="form-control" name="d" id="departure" value=""/>
              <input type="text" hidden name="rd" id="rd" value=""/>
          </div>
@@ -223,7 +229,7 @@
           //console.log(data.result);
 
           show('loading',false);
-          console.log(e);
+        //   console.log(e);
           if(e == "error")  {
             $('#error').modal('show');
             return;
@@ -233,13 +239,14 @@
           console.log(e);
           console.log(e['departures']['result']);
 
-          var temp = "";
+          var temp = '<div class="panel panel-info"><div class="panel-heading">Rangkuman Pembelian</div><div class="panel-body"><div class="col-md-10">Berangkat : <div id="dep_flight">Kosong</div><hr/>Pulang : <div id="ret_flight">Kosong</div></div><div class="col-md-2">Total :<div class="total_info"></div><button class="btn btn-danger btn-lg">Lanjutkan</button></div></div></div>';
+            // var temp = "";
           // Departure flight
           if(typeof e.departures =='undefined' || e.departures.result.length==0)  {
             temp += "<h2>Tidak ada penerbangan berangkat</h2>";
           } else {
-            temp = "<div class='col-md-12 row row-eq-height'>";
-            temp = "<h2>Penerbangan berangkat</h2>";
+            temp += "<div class='col-md-12 row row-eq-height'>";
+            temp += "<h2>Penerbangan berangkat</h2>";
             var length = e.departures.result.length;
             e.departures.result.forEach(function(f,i)  {
               if(i%2 == 0)
@@ -247,12 +254,18 @@
                 temp+="<div class='col-md-6 panel panel-default container'>";
                 temp+="<h2>"+f.airlines_name+"</h2>";
                 temp+="<img src='"+f.image+"'>";
+                temp+="<p>"+f.full_via+"</p>";
+                temp+="<p>Nomor Penerbangan: "+f.flight_number+"</p>";
                 temp+="<p>Harga  : "+f.price_value+"</p>";
                 temp+="<p>Waktu Berangkat : "+f.departure_flight_date+"</p>";
                 temp+="<p>Waktu Sampai : "+f.arrival_flight_date+"</p>";
                 temp+="<p>Transit : "+f.stop+"</p>";
                 temp+="<div class='form-group'>";
-                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+                if(f.is_promo == 1)
+                    temp+="<p><b>Promo</b></p>";
+                if(f.best_deal)
+                    temp+="<h3>BEST DEAL</h3>"
+                temp+="<button class='btn btn-success' onclick=\"depart('"+JSON.stringify(f)+"')\">Pilih</button>"
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
@@ -273,12 +286,18 @@
                 temp+="<div class='col-md-6 panel panel-default container'>";
                 temp+="<h2>"+f.airlines_name+"</h2>";
                 temp+="<img src='"+f.image+"'>";
+                temp+="<p>"+f.full_via+"</p>";
+                temp+="<p>Nomor Penerbangan: "+f.flight_number+"</p>";
                 temp+="<p>Harga  : "+f.price_value+"</p>";
                 temp+="<p>Waktu Berangkat : "+f.departure_flight_date+"</p>";
                 temp+="<p>Waktu Sampai : "+f.arrival_flight_date+"</p>";
                 temp+="<p>Transit : "+f.stop+"</p>";
                 temp+="<div class='form-group'>";
-                temp+="<button class='btn btn-success' onclick=\"detail('"+f.business_uri+"')\">detail</button>"
+                if(f.is_promo == 1)
+                    temp+="<p><b>Promo</b></p>";
+                if(f.best_deal)
+                    temp+="<h3>BEST DEAL</h3>"
+                temp+="<button class='btn btn-success' onclick=\"arrive('"+f+"')\">Pilih</button>"
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
@@ -288,6 +307,29 @@
           }
             $(".results").html(temp);
         });
+    }
+
+    var f_did = 0;
+    var a_did = 0;
+    var f_price = 0;
+    var a_price = 0;
+
+    function depart(f) {
+        f = JSON.parse(f);
+        console.log(f)
+        var container = $("#dep_flight");
+        var total = $("#total_info");
+        var temp = "<div class='col-md-12>'"
+        temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>'
+        temp+='<div class="col-md-2">'+f.stop+"</div>"
+        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>+'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
+        temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>'
+        temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>'
+        temp+= "</div>"
+        f_did = f.flight_id;
+        total = a_price+f.price_value;
+        container.html(temp);
+        total.html(total);
     }
 
     // TODO: belum kelar

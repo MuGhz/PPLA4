@@ -288,6 +288,13 @@ class OrderController extends Controller
         echo $this->curlCall($url);
     }
 
+	public function getFlightData(Request $request)	{
+		$flight_id = $request->input('flight_id');
+		$date = $request->input('date');
+		$ret_flight_id = $request->input('ret_flight_id');
+		$token = $request->input('token');
+	}
+
     public function bookPesawat(Request $request)
     {
         $description = $request->input('description');
