@@ -39,12 +39,14 @@
     <div class="row">
       <div class="col-md-8">
          <div class="col-md-6 form-group">
-             <label>Bandara Asal</label>
-             <input type="text" class="form-control" name="d" id="departure"/>
+             <label>Bandara Asal</label>    
+             <input type="text" class="form-control" name="d" id="departure" value=""/>
+             <input type="text" hidden name="rd" id="rd" value=""/>
          </div>
          <div class="col-md-6 form-group">
              <label>Bandara Tujuan</label>
-             <input type="text" class="form-control" name="a" id="arrival"/>
+             <input type="text" class="form-control" name="a" id="arrival" value=""/>
+             <input type="text" hidden name="ra" id="ra" value=""/>
          </div>
       </div>
     </div>
@@ -158,10 +160,16 @@
 
     $('#departure').devbridgeAutocomplete({
         serviceUrl: "{{url('/api/airport')}}",
+        onSelect: function (suggestion) {
+            $("#rd").val(suggestion.data)
+        },
     });
 
     $('#arrival').devbridgeAutocomplete({
         serviceUrl: "{{url('/api/airport')}}",
+        onSelect: function (suggestion) {
+            $("#ra").val(suggestion.data)
+        },
     });
 
     function show(id, value) {
@@ -192,8 +200,8 @@
     // TODO: rapihin
     function getFlight(page) {
       show('loading',true);
-      var departure = $("#departure").val();
-      var arrival = $("#arrival").val();
+      var departure = $("#rd").val();
+      var arrival = $("#ra").val();
       var date = $("#date").val();
       var ret_date = $("#ret_date").val();
       if (document.getElementById('ret_date').disabled) {

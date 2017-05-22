@@ -193,7 +193,7 @@ class OrderController extends Controller
         $url  = "https://api-sandbox.tiket.com/checkout/checkout_payment/8?token=$claim->claim_data_id&currency=IDR&btn_booking=1&output=json";
         $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' Checkout payment, confirming purchase...');
-        
+
         // Confirm
         $url = "https://api-sandbox.tiket.com/partner/transactionApi/confirmPayment?order_id=$orderId&secretkey=$this->key&confirmkey=87db09&username=totorvo901@gmail.com&textarea_note=test&tanggal=2012-12-06&output=json";
         $response = $this->curlCall($url);
@@ -281,9 +281,9 @@ class OrderController extends Controller
             return;
         }
         if(($ret_date != "false")) {
-            $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&ret_date=$ret_date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
+            $url = "https://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&ret_date=$ret_date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=1&output=json";
         } else {
-            $url = "http://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=3&output=json";
+            $url = "https://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=1&output=json";
         }
         echo $this->curlCall($url);
     }
