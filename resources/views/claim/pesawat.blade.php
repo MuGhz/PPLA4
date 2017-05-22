@@ -202,7 +202,8 @@
           getFlight(1); // Gak ada pagination?
       });
     });
-
+    var depart_data = [];
+    var arrival_data = [];
     // TODO: rapihin
     function getFlight(page) {
       show('loading',true);
@@ -239,7 +240,7 @@
           console.log(e);
           console.log(e['departures']['result']);
 
-          var temp = '<div class="panel panel-info"><div class="panel-heading">Rangkuman Pembelian</div><div class="panel-body"><div class="col-md-10">Berangkat : <div id="dep_flight">Kosong</div><hr/>Pulang : <div id="ret_flight">Kosong</div></div><div class="col-md-2">Total :<div class="total_info"></div><button class="btn btn-danger btn-lg">Lanjutkan</button></div></div></div>';
+          var temp = '<div class="panel panel-info"><div class="panel-heading">Rangkuman Pembelian</div><div class="panel-body"><div class="col-md-10">Berangkat : <div id="dep_flight" class="col-md-12">Kosong</div><hr/>Pulang : <div id="ret_flight" class="col-md-12">Kosong</div></div><div class="col-md-2">Total :<div id="total_info"></div><button class="btn btn-danger btn-lg">Lanjutkan</button></div></div></div>';
             // var temp = "";
           // Departure flight
           if(typeof e.departures =='undefined' || e.departures.result.length==0)  {
@@ -247,6 +248,7 @@
           } else {
             temp += "<div class='col-md-12 row row-eq-height'>";
             temp += "<h2>Penerbangan berangkat</h2>";
+            depart_data = e.departures.result;
             var length = e.departures.result.length;
             e.departures.result.forEach(function(f,i)  {
               if(i%2 == 0)
@@ -265,7 +267,7 @@
                     temp+="<p><b>Promo</b></p>";
                 if(f.best_deal)
                     temp+="<h3>BEST DEAL</h3>"
-                temp+="<button class='btn btn-success' onclick=\"depart('"+JSON.stringify(f)+"')\">Pilih</button>"
+                temp+="<button class='btn btn-success' onclick=\"depart('"+i+"')\">Pilih</button>"
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
@@ -280,7 +282,8 @@
             temp += "<div class='col-md-12 row row-eq-height'>";
             temp += "<h2>Penerbangan pulang</h2>";
             length = e.returns.result.length;
-            e.departures.result.forEach(function(f,i)  {
+            arrival_data = e.returns.result;
+            e.returns.result.forEach(function(f,i)  {
               if(i%2 == 0)
                 temp+="<div class='row row-eq-height'>";
                 temp+="<div class='col-md-6 panel panel-default container'>";
@@ -297,7 +300,7 @@
                     temp+="<p><b>Promo</b></p>";
                 if(f.best_deal)
                     temp+="<h3>BEST DEAL</h3>"
-                temp+="<button class='btn btn-success' onclick=\"arrive('"+f+"')\">Pilih</button>"
+                temp+="<button class='btn btn-success' onclick=\'arrive('"+i+"')\'>Pilih</button>"
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
@@ -314,22 +317,22 @@
     var f_price = 0;
     var a_price = 0;
 
-    function depart(f) {
-        f = JSON.parse(f);
+    function depart(i) {
+        f = depart_data[i];
         console.log(f)
         var container = $("#dep_flight");
-        var total = $("#total_info");
-        var temp = "<div class='col-md-12>'"
+        var total_i = $("#total_info");
+        var temp = ""
         temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>'
         temp+='<div class="col-md-2">'+f.stop+"</div>"
         temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>+'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
         temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>'
         temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>'
-        temp+= "</div>"
         f_did = f.flight_id;
+        f_price = f.price_value;
         total = a_price+f.price_value;
         container.html(temp);
-        total.html(total);
+        total_i.html(total);
     }
 
     // TODO: belum kelar
