@@ -101,24 +101,21 @@ class OrderController extends Controller
     {
         $id = $request->input('id');
         $token = $request->input('token');
-        $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
-        $claimDescription = Claim::where('id','=',$id)->first()->description;
-        $response = $this->curlCall($url);
-        echo '{"api_data":'.$response.',"description":"'.$claimDescription.'"}';
-
-    }
-
-    public function getOrderAfterDisbursed(Request $request)
-    {
-        $token = $this->decodeJsonToken();
-        $claim_id = $request->input('id');
+        $orderId = $request->input('orderId');
         $claim = Claim::find($claim_id);
-        $order_id = $claim->order_id;
-        $email = Company::find(Auth::user()->company)->email_tiket;
-        $url = "https://api-sandbox.tiket.com/check_order?secretkey=$this->key&token=$token&order_id=$order_id&email=$email&output=json";
-        $claimDescription = $claim->description;
-        $response = $this->curlCall($url);
+        $status = $claim->claim_status;
+        if($status<3){
+            $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
+            $claimDescription = Claim::where('id','=',$id)->first()->description;
+            $response = $this->curlCall($url);
+        }else{
+            $email = Company::find(Auth::user()->company)->email_tiket;
+            $url = "https://api-sandbox.tiket.com/check_order?secretkey=$this->key&token=$token&order_id=$order_id&email=$email&output=json";
+            $claimDescription = $claim->description;
+            $response = $this->curlCall($url);
+        }
         echo '{"api_data":'.$response.',"description":"'.$claimDescription.'"}';
+
     }
 
     /**
