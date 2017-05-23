@@ -161,7 +161,7 @@ class OrderController extends Controller
     * @param HTTP request, claim Id
     * @return view
     */
-    public function orderHotel(Request $request,$id)
+    public function purchaseOrder(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();
         $created = new Carbon($claim->created_at);
@@ -346,10 +346,12 @@ class OrderController extends Controller
         $lastnamea = $request->input('lastnamea');
         $birthdatea = $request->input('birthdatea');
 
+        $titlec = $request->input('titlec');
         $firstnamec = $request->input('firstnamec');
         $lastnamec = $request->input('lastnamec');
         $birthdatec = $request->input('birthdatec');
 
+        $titlei = $request->input('titlei');
         $firstnamei = $request->input('firstnamei');
         $lastnamei = $request->input('lastnamei');
         $birthdatei = $request->input('birthdatei');
@@ -388,11 +390,5 @@ class OrderController extends Controller
             return redirect('/home');
         }
         return "true";
-    }
-
-    public function orderFlight(Request $request,$id)
-    {
-        $claim = Claim::where('id','=',$id)->first();
-        return redirect('/home');
     }
 }
