@@ -101,9 +101,14 @@ class ClaimController extends Controller
     public function verified($id)
     {
         $claim = Claim::find($id);
-        $claim->claim_status = 5;
-        $claim->save();
-        Log::info('user ('.Auth::id().") ".(Auth::user()->name)." verified claim ".$claim->id);
-        return redirect("/");
+        if ($claim->claim_status == 4) {
+            $claim->claim_status = 5;
+            $claim->save();
+            Log::info('user ('.Auth::id().") ".(Auth::user()->name)." verified claim ".$claim->id);
+            return redirect("/");
+        }
+        else {
+            return abort('403','403 - Unauthorized access');
+        }
     }
 }
