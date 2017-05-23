@@ -32,13 +32,18 @@ class User extends Authenticatable
     }
 
     public function scopeApprover($query,$claimer) {
-      $approvers = $query->where('company',$claimer->company)->where('role','approver')->get();
+      $approvers = $query->where('company',$claimer->company)->where('role','approver')
+                        ->where('id','!=',$claimer->id)
+                        ->get();
       // dd($approvers);
       return $approvers[rand(0,count($approvers)-1)];
     }
 
     public function scopeFinance($query, $claimer) {
-      $finances =  $query->where('company',$claimer->company)->where('role','finance')->get();
+      $finances =  $query->where('company',$claimer->company)->where('role','finance')
+                        ->where('id','!=',$claimer->id)
+                        ->get();
+                        
       return $finances[rand(0,count($finances)-1)];
     }
 }
