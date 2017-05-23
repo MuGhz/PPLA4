@@ -37,8 +37,8 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
 
 
-
   Route::group(['prefix'=>'claim'],function()  {
+    Route::get('/verified/{id}','ClaimController@verified');
     Route::group(['prefix'=>'detail'],function(){
       Route::get('/{id}','ClaimController@show');
     });
@@ -82,7 +82,8 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::get('/buy/{id}','OrderController@purchaseOrder');
     Route::get('/received','FinanceController@showReceived');
     Route::get('/approved','FinanceController@showApproved');
-      Route::get('/rejected','FinanceController@showRejected');
+    Route::get('/rejected','FinanceController@showRejected');
+    Route::get('/reported','FinanceController@showReported');
   });
 
 

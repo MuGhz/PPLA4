@@ -6,7 +6,7 @@
 $id = $value -> id;
 $token = $value -> claim_data_id ;
 $status = $value -> claim_status;
-$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Disbursed":($status==4?"Reported":($status==5?"Closed":"Rejected")))));
 @endphp
 @endforeach
 
