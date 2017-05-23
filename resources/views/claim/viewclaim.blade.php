@@ -6,12 +6,13 @@
 $id = $value -> id;
 $token = $value -> claim_data_id ;
 $status = $value -> claim_status;
-$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Disbursed":($status==4?"Reported":($status==5?"Closed":"Rejected")))));
 $alasan = $status=="Rejected"?$value->alasan_reject:"";
 $isSelf = Auth::id() == $value->claimer_id;
 
 $action = Auth::user()["role"];
-$isFinished = ($status == "Closed") || ($status == "Reported") || ($status == "Disbursed");
+$role = $action;
+$isFinished = ($status == "Closed") || ($status == "Reported") || ($status == "Disbursed") ;
 
 $buttonLabel=
 (($isSelf && !$isFinished)?"Cancel claim"
@@ -55,7 +56,9 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 		</div>
 		<div class="form-group col-md-4">
       @if($isSelf && ($value->claim_status == 3))
-	        <a class="btn btn-primary btn-block btn-danger" id='upload'>Upload proof</a>
+	      <a class="btn btn-primary btn-block btn-danger" id='upload'>Upload proof</a>
+      @elseif($value->claim_status == 4)
+          <a class="btn btn-primary btn-block" id='show_image'>Show Proof</a>
       @elseif(($value->claim_status == 2) && (Auth::user()["role"] == "finance"))
           <a href="{{URL::to('/home/finance/buy/'.$id)}}" class="btn btn-primary btn-block">Beli tiket</a>
       @elseif(($value->claim_status == 1)&&(Auth::user()["role"]=="approver"))
@@ -68,6 +71,26 @@ $namaFinance  = App\User::find($value->finance_id)->name;
     </div>
 
     </div>
+    <div id='proof_image' hidden="true">
+        <center>
+        <div class="row">
+        <img src="{{asset('storage/upload_proof/'.$id.'.jpg')}}" height="400" width="400">
+        </div>
+        <div class="row">
+            @if($role == "finance")
+            <br>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+    	        <a class="btn btn-primary btn-block"href="/home/claim/verified/{{$id}}">Mark as verified</a>
+    		</div>
+            <div class="form-group col-md-4">
+            </div>
+            @endif
+        </div>
+        </center>
+    </div>
+
     <div id='uploadProof' hidden="true">
       <form action="/home/claim/upload_proof/{{$id}}" method="post" enctype="multipart/form-data" type class="container col-md-offset-2">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -114,6 +137,11 @@ $namaFinance  = App\User::find($value->finance_id)->name;
     $(document).ready(function(){
         $("#upload").click(function(){
             $("#uploadProof").toggle();
+        });
+    });
+    $(document).ready(function(){
+        $("#show_image").click(function(){
+            $("#proof_image").toggle();
         });
     });
 	$.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}",id:"{{$id}}"}).done(function(e){

@@ -66,4 +66,9 @@ class FinanceController extends Controller
         $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '6')->get();
         return view('adminlte::home', compact('allClaim'));
     }
+    public function showReported()
+    {
+        $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '4')->get();
+        return view('adminlte::home', compact('allClaim'));
+    }
 }
