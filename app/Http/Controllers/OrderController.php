@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Claim;
 use App\User;
+use App\Company;
 
 use Carbon\Carbon;
 /**
@@ -98,10 +99,12 @@ class OrderController extends Controller
     */
     public function getOrder(Request $request)
     {
+        $token = $this->decodeJsonToken();
         $claim_id = $request->input('id');
-        $claim = Claim::find($claim_id)->order_id;
-        $email = Auth::user()->company->email_tiket;
-        $url = "https://api-sandbox.tiket.com/check_order?order_id=$claim&email=$email&output=json";
+        $claim = Claim::find($claim_id);
+        $order_id = $claim->order_id;
+        $email = Company::find(Auth::user()->company)->email_tiket;
+        $url = "https://api-sandbox.tiket.com/check_order?secretkey=$this->key&token=$token&order_id=$order_id&email=$email&output=json";
         $claimDescription = $claim->description;
         $response = $this->curlCall($url);
         echo '{"api_data":'.$response.',"description":"'.$claimDescription.'"}';
