@@ -285,7 +285,7 @@ class OrderController extends Controller
             echo "error";
             return;
         }
-        if(($ret_date != "false")) {
+        if(!is_null($ret_date)) {
             $url = "https://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&ret_date=$ret_date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=1&output=json";
         } else {
             $url = "https://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=1&output=json";
