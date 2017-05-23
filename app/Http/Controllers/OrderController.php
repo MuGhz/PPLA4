@@ -220,18 +220,17 @@ class OrderController extends Controller
         $claim_id = $request->input('id');
         $claim = Claim::find($claim_id);
         $token = $request->input('token');
-
-        $email_tiket = Auth::user()->company->email_tiket;
+        $email_tiket = Company::find(Auth::user()->company)->email_tiket;
         if($email_tiket == null)
             $email_tiket = $emailAddress;
         if($email_tiket != $emailAddress)
             return "error, unknown tiket.com email";
 
-        $dataLogin = "salutation=$salutation&firstName=$firstName&lastName=$lastName&emailAddress=$emailAddress&phone=%2B$phone";
+        $dataLogin = "salutation=$salutation&firstName=$firstName&lastName=$lastName&emailAddress=$emailAddress&phone=%2B62$phone";
         $response = $this->orderHotelLoginCheckout($dataLogin,$token);
         $response = json_decode($response,true);
         if($response['diagnostic']['status'] != 200)
-            return "error";
+            return "error ".$response['diagnostic']['status']." ".$response['diagnostic']['error_msgs'];
         // Customer Checkout
         if($claim->claim_type == 1)  {
             $conFirstName = $request->input('conFirstName');
@@ -239,21 +238,29 @@ class OrderController extends Controller
             $conSalutation = $request->input('conSalutation');
             $conPhone = $request->input('conPhone');
             $conEmailAddress = $request->input('conEmailAddress');
-            $dataCustomerCheckout = "conSalutation=$conSalutation&conFirstName=$conFirstName&conLastName=$conLastName&conEmailAddress=$conEmailAddress&conPhone=%2B$conPhone";
+            $orderDetailId = $claim->order_detail_id;
+            $dataCustomerCheckout = "conSalutation=$conSalutation&conFirstName=$conFirstName&conLastName=$conLastName&conEmailAddress=$conEmailAddress&conPhone=%2B62$conPhone";
             $response = $this->orderHotelCustomerCheckout($dataLogin,$dataCustomerCheckout,$orderDetailId,$token);
             $status = json_decode($response,true)['diagnostic']['status'];
             if($status != 200)
-                return "error";
+                return "error ".$status;
         }
         // Confirm
-        $confirmData="secretkey=$this->key&confirmkey=e1fdb5&username=totorvo901@ymail.com&textarea_note=test&tanggal=2012-12-06";
+        $url = "http://api-sandbox.tiket.com/checkout/checkout_payment/8?btn_booking=1&token=$token&output=json";
+        $response = $this->curlCall($url);
+        $response = json_decode($response,true);
+        if($response['diagnostic']['status'] != 200)
+            return $response['diagnostic']['status']." ".$response['diagnostic']['error_msgs'];
+
+        $orderId = $claim->order_id;
+        $confirmData="secretkey=$this->key&confirmkey=87db09&username=totorvo901@gmail.com&textarea_note=test&tanggal=2012-12-06";
         $response = $this->orderHotelConfirm($orderId,$confirmData);
 
         $responseObject = json_decode($response,true);
         if ($responseObject['diagnostic']['status'] != '200') {
             Log::info('user \('.Auth::id().') '.' request failed',['error'=>$responseObject['diagnostic']['error_msgs'],'claim'=>$claim]);
             session()->flash('error',$responseObject['diagnostic']['error_msgs']);
-            return back();
+            return "error ".$responseObject['diagnostic']['error_msgs'];
         }
         $claim->claim_status = 3;
         $claim->save();
