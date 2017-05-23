@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddEmailTicketcomColumnToUserTable extends Migration
+class AddEmailTiketColumnToCompaniesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddEmailTicketcomColumnToUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table -> string('email_ticket')->nullable();
+        Schema::table('companies', function (Blueprint $table) {
+            $table -> string('email_tiket')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddEmailTicketcomColumnToUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_ticket');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropColumn('email_tiket');
         });
     }
 }
