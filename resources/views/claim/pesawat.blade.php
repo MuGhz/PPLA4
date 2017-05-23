@@ -240,7 +240,7 @@
 
           e = JSON.parse(e);
           console.log(e);
-          console.log(e['departures']['result']);
+          //console.log(e['departures']['result']);
 
           var temp = '<div class="panel panel-info"><div class="panel-heading">Rangkuman Pembelian</div><div class="panel-body"><div class="col-md-10">Berangkat : <div id="dep_flight" class="col-md-12">Kosong</div><hr/>Pulang : <div id="ret_flight" class="col-md-12">Kosong</div></div><div class="col-md-2">Total :<div id="total_info"></div><button class="btn btn-danger btn-lg" onclick="book()">Lanjutkan</button></div></div></div>';
             // var temp = "";
@@ -302,7 +302,7 @@
                     temp+="<p><b>Promo</b></p>";
                 if(f.best_deal)
                     temp+="<h3>BEST DEAL</h3>"
-                temp+="<button class='btn btn-success' onclick=\'arrive('"+i+"')\'>Pilih</button>"
+                temp+="<button class=\'btn btn-success\' onclick=\'arrive(\""+i+"\")\'>Pilihasd</button>";
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
@@ -321,40 +321,40 @@
 
     function depart(i) {
         f = depart_data[i];
-        console.log(f)
+        console.log(f);
         var container = $("#dep_flight");
         var total_i = $("#total_info");
-        var temp = ""
-        temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>'
-        temp+='<div class="col-md-2">'+f.stop+"</div>"
-        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
-        temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>'
-        temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>'
+        var temp = "";
+        temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>';
+        temp+='<div class="col-md-2">'+f.stop+"</div>";
+        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>'+'<div class="row">'+f.departure_flight_date_str+'</div></div>';
+        temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>';
+        temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>';
         f_did = f.flight_id;
         f_price = parseInt(f.price_value);
         total = parseInt(a_price)+f_price;
         container.html(temp);
         total_i.html(total);
-        d = f.departure_flight_date.split(" ")[0]
+        d = f.departure_flight_date.split(" ")[0];
     }
 
     function arrive(i) {
-        f = depart_data[i];
-        console.log(f)
+        f = arrival_data[i];
+        console.log(f);
         var container = $("#ret_flight");
         var total_i = $("#total_info");
         var temp = ""
-        temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>'
-        temp+='<div class="col-md-2">'+f.stop+"</div>"
-        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>+'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
-        temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>'
-        temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>'
+        temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>';
+        temp+='<div class="col-md-2">'+f.stop+"</div>";
+        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>+'+'<div class="row">'+f.departure_flight_date_str+'</div></div>';
+        temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>';
+        temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>';
         a_did = f.flight_id;
         f_price = parseInt(f.price_value);
         total = parseInt(f_price)+a_price;
         container.html(temp);
         total_i.html(total);
-        rd = f.arrival_flight_date.split(" ")[0]
+        rd = f.arrival_flight_date.split(" ")[0];
     }
 
     function book() {
