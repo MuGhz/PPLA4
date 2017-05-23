@@ -94,10 +94,10 @@ class ClaimController extends Controller
             $claim->claim_status = 4;
             $claim->save();
             Log::info('user ('.Auth::id().") ".(Auth::user()->name)." uploaded proof for claim ".$claim->id);
-            return redirect("/");
         }
-
+        return redirect("/");
     }
+    
     public function verified($id)
     {
         $claim = Claim::find($id);
