@@ -93,9 +93,9 @@ class OrderTest extends TestCase
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
                     ->setMethods(array('curlCall','decodeJsonToken'))
                     ->getMock();
-        $order->expects($this->exactly(6))
+        $order->expects($this->exactly(7))
               ->method("curlCall")
-              ->will($this->onConsecutiveCalls(null,$returnValue,$returnValueElse,$returnValueElse,$returnValueElse,$returnValueElse));
+              ->will($this->onConsecutiveCalls($returnValue,null,$returnValue,$returnValueElse,$returnValueElse,$returnValueElse,$returnValueElse));
         $order->expects($this->any())
                 ->method("decodeJsonToken")
                 ->will($this->returnValue("token"));
@@ -467,7 +467,7 @@ class OrderTest extends TestCase
 
         $request = $this->requestMock($map);
 
-      $company = $this->makeCompany('Test Company');
+        $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
