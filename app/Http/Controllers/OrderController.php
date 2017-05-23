@@ -104,6 +104,7 @@ class OrderController extends Controller
         $orderId = $request->input('orderId');
         $claim = Claim::find($id);
         $status = $claim->claim_status;
+        $orderType = $claim->claim_type;
         if($status<3){
             $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
             $claimDescription = Claim::where('id','=',$id)->first()->description;
