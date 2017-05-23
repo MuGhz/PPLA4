@@ -99,6 +99,17 @@ class OrderController extends Controller
     */
     public function getOrder(Request $request)
     {
+        $id = $request->input('id');
+        $token = $request->input('token');
+        $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
+        $claimDescription = Claim::where('id','=',$id)->first()->description;
+        $response = $this->curlCall($url);
+        echo '{"api_data":'.$response.',"description":"'.$claimDescription.'"}';
+
+    }
+
+    public function getOrderAfterDisbursed(Request $request)
+    {
         $token = $this->decodeJsonToken();
         $claim_id = $request->input('id');
         $claim = Claim::find($claim_id);

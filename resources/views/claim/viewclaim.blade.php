@@ -5,7 +5,9 @@
 @php
 $id = $value -> id;
 $token = $value -> claim_data_id ;
+$orderId = $value -> order_id;
 $status = $value -> claim_status;
+$noStatus = $status;
 $status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Disbursed":($status==4?"Reported":($status==5?"Closed":"Rejected")))));
 $alasan = $status=="Rejected"?$value->alasan_reject:"";
 $isSelf = Auth::id() == $value->claimer_id;
@@ -144,12 +146,13 @@ $namaFinance  = App\User::find($value->finance_id)->name;
             $("#proof_image").toggle();
         });
     });
+    @if($noStatus < 3)
 	$.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}",id:"{{$id}}"}).done(function(e){
 		e = JSON.parse(e);
 		var description = e.description;
 		e = e.api_data;
         console.log(e);
-		temp = "<center><div class='row'>";
+		    temp = "<center><div class='row'>";
 			temp+= "<div class='col-md-3'>";
 			temp+= "</div>";
 			temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
@@ -191,6 +194,47 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 
 		$("#detailClaim").html(temp);
 	 });
+    @else
+    $.post("{{action('OrderController@getOrderAfterDisbursed')}}",{_token: "{{csrf_token()}}",orderId:"{{$orderId}}",id:"{{$id}}"}).done(function(e){
+		e = JSON.parse(e);
+		e = e.api_data;
+        console.log(e);
 
+            temp = "<center><div class='row'>";
+            temp+= "<div class='col-md-3'>";
+            temp+= "</div>";
+            temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
+            temp+= "<br>";
+            temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
+            temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
+            temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
+            temp+= "<br>";
+            temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+            temp+= "<hr>";
+            temp+= "<p>Tipe: "+e.result.order_cart_detail.data[0].order_type+"</p>";
+            temp+= "<p>"+e.result.order_cart_detail.data[0].order_name+"</p>";
+            temp+= "<p>Jenis kamar: "+e.result.order_cart_detail.data[0].order_name_detail+"</p>";
+            temp+= "<div class='form-group col-md-6'>";
+                temp+= "<p>Dewasa: "+e.result.order_cart_detail.data[0].detail.room_adult+"</p>";
+                temp+= "</div>";
+                temp+= "<div class='form-group col-md-6'>";
+                temp+= "<p>Anak-anak: "+e.result.order_cart_detail.data[0].detail.room_child+"</p>";
+                temp+= "</div>";
+                temp+= "<div class='form-group col-md-6'>";
+                temp+= "<p>Checkin: "+e.result.order_cart_detail.data[0].detail.checkin+"</p>";
+                temp+= "</div>";
+                temp+= "<hr>";
+                temp+= "<p>Total: Rp. "+e.result.order_cart_detail.data[0].customer_price+"</p>";
+                temp+= "<p>Order Expired: "+e.result.order_cart_detail.data[0].detail.order_expire_datetime+"</p>";
+                temp+= "<br>";
+            temp+= "</div>";
+            temp+= "</div></center>";
+            temp+= "<div class='col-md-3'>";
+            temp+= "</div>";
+
+        $("#detailClaim").html(temp);
+         });
+
+    @endif
 </script>
 @endsection
