@@ -163,7 +163,7 @@
     $('#arrival').devbridgeAutocomplete({
         serviceUrl: "{{url('/api/airport')}}",
     });
-    
+
     function show(id, value) {
       console.log('called');
       $("#"+id).css('display', (value ? 'block' : 'none'));
@@ -179,10 +179,12 @@
     var token = "";
     $("#submit").click(function() {
       $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
+          show('loading',true);
           // Display the returned data in browser
           e = JSON.parse(e);
           token = e.token;
           localStorage.token = token;
+          show('loading',false);
           getFlight(1); // Gak ada pagination?
       });
     });
@@ -222,7 +224,7 @@
           e = JSON.parse(e);
           console.log(e);
           console.log(e['departures']['result']);
-          
+
           var temp = "";
           // Departure flight
           if(typeof e.departures =='undefined' || e.departures.result.length==0)  {
