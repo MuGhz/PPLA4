@@ -17,8 +17,10 @@ use App\Company;
 
 
 /**
- * Class HomeController
- * @package App\Http\Controllers
+* class HomeController
+* Acts as a Controller for Homepage view.
+*
+* @package App\Http\Controllers
  */
 class HomeController extends Controller
 {
