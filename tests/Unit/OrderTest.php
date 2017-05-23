@@ -409,7 +409,7 @@ class OrderTest extends TestCase
     public function testOrderHotelConfirm()
     {
         $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
-        $response = $order->orderHotelRequestCheckout(1,"token");
+        $response = $order->orderHotelConfirm(1,"token");
         $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
     }
 
