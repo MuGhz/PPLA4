@@ -285,14 +285,8 @@ class OrderTest extends TestCase
         $claim->created_at=$date;
         $claim->save();
 
-
-<<<<<<< tests/Unit/OrderTest.php
-        $order->orderHotel($request,$claim->id);
-        $this->assertDatabaseHas( "claims",[
-=======
         $order->purchaseOrder($request,$claim->id);
         $this->assertDatabaseHas("claims",[
->>>>>>> tests/Unit/OrderTest.php
             "claim_data_id" => "token",
             "claim_type" => "1",
             "claim_status" => "3",
