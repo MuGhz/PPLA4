@@ -130,13 +130,11 @@ class OrderController extends Controller
         $target = $request->input('target');
         $token = $request->input('token');
         $url = "$target&token=$token&output=json";
-
         $success = $this->curlCall($url);
         if(json_decode($success, true)['diagnostic']['status'] != 200)
             return "error";
 
         $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
-
         $success = $this->curlCall($url);
         $success = json_decode($success, true);
         if($success['diagnostic']['status'] == 200) {
@@ -177,6 +175,7 @@ class OrderController extends Controller
 
         $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
         $success = $this->curlCall($url);
+        $success = json_decode($success,true);
         $order_id = $success['myorder']['order_id'];
         $order_detail_id = $success['myorder']['data'][0]['order_detail_id'];
         $expire_datetime = $success['myorder']['data'][0]['order_expire_datetime'];
@@ -473,7 +472,7 @@ class OrderController extends Controller
         $response = json_decode($this->curlCall($url),true);
 
         if($response['diagnostic']['status'] != 200)
-            return "error ".$response['diagnostic']['status']." ".$response['diagnostic']['error_msgs'];
+            return "error ".$response['diagnostic']['status'];
 
         $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
 
@@ -497,6 +496,5 @@ class OrderController extends Controller
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
             return redirect('/home');
         }
-        return "true";
     }
 }
