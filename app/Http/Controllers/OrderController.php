@@ -471,7 +471,7 @@ class OrderController extends Controller
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
         $response = json_decode($this->curlCall($url),true);
 
-        if(json_decode($response, true)['diagnostic']['status'] != 200)
+        if($reponse != 200)
             return "error";
 
         $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
