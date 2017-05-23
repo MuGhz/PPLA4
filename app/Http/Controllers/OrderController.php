@@ -161,7 +161,7 @@ class OrderController extends Controller
     * @param HTTP request, claim Id
     * @return view
     */
-    public function orderHotel(Request $request,$id)
+    public function purchaseOrder(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();
         $created = new Carbon($claim->created_at);

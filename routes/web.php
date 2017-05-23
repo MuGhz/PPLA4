@@ -79,7 +79,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
 
   Route::group(['prefix'=>'finance'],function()  {
-    Route::get('/buy/{id}','OrderController@orderHotel');
+    Route::get('/buy/{id}','OrderController@purchaseOrder');
     Route::get('/received','FinanceController@showReceived');
     Route::get('/approved','FinanceController@showApproved');
       Route::get('/rejected','FinanceController@showRejected');
