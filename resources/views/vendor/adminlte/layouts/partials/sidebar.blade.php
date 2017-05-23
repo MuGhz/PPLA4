@@ -59,7 +59,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{URL::to('home/approver/received')}}">{{ trans('adminlte_lang::message.received') }}</a></li>
                     <li><a href="{{URL::to('home/approver/approved')}}">{{ trans('adminlte_lang::message.approved') }}</a></li>
-					<li><a href="{{URL::to('home/approver/rejected')}}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
+                    <li><a href="{{URL::to('home/approver/rejected')}}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>
             </li>
 			@endif
@@ -71,6 +71,7 @@
                     <li><a href="{{URL::to('home/finance/received')}}">{{ trans('adminlte_lang::message.received') }}</a></li>
                     <li><a href="{{URL::to('home/finance/approved')}}">{{ trans('adminlte_lang::message.approved') }}</a></li>
 					<li><a href="{{URL::to('home/finance/rejected')}}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
+                    <li><a href="{{URL::to('home/finance/reported')}}">{{ trans('adminlte_lang::message.reported') }}</a></li>
                 </ul>
             </li>
 			@endif

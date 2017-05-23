@@ -88,12 +88,19 @@ class ClaimController extends Controller
     {
         if($request->hasFile('proof')){
             $file = $request->file('proof');
-            $file->storeAs('upload_proof',"$id.jpg");
+            $file->move('public/upload_proof',"$id.jpg");
             $claim = Claim::find($id);
             $claim->claim_status = 4;
             $claim->save();
             return redirect("/");
         }
 
+    }
+    public function verified($id)
+    {
+        $claim = Claim::find($id);
+        $claim->claim_status = 5;
+        $claim->save();
+        return redirect("/");
     }
 }

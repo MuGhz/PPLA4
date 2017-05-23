@@ -22,7 +22,7 @@
 								<i class="fa fa-times"></i></button>
 						</div>
 						-->
-						
+
 						<div class="panel-body">
 							<table class="table table-striped" id="domestic">
 								<thead>
@@ -43,7 +43,7 @@
 									$cType=$value->claim_type ;
 									$cType= $cType==1?"Hotel":"Pesawat";
 									$status=$value->claim_status;
-									$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+									$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Disbursed":($status==4?"Reported":($status==5?"Closed":"Rejected")))));
 									@endphp
 									<tr>
 										<td name="no" id="No">{{ $i }}</td>

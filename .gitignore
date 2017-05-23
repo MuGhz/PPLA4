@@ -13,3 +13,4 @@ Homestead.yaml
 err
 phpunit.xml
 /storage
+/public/upload_proof
