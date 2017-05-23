@@ -188,7 +188,7 @@ class FinanceTest extends TestCase
         $this->assertEquals(2, sizeof($claims));
     }
     
-    public function testVerify()
+    public function testVerifySuccess()
     {
         extract($this->dataset());
         $this->actingAs($finance);
@@ -204,6 +204,25 @@ class FinanceTest extends TestCase
         $this->assertDatabaseHas('claims',[
             'id' => $claim->id,
             'claim_status' => 5
+        ]);
+    }
+    
+    public function testVerifyFail()
+    {
+        extract($this->dataset());
+        $this->actingAs($finance);
+        $claim = factory(App\Claim::class)->create([
+            'claim_type' => 1,
+            'claimer_id' => $claimer->id,
+            'approver_id' => $approver->id,
+            'finance_id' => $finance->id,
+            'claim_status' => 3
+        ]);
+        $cc = new ClaimController();
+        $cc->verified($claim->id);
+        $this->assertDatabaseHas('claims',[
+            'id' => $claim->id,
+            'claim_status' => 3
         ]);
     }
 }
