@@ -43,66 +43,102 @@
             </div>
         </div>
         <hr/>
-        <label>Konfirmasi kembali jumlah penumpang</label>
-        <div class="row">
-          <div class="form-group col-md-8">
-              <div class="form-group col-md-4">
-                <label>Dewasa (> 12 tahun)</label>
-                <select class="form-control" name="adult" id="adult">
-                  @for($i = 1; $i < 10;$i++)
-                  <option value="{{$i}}">{{$i}}</option>
-                  @endfor
-                </select>
-              </div>
-                <div class="form-group col-md-4">
-                  <label>Anak (2 - 12 tahun)</label>
-                  <select class="form-control" name="child" id="child">
-                    @for($i = 0; $i < 10;$i++)
-                    <option value="{{$i}}">{{$i}}</option>
-                    @endfor
-                  </select>
-                </div>
-                  <div class="form-group col-md-4">
-                    <label>Bayi (<= 23 bulan)</label>
-                    <select class="form-control" name="infant" id="infant">
-                      @for($i = 0; $i < 10;$i++)
-                      <option value="{{$i}}">{{$i}}</option>
-                      @endfor
-                    </select>
-                  </div>
-          </div>
-        </div>
+        <h3>Order Information : </h3>
+        @php
+            $adult = $req->session()->get('adult');
+            $child = $req->session()->get('child');
+            $infant = $req->session()->get('infant');
+        @endphp
+            <p>Adult : {{$adult}}</p>
+            <p>Child : {{$child}}</p>
+            <p>Infant : {{$infant}}</p>
+        <hr/>
         <div class="row form-group">
-            <h3>Adult Information :</h3>
             <div class="adult_info">
+                <h3>Adult Information :</h3>
                 <div class="row">
-                    <div class="col-md-3">
-                        <label>Salutation</label>
-                        <select name="titlea[]" class="form-control">
-                            <option value="Tuan">Tuan</option>
-                            <option value="Nyonya">Nyonya</option>
-                            <option value="Nona">Nona</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label>First Name</label>
-                        <input name="firstnamea[]" required type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Last Name</label>
-                        <input name="lastnamea[]" required type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label>Date of Birth</label>
-                        <input type="date" name="birthdatea[]" required class="form-control datepicker">
-                    </div>
+
+                    @for($i = 0; $i < $adult; $i++)
+                        <div class="col-md-3">
+                            <label>Salutation</label>
+                            <select name="titlea[]" class="form-control">
+                                <option value="Tuan">Tuan</option>
+                                <option value="Nyonya">Nyonya</option>
+                                <option value="Nona">Nona</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>First Name</label>
+                            <input name="firstnamea[]" required type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Last Name</label>
+                            <input name="lastnamea[]" required type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Date of Birth</label>
+                            <input type="date" name="birthdatea[]" required class="form-control datepicker">
+                        </div>
+                    @endfor
                 </div>
             </div>
             <div class="child_info">
-
+                @if($child > 0)
+                <h3>Child Information</h3>
+                @endif
+                <div class="row">
+                    @for($i = 0; $i < $child; $i++)
+                        <div class="col-md-3">
+                            <label>Salutation</label>
+                            <select name="titlec[]" class="form-control">
+                                <option value="Tuan">Tuan</option>
+                                <option value="Nyonya">Nyonya</option>
+                                <option value="Nona">Nona</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>First Name</label>
+                            <input name="firstnamec[]" required type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Last Name</label>
+                            <input name="lastnamec[]" required type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Date of Birth</label>
+                            <input type="date" name="birthdatec[]" required class="form-control datepicker">
+                        </div>
+                    @endfor
+                </div>
             </div>
             <div class="infant_info">
-
+                @if($infant > 0)
+                <h3>Infant Information</h3>
+                @endif
+                <div class="row">
+                    @for($i = 0; $i < $infant; $i++)
+                        <div class="col-md-3">
+                            <label>Salutation</label>
+                            <select name="titlei[]" class="form-control">
+                                <option value="Tuan">Tuan</option>
+                                <option value="Nyonya">Nyonya</option>
+                                <option value="Nona">Nona</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>First Name</label>
+                            <input name="firstnamei[]" required type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Last Name</label>
+                            <input name="lastnamei[]" required type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Date of Birth</label>
+                            <input type="date" name="birthdatei[]" required class="form-control datepicker">
+                        </div>
+                    @endfor
+                </div>
             </div>
         </div>
         <hr/>

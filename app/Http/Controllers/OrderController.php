@@ -300,20 +300,28 @@ class OrderController extends Controller
         $ret_date = $request->input('ret_date');
         $token = $request->input('token');
         $description = $request->input('description');
+        $adult = $request->input('adult');
+        $child = $request->input('child');
+        $infant = $request->input('infant');
 
-        $request->session()->put('flight_id',$flight_id);
-		$request->session()->put('date',$date);
-        $request->session()->put('ret_flight_id',$ret_flight_id);
-        $request->session()->put('ret_date',$ret_date);
-        $request->session()->put('token',$token);
-        $request->session()->put('description',$description);
         if($ret_flight_id == null)
             $url = "http://api-sandbox.tiket.com/flight_api/get_flight_data?flight_id=$flight_id&date=$date&ret_flight_id=$ret_flight_id&ret_date=$ret_date&token=$token&output=json";
         else
             $url = "http://api-sandbox.tiket.com/flight_api/get_flight_data?flight_id=$flight_id&date=$date&token=$token&output=json";
         $return = json_decode($this->curlCall($url),true);
-        if($return['diagnostic']['status'] == 200)
-    		return "true";
+        if($return['diagnostic']['status'] == 200){
+            $request->session()->put('flight_id',$flight_id);
+    		$request->session()->put('date',$date);
+            $request->session()->put('ret_flight_id',$ret_flight_id);
+            $request->session()->put('ret_date',$ret_date);
+            $request->session()->put('token',$token);
+            $request->session()->put('description',$description);
+            $request->session()->put('adult',$adult);
+            $request->session()->put('child',$child);
+            $request->session()->put('infant',$infant);
+
+            return "true";
+        }
         else {
             return "error";
         }
@@ -337,6 +345,14 @@ class OrderController extends Controller
         $firstnamea = $request->input('firstnamea');
         $lastnamea = $request->input('lastnamea');
         $birthdatea = $request->input('birthdatea');
+
+        $firstnamec = $request->input('firstnamec');
+        $lastnamec = $request->input('lastnamec');
+        $birthdatec = $request->input('birthdatec');
+
+        $firstnamei = $request->input('firstnamei');
+        $lastnamei = $request->input('lastnamei');
+        $birthdatei = $request->input('birthdatei');
         $target = "flight_id=$flight_id";
         if($ret_flight_id != null)
             $target .= "&ret_flight_id=$ret_flight_id";
@@ -344,6 +360,14 @@ class OrderController extends Controller
         for($i = 1; $i < count($titlea)+1; $i++)  {
             $index = $i-1;
             $target .= "&titlea$i=$titlea[$index]&firstnamea$i=$firstnamea[$index]&lastnamea$i=$lastnamea[$index]&birthdatea$i=$birthdatea[$index]";
+        }
+        for($i = 1; $i < count($titlec)+1; $i++)  {
+            $index = $i-1;
+            $target .= "&titlea$i=$titlec[$index]&firstnamea$i=$firstnamec[$index]&lastnamea$i=$lastnamec[$index]&birthdatea$i=$birthdatec[$index]";
+        }
+        for($i = 1; $i < count($titlei)+1; $i++)  {
+            $index = $i-1;
+            $target .= "&titlea$i=$titlei[$index]&firstnamea$i=$firstnamei[$index]&lastnamea$i=$lastnamei[$index]&birthdatea$i=$birthdatei[$index]";
         }
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
         $response = json_decode($this->curlCall($url),true);
