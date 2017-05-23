@@ -219,10 +219,17 @@ class FinanceTest extends TestCase
             'claim_status' => 3
         ]);
         $cc = new ClaimController();
-        $cc->verified($claim->id);
+        $response = null;
+        try {
+            $cc->verified($claim->id);
+        }
+        catch (HttpException $he) {
+			$response = $he->getStatusCode();
+		}
         $this->assertDatabaseHas('claims',[
             'id' => $claim->id,
             'claim_status' => 3
         ]);
+        $this->assertEquals(403,$response);
     }
 }
