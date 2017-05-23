@@ -233,6 +233,7 @@ class OrderController extends Controller
             $company = Company::find(Auth::user()->company);
             $company->email_tiket = $email_tiket;
             $company->save();
+            $email_tiket = $emailAddress;
         }
 
         if($email_tiket != $emailAddress)
@@ -469,6 +470,14 @@ class OrderController extends Controller
         }
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
         $response = json_decode($this->curlCall($url),true);
+
+        if(json_decode($response, true)['diagnostic']['status'] != 200)
+            return "error";
+
+        $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
+
+        $success = $this->curlCall($url);
+        $response = json_decode($success, true);
         if($response['diagnostic']['status'] == 200){
             $claimer = Auth::user();
             $claim = new Claim();
@@ -480,7 +489,9 @@ class OrderController extends Controller
             $claim->claim_status = 1;
             $claim->description = $description;
             $claim->order_information=$target;
-            $claim->alasan_reject="";
+            $claim->order_id = $success['myorder']['order_id'];
+            $claim->order_detail_id = $success['myorder']['data'][0]['order_detail_id'];
+            $claim->expire_datetime = $success['myorder']['data'][0]['order_expire_datetime'];
             $claim->save();
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
             return redirect('/home');
