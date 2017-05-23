@@ -347,12 +347,7 @@ class OrderController extends Controller
         }
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
         $response = json_decode($this->curlCall($url),true);
-        dd($response);
         if($response['diagnostic']['status'] == 200){
-            $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
-            $temp = $this->curlCall($url);
-            $response = json_decode($temp,true);
-            dd("Asd");
             $claimer = Auth::user();
             $claim = new Claim();
             $claim->claim_type = 2;
@@ -366,6 +361,7 @@ class OrderController extends Controller
             $claim->alasan_reject="";
             $claim->save();
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
+            return redirect('/home');
         }
         return "true";
     }
