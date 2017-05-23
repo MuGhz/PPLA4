@@ -120,13 +120,13 @@ class OrderController extends Controller
         $url = "$target&token=$token&output=json";
 
         $success = $this->curlCall($url);
-        if(json_encode($success, true)['diagnostic']['status'] != 200)
+        if(json_decode($success, true)['diagnostic']['status'] != 200)
             return "error";
 
         $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
 
         $success = $this->curlCall($url);
-        $success = json_encode($success, true);
+        $success = json_decode($success, true);
         if($success['diagnostic']['status'] == 200) {
             $claimer = Auth::user();
             $claim = new Claim();
@@ -203,16 +203,45 @@ class OrderController extends Controller
 
         // Request Checkout Page
         $this->orderHotelRequestCheckout($orderId,$token);
-
+        return view('claim.login',compact('id','token'));
+    }
         // Login for Checkout Customer
-        $dataLogin = 'salutation=Mr&firstName=ghozi&lastName=jojo&emailAddress=totorvo901@ymail.com&phone=%2B6282138470931';
-        $this->orderHotelLoginCheckout($dataLogin,$token);
+    public function checkoutCustomer(Request $request)
+    {
+        $firstName = $request->input('firstName');
+        $lastName = $request->input('lastName');
+        $salutation = $request->input('salutation');
+        $emailAddress = $request->input('emailAddress');
+        $phone = $request->input('phone');
 
+        $claim_id = $request->input('id');
+        $claim = Claim::find($claim_id);
+        $token = $request->input('token');
 
+        $email_tiket = Auth::user()->company->email_tiket;
+        if($email_tiket == null)
+            $email_tiket = $emailAddress;
+        if($email_tiket != $emailAddress)
+            return "error, unknown tiket.com email";
+
+        $dataLogin = "salutation=$salutation&firstName=$firstName&lastName=$lastName&emailAddress=$emailAddress&phone=%2B$phone";
+        $response = $this->orderHotelLoginCheckout($dataLogin,$token);
+        $response = json_decode($response,true);
+        if($response['diagnostic']['status'] != 200)
+            return "error";
         // Customer Checkout
-        $dataCustomerCheckout = 'conSalutation=Mr&conFirstName=ghozi&conLastName=jojo&conEmailAddress=totorvo901@ymail.com&conPhone=%2B6282138470931';
-        $this->orderHotelCustomerCheckout($dataLogin,$dataCustomerCheckout,$orderDetailId,$token);
-
+        if($claim->claim_type)  {
+            $conFirstName = $request->input('conFirstName');
+            $conLastName = $request->input('conLastName');
+            $conSalutation = $request->input('conSalutation');
+            $conPhone = $request->input('conPhone');
+            $conEmailAddress = $request->input('conEmailAddress');
+            $dataCustomerCheckout = "conSalutation=$conSalutation&conFirstName=$conFirstName&conLastName=$conLastName&conEmailAddress=$conEmailAddress&conPhone=%2B$conPhone";
+            $response = $this->orderHotelCustomerCheckout($dataLogin,$dataCustomerCheckout,$orderDetailId,$token);
+            $status = json_decode($response,true)['diagnostic']['status'];
+            if($status != 200)
+                return "error";
+        }
         // Confirm
         $confirmData="secretkey=$this->key&confirmkey=e1fdb5&username=totorvo901@ymail.com&textarea_note=test&tanggal=2012-12-06";
         $response = $this->orderHotelConfirm($orderId,$confirmData);
@@ -266,18 +295,21 @@ class OrderController extends Controller
         $url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$token&output=json";
         $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' request checkout page, redirecting to login page');
+        return $response;
     }
     public function orderHotelLoginCheckout($dataLogin,$token)
     {
         $url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$token&$dataLogin&saveContinue=2&output=json";
         $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' login to tiket.com, redirecting to checkout cart');
+        return $response;
     }
     public function orderHotelCustomerCheckout($dataLogin,$dataCustomerCheckout,$orderDetailId,$token)
     {
         $url  = "https://api-sandbox.tiket.com/checkout/checkout_customer?token=$token&detailId=$orderDetailId&country=id&output=json&$dataLogin&$dataCustomerCheckout";
         $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' checkout claim, confirming purchase...');
+        return $response;
     }
 
     public function orderHotelConfirm($orderId,$confirmData)
