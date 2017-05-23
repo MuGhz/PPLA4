@@ -84,4 +84,8 @@ class ClaimController extends Controller
           }
           return redirect("/home/".$user->role.'/received');
     }
+    public function uploadProof(Request $request, $id)
+    {
+            
+    }
 }

@@ -54,7 +54,7 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 		</div>
 		<div class="form-group col-md-4">
       @if($isSelf && ($value->claim_status == 4))
-	        <button class="btn btn-primary btn-block">Upload proof</button>
+	        <a class="btn btn-primary btn-block btn-danger" id='upload'>Upload proof</a>
       @elseif(($value->claim_status == 2) && (Auth::user()["role"] == "finance"))
           <a href="{{URL::to('/home/finance/buy/'.$id)}}" class="btn btn-primary btn-block">Beli tiket</a>
       @elseif(($value->claim_status == 1)&&(Auth::user()["role"]=="approver"))
@@ -67,9 +67,25 @@ $namaFinance  = App\User::find($value->finance_id)->name;
     </div>
 
     </div>
+    <div id='uploadProof' hidden="true">
+      <form action="{{$action}}/{{$id}}" method="post" class="container col-md-offset-2">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <div class="row">
+            <div class="form-group col-md-8">
+              <label>Select file to upload: </label>
+              <input class="form-control" id="proof" type="file" name="proof" accept="image/*" required></input>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
+               <input type="submit" class="btn btn-primary btn-block" value="Upload">
+        		</div>
+          </div>
+      </form>
+    </div>
 
     <div id='reject' hidden="true">
-      <form action="{{$action}}/{{$id}}" method="post" class="container col-md-offset-2">
+      <form action="home/claim/upload_proof/{{$id}}" method="post" class="container col-md-offset-2">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="form-group col-md-8">
@@ -92,6 +108,11 @@ $namaFinance  = App\User::find($value->finance_id)->name;
     $(document).ready(function(){
         $("#show").click(function(){
             $("#reject").toggle();
+        });
+    });
+    $(document).ready(function(){
+        $("#upload").click(function(){
+            $("#uploadProof").toggle();
         });
     });
 	$.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}",id:"{{$id}}"}).done(function(e){

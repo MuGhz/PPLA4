@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::group(['prefix'=>'delete'],function(){
       Route::get('/{id}','ClaimController@destroy');
     });
-
+    Route::post('/upload_proof/{id}','ClaimController@uploadProof');
     Route::group(['prefix'=>'reject'],function(){
       Route::post('/{id}','ClaimController@reject');
     });
