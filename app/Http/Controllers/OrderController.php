@@ -391,10 +391,4 @@ class OrderController extends Controller
         }
         return "true";
     }
-
-    public function orderFlight(Request $request,$id)
-    {
-        $claim = Claim::where('id','=',$id)->first();
-        return redirect('/home');
-    }
 }
