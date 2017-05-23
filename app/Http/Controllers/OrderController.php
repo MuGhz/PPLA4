@@ -288,12 +288,23 @@ class OrderController extends Controller
         echo $this->curlCall($url);
     }
 
-	public function getFlightData(Request $request)	{
-		$flight_id = $request->input('flight_id');
-		$date = $request->input('date');
-		$ret_flight_id = $request->input('ret_flight_id');
-		$token = $request->input('token');
-	}
+    public function getFlightData(Request $request)    {
+        $flight_id = $request->input('flight_id');
+        $date = $request->input('date');
+        $ret_flight_id = $request->input('ret_flight_id');
+        $ret_date = $request->input('ret_date');
+        $token = $request->input('token');
+        $description = $request->input('description');
+
+        $request->session()->put('flight_id',$flight_id);
+		$request->session()->put('date',$date);
+        $request->session()->put('ret_flight_id',$ret_flight_id);
+        $request->session()->put('ret_date',$ret_date);
+        $request->session()->put('token',$token);
+        $request->session()->put('description',$description);
+
+		return "true";
+    }
 
     public function bookPesawat(Request $request)
     {

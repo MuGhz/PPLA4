@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +23,14 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     });
     Route::get('plane', function(){
         return view('claim.pesawat');
+    });
+    Route::get('plane/detail', function(Request $request){
+        if($request->session()->has('flight_id'))   {
+            return view('claim.flightdata');
+        }
+        else {
+            return back();
+        }
     });
   });
 
@@ -104,5 +113,6 @@ Route::group(['prefix'=>'api'],function()  {
   Route::post('/claim/detil','OrderController@getOrder');
   Route::get('/airport','OrderController@getAirport');
   Route::post('/plane/list', 'OrderController@getFlight');
+  Route::post('/plane/getData','OrderController@getFlightData');
 
 });

@@ -191,6 +191,8 @@
 
     // Kode dibawah bagian mesen token dan tiket pesawatnya
     var token = "";
+    var d = null;
+    var rd = null;
     $("#submit").click(function() {
       $.post("{{action('OrderController@getToken')}}", { _token: "{{csrf_token()}}"}).done(function(e){
           show('loading',true);
@@ -240,7 +242,7 @@
           console.log(e);
           console.log(e['departures']['result']);
 
-          var temp = '<div class="panel panel-info"><div class="panel-heading">Rangkuman Pembelian</div><div class="panel-body"><div class="col-md-10">Berangkat : <div id="dep_flight" class="col-md-12">Kosong</div><hr/>Pulang : <div id="ret_flight" class="col-md-12">Kosong</div></div><div class="col-md-2">Total :<div id="total_info"></div><button class="btn btn-danger btn-lg">Lanjutkan</button></div></div></div>';
+          var temp = '<div class="panel panel-info"><div class="panel-heading">Rangkuman Pembelian</div><div class="panel-body"><div class="col-md-10">Berangkat : <div id="dep_flight" class="col-md-12">Kosong</div><hr/>Pulang : <div id="ret_flight" class="col-md-12">Kosong</div></div><div class="col-md-2">Total :<div id="total_info"></div><button class="btn btn-danger btn-lg" onclick="book()">Lanjutkan</button></div></div></div>';
             // var temp = "";
           // Departure flight
           if(typeof e.departures =='undefined' || e.departures.result.length==0)  {
@@ -312,8 +314,8 @@
         });
     }
 
-    var f_did = 0;
-    var a_did = 0;
+    var f_did = null;
+    var a_did = null;
     var f_price = 0;
     var a_price = 0;
 
@@ -325,72 +327,46 @@
         var temp = ""
         temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>'
         temp+='<div class="col-md-2">'+f.stop+"</div>"
-        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>+'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
+        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
         temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>'
         temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>'
         f_did = f.flight_id;
-        f_price = f.price_value;
-        total = a_price+f.price_value;
+        f_price = parseInt(f.price_value);
+        total = parseInt(a_price)+f_price;
         container.html(temp);
         total_i.html(total);
+        d = f.departure_flight_date.split(" ")[0]
     }
 
-    // TODO: belum kelar
-    function detail(uri) {
-      show('loading',true);
-      $.post("{{action('OrderController@getHotelDetail')}}", {target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
-        show('loading',false);
-        console.log(e);
-        e = JSON.parse(e);
-        console.log(e);
-        // temp = "<div class='container'>";
-        temp = "<div class='row'>";
-        e.departures.result.forEach(function(f)  {
-          temp+="<div class='col-md-6 items'>";
-            temp+="<h2>"+f.name+"</h2>";
-            temp+="<img src='"+f.image+"'>";
-            temp+="<p>"+f.airlines_name+"</p>";
-            temp+="<p>Harga  : "+f.price_value+"</p>";
-            temp+="<p>Waktu Berangkat : "+f.simple_departure_time+"</p>";
-            temp+="<p>Waktu Sampai : "+f.simple_arrival_time+"</p>";
-            temp+="<p>Transit : "+f.Langsung+"</p>";
-            temp+="<div class='form-group'>";
-              temp+="<button onclick=\"book('"+f.bookUri+"')\">Book</button>";
-            temp+="</div><hr>";
-          temp+="</div>";
-        });
-        // temp+="</div>";
-        temp+="</div>";
-        temp+="<div class='container'>";
-        temp+="<div class='row'>"
-        temp+="<p><b>Alamat</b> : "+e.general.address+"<p>"
-        temp+="</div>";
-        temp+="<div class='row'>";
-        if(e.addinfos != null)  {
-          temp+="<p><b>Informasi Tambahan</b></p>"
-          e.addinfos.addinfo.forEach(function(f)  {
-            temp+="<p>"+f+"</p>";
-          });
+    function arrive(i) {
+        f = depart_data[i];
+        console.log(f)
+        var container = $("#ret_flight");
+        var total_i = $("#total_info");
+        var temp = ""
+        temp+='<div class="col-md-2">'+"<img src='"+f.image+"'>"+'</div>'
+        temp+='<div class="col-md-2">'+f.stop+"</div>"
+        temp+='<div class="col-md-4"><div class="row">'+f.departure_city+" ke "+f.arrival_city+'</div>+'+'<div class="row">'+f.departure_flight_date_str+'</div></div>'
+        temp+='<div class="col-md-2">'+f.simple_departure_time+'</div>'
+        temp+='<div class="col-md-2">'+f.simple_arrival_time+'</div>'
+        a_did = f.flight_id;
+        f_price = parseInt(f.price_value);
+        total = parseInt(f_price)+a_price;
+        container.html(temp);
+        total_i.html(total);
+        rd = f.arrival_flight_date.split(" ")[0]
+    }
+
+    function book() {
+        if(f_did != null)   {
+            var description = $("#description").val();
+            show('loading',true);
+            $.post("{{action('OrderController@getFlightData')}}", {description:description,flight_id:f_did,date:d,ret_flight_id:rd,ret_date:rd,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
+            show('loading',false);
+              if(e=="true")
+              window.location.replace("{{url('/home/order/plane/detail')}}");
+            });
         }
-        temp+="<p><b>Fasilitas </b></p>";
-        e.avail_facilities.avail_facilitiy.forEach(function(f) {
-          temp+="<p>"+f.facility_name+"</p>"
-        });
-        temp+="</div>";
-        temp+="</div>";
-        $('#det').html(temp);
-        $('#detail').modal('show');
-      });
-    }
-
-    function book(uri) {
-      var description = $("#description").val();
-      show('loading',true);
-      $.post("{{action('OrderController@bookHotel')}}", {description:description,target:uri,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
-        show('loading',false);
-          if(e)
-          window.location.replace("{{url('/home')}}");
-      });
     }
   </script>
 @endsection
