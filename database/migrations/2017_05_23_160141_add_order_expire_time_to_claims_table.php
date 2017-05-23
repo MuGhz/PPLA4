@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddOrderIdColumnToClaimTable extends Migration
+class AddOrderExpireTimeToClaimsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddOrderIdColumnToClaimTable extends Migration
      */
     public function up()
     {
+        //
         Schema::table('claims', function (Blueprint $table) {
-            $table -> string('order_id')->nullable();
+            $table -> string('expire_datetime')->nullable();
         });
     }
 
@@ -25,8 +26,9 @@ class AddOrderIdColumnToClaimTable extends Migration
      */
     public function down()
     {
+        //
         Schema::table('claims', function (Blueprint $table) {
-            $table->dropColumn('order_id');
+            $table->dropColumn('expire_datetime');
         });
     }
 }

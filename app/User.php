@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function company()   {
+        return $this->hasOne('App\Company');
+    }
+
     public function scopeClaimer($query) {
       return $query->where('role','claimer');
     }
@@ -43,7 +47,7 @@ class User extends Authenticatable
       $finances =  $query->where('company',$claimer->company)->where('role','finance')
                         ->where('id','!=',$claimer->id)
                         ->get();
-                        
+
       return $finances[rand(0,count($finances)-1)];
     }
 }

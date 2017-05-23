@@ -98,10 +98,11 @@ class OrderController extends Controller
     */
     public function getOrder(Request $request)
     {
-        $id = $request->input('id');
-        $token = $request->input('token');
-        $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
-        $claimDescription = Claim::where('id','=',$id)->first()->description;
+        $claim_id = $request->input('id');
+        $claim = Claim::find($claim_id)->order_id;
+        $email = Auth::user()->company->email_tiket;
+        $url = "https://api-sandbox.tiket.com/check_order?order_id=$claim&email=$email&output=json";
+        $claimDescription = $claim->description;
         $response = $this->curlCall($url);
         echo '{"api_data":'.$response.',"description":"'.$claimDescription.'"}';
     }
@@ -119,7 +120,14 @@ class OrderController extends Controller
         $url = "$target&token=$token&output=json";
 
         $success = $this->curlCall($url);
-        if($success) {
+        if(json_encode($success, true)['diagnostic']['status'] != 200)
+            return "error";
+
+        $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
+
+        $success = $this->curlCall($url);
+        $success = json_encode($success, true);
+        if($success['diagnostic']['status'] == 200) {
             $claimer = Auth::user();
             $claim = new Claim();
             $claim->claim_type = 1;
@@ -130,12 +138,14 @@ class OrderController extends Controller
             $claim->claim_status = 1;
             $claim->description = $description;
             $claim->order_information=$target;
-            $claim->alasan_reject="";
+            $claim->order_id = $success['myorder']['order_id'];
+            $claim->order_detail_id = $success['myorder']['data'][0]['order_detail_id'];
+            $claim->expire_datetime = $success['myorder']['data'][0]['order_expire_datetime'];
             $claim->save();
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
+            return "true";
         }
-
-        return "true";
+        return "error";
     }
 
     /**
@@ -149,10 +159,21 @@ class OrderController extends Controller
         $target = $claim->order_information;
         $old_token = $claim->claim_data_id;
         $token = $this->decodeJsonToken();
+
         $url = "$target&token=$token&output=json";
         $this->curlCall($url);
+
+        $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
+        $success = $this->curlCall($url);
+        $order_id = $success['myorder']['order_id'];
+        $order_detail_id = $success['myorder']['data'][0]['order_detail_id'];
+        $expire_datetime = $success['myorder']['data'][0]['order_expire_datetime'];
+
         $claim->claim_data_id = $token;
         $claim->updated_at = date("Y-m-d H:i:s");
+        $claim->order_id = $order_id;
+        $claim->order_detail_id = $order_detail_id;
+        $claim->expire_datetime = $expire_datetime;
         $claim->save();
         $new_token = $claim->claim_data_id;
         Log::info('update claim token '.$old_token.' -> '.$new_token);
@@ -168,17 +189,11 @@ class OrderController extends Controller
     public function purchaseOrder(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();
-        $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
-        $response = $this->curlCall($url);
-        $responseObject = json_decode($response,true);
-        $expireClaim = $responseObject['myorder']['data'][0]['order_expire_datetime'];
+        $expireClaim = $claim->expire_datetime;
         $expire = new Carbon($expireClaim);
         $now = Carbon::now();
         if($now->gt($expire)){
             $claim = $this->rebookHotel($id);
-            $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
-            $response = $this->curlCall($url);
-            $responseObject = json_decode($response,true);
         }
         // Save Order: Get Order ID & Order Detail ID
         $checkout = $responseObject['checkout'];
@@ -265,7 +280,7 @@ class OrderController extends Controller
         $response = $this->curlCall($url);
         Log::info('user \('.Auth::id().') '.' checkout claim, confirming purchase...');
     }
-    
+
     public function orderHotelConfirm($orderId,$confirmData)
     {
         $url = "https://api-sandbox.tiket.com/partner/transactionApi/confirmPayment?order_id=$orderId&$confirmData&output=json";
