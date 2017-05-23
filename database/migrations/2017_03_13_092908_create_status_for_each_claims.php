@@ -13,8 +13,7 @@ class CreateStatusForEachClaims extends Migration
      */
     public function up()
     {
-        Schema::table('claims', function($table)
-        {
+        Schema::table('claims', function($table) {
             $table->integer('claim_status')->default();
         });
     }
@@ -26,6 +25,8 @@ class CreateStatusForEachClaims extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('claims', function (Blueprint $table) {
+            $table->dropColumn('claim_status');
+        });
     }
 }

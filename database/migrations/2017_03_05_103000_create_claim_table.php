@@ -45,6 +45,7 @@ class CreateClaimTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('claims');
+        Schema::disableForeignKeyConstraints();
     }
 }

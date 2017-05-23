@@ -12,3 +12,4 @@ Homestead.yaml
 .env.testing
 err
 phpunit.xml
+/storage

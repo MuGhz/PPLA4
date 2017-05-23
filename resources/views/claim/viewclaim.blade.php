@@ -7,6 +7,7 @@ $id = $value -> id;
 $token = $value -> claim_data_id ;
 $status = $value -> claim_status;
 $status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+$alasan = $status=="Rejected"?$value->alasan_reject:"";
 $isSelf = Auth::id() == $value->claimer_id;
 
 $action = Auth::user()["role"];
@@ -53,8 +54,8 @@ $namaFinance  = App\User::find($value->finance_id)->name;
       @endif
 		</div>
 		<div class="form-group col-md-4">
-      @if($isSelf && ($value->claim_status == 4))
-	        <button class="btn btn-primary btn-block">Upload proof</button>
+      @if($isSelf && ($value->claim_status == 3))
+	        <a class="btn btn-primary btn-block btn-danger" id='upload'>Upload proof</a>
       @elseif(($value->claim_status == 2) && (Auth::user()["role"] == "finance"))
           <a href="{{URL::to('/home/finance/buy/'.$id)}}" class="btn btn-primary btn-block">Beli tiket</a>
       @elseif(($value->claim_status == 1)&&(Auth::user()["role"]=="approver"))
@@ -66,6 +67,22 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 		</div>
     </div>
 
+    </div>
+    <div id='uploadProof' hidden="true">
+      <form action="/home/claim/upload_proof/{{$id}}" method="post" enctype="multipart/form-data" type class="container col-md-offset-2">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <div class="row">
+            <div class="form-group col-md-8">
+              <label>Select file to upload: </label>
+              <input type='file' class="form-control" name="proof" accept="image/*"></input>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="form-group col-md-6">
+               <input type="submit" class="btn btn-primary btn-block" value="Upload">
+        		</div>
+          </div>
+      </form>
     </div>
 
     <div id='reject' hidden="true">
@@ -94,6 +111,11 @@ $namaFinance  = App\User::find($value->finance_id)->name;
             $("#reject").toggle();
         });
     });
+    $(document).ready(function(){
+        $("#upload").click(function(){
+            $("#uploadProof").toggle();
+        });
+    });
 	$.post("{{action('OrderController@getOrder')}}",{_token: "{{csrf_token()}}",token:"{{$token}}",id:"{{$id}}"}).done(function(e){
 		e = JSON.parse(e);
 		var description = e.description;
@@ -109,6 +131,9 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 			temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
 			temp+= "<br>";
 			temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+            @if ($status == "Rejected")
+                temp+= "<p>Ditolak dengan alasan: " +'{{$alasan}}'+"</p>";
+            @endif
 			temp+= "<hr>";
 			temp+= "<p>Tipe: "+e.myorder.data[0].order_type+"</p>";
 			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";

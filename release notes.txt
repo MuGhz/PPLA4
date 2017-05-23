@@ -1,0 +1,34 @@
+Business Travel Booking - Jojonomic
+Update 18/05/2017
+Version 0.2, 30Mb
+
+What's new ?
+- pembelian pemesanan hotel
+- Appvover reject dan approve claim
+- logging
+- halaman admin
+
+Improvements
+- pembaruan token
+- re-order hotel untuk claim yang expired
+- alasan reject suatu claim
+- tambah database untuk simpan alasan reject
+- tambah database untuk simpan target hotel(fitur re-order)
+
+Fixes
+- secret key mati
+
+
+Update 03/04/2017
+Version 0.1, 30Mb
+
+What's new ?
+- Membuat claim hotel
+- Pencarian hotel
+- Detail hotel
+- Pemesanan hotel
+- Approver melihat claim list yang masuk
+- Finance melihat claim list yang masuk
+- Claimer melihat claim list yang dibuat
+- Halaman login
+- Halaman error

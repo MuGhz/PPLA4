@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,19 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::get('hotel',function(){
       return view('claim.hotel');
     });
+    Route::get('plane', function(){
+        return view('claim.pesawat');
+    });
+    Route::get('plane/detail', function(Request $request){
+        if($request->session()->has('flight_id'))   {
+            $req = $request;
+            return view('claim.flightdata',compact('req'));
+        }
+        else {
+            return back();
+        }
+    });
+    Route::get('plane/book','OrderController@bookPesawat');
   });
 
 
@@ -31,7 +45,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     Route::group(['prefix'=>'delete'],function(){
       Route::get('/{id}','ClaimController@destroy');
     });
-
+    Route::post('/upload_proof/{id}','ClaimController@uploadProof');
     Route::group(['prefix'=>'reject'],function(){
       Route::post('/{id}','ClaimController@reject');
     });
@@ -47,10 +61,10 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   Route::group(['prefix'=>'reject'],function(){
     Route::get('/{id}','ApproverController@reject');
   });
+
   Route::group(['prefix'=>'approver'],function()  {
     Route::group(['prefix'=>'detail'],function(){
-
-      Route::get('/{id}','ClaimController@show');
+    Route::get('/{id}','ClaimController@show');
     });
 //  Todo: masang fungsi approve dan reject
 //  Route::group(['prefix'=>'reject'],function(){
@@ -65,7 +79,7 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
   });
 
   Route::group(['prefix'=>'finance'],function()  {
-    Route::get('/buy/{id}','OrderController@orderHotel');
+    Route::get('/buy/{id}','OrderController@purchaseOrder');
     Route::get('/received','FinanceController@showReceived');
     Route::get('/approved','FinanceController@showApproved');
       Route::get('/rejected','FinanceController@showRejected');
@@ -95,7 +109,12 @@ Route::group(['prefix'=>'api'],function()  {
   });
   Route::post('/token','OrderController@getToken');
   Route::post('/hotel/list','OrderController@getHotel');
+  Route::post('/flight/list','OrderController@getFlight');
   Route::post('/hotel/detail','OrderController@getHotelDetail');
   Route::post('/book/hotel','OrderController@bookHotel');
   Route::post('/claim/detil','OrderController@getOrder');
+  Route::get('/airport','OrderController@getAirport');
+  Route::post('/plane/list', 'OrderController@getFlight');
+  Route::post('/plane/getData','OrderController@getFlightData');
+
 });
