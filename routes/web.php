@@ -26,12 +26,14 @@ Route::group(['middleware' => 'auth','prefix'=>'home'], function () {
     });
     Route::get('plane/detail', function(Request $request){
         if($request->session()->has('flight_id'))   {
-            return view('claim.flightdata');
+            $req = $request;
+            return view('claim.flightdata',compact('req'));
         }
         else {
             return back();
         }
     });
+    Route::get('plane/book','OrderController@bookPesawat');
   });
 
 

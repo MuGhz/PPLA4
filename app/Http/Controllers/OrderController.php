@@ -302,18 +302,39 @@ class OrderController extends Controller
         $request->session()->put('ret_date',$ret_date);
         $request->session()->put('token',$token);
         $request->session()->put('description',$description);
-
-		return "true";
+        if($ret_flight_id == null)
+            $url = "http://api-sandbox.tiket.com/flight_api/get_flight_data?flight_id=$flight_id&date=$date&ret_flight_id=$ret_flight_id&ret_date=$ret_date&token=$token&output=json";
+        else
+            $url = "http://api-sandbox.tiket.com/flight_api/get_flight_data?flight_id=$flight_id&date=$date&token=$token&output=json";
+        $return = json_decode($this->curlCall($url),true);
+        if($return['diagnostic']['status'] == 200)
+    		return "true";
+        else {
+            return "error";
+        }
     }
 
     public function bookPesawat(Request $request)
     {
         $description = $request->input('description');
         $token = $request->input('token');
-        $target = $request-> input('target');
+        $flight_id = $request->input('flight_id');
+        $ret_flight_id = $request->input('ret_flight_id');
+        $adult = $request->input('adult');
+        $child = $request->input('child');
+        $infant = $request->input('infant');
+        $conSalutation = $request->input('conSalutation');
+        $conFirstName = $request->input('conFirstName');
+        $conLastName = $request->input('conLastName');
+        $conPhone = $request->input('conPhone');
+        $conEmailAddress = $request->input('conEmailAddress');
+        $titlea = $request->input('titlea');
+        $firstnamea = $request->input('firstnamea');
+        $lastnamea = $request->input('lastnamea');
+        $birthdatea = $request->input('birthdatea');
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
-        $response = $this->curlCall($url);
-        if($response){
+        $response = json_decode($this->curlCall($url),true);
+        if($response['diagnostic']['status']){
             $claimer = Auth::user();
             $claim = new Claim();
             $claim->claim_type = 2;
