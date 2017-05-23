@@ -360,8 +360,11 @@
     function book() {
         if(f_did != null)   {
             var description = $("#description").val();
+            var adult = $("#adult").val();
+            var child = $("#child").val();
+            var infant = $("#infant").val();
             show('loading',true);
-            $.post("{{action('OrderController@getFlightData')}}", {description:description,flight_id:f_did,date:d,ret_flight_id:rd,ret_date:rd,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
+            $.post("{{action('OrderController@getFlightData')}}", {description:description,flight_id:f_did,date:d,ret_flight_id:rd,ret_date:rd,adult:adult,child:child,infant:infant,token:localStorage.token,_token: "{{csrf_token()}}"}).done(function(e){
             show('loading',false);
               if(e=="true")
               window.location.replace("{{url('/home/order/plane/detail')}}");
