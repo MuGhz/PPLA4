@@ -46,8 +46,8 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ URL::to('home/claim/list/1') }}">{{ trans('adminlte_lang::message.sent') }}</a></li>
                     <li><a href="{{ URL::to('home/claim/list/2') }}">{{ trans('adminlte_lang::message.approved') }}</a></li>
-					<li><a href="{{ URL::to('home/claim/list/3') }}">{{ trans('adminlte_lang::message.reported') }}</a></li>
-					<li><a href="{{ URL::to('home/claim/list/4') }}">{{ trans('adminlte_lang::message.disbursed') }}</a></li>
+					<li><a href="{{ URL::to('home/claim/list/3') }}">{{ trans('adminlte_lang::message.disbursed') }}</a></li>
+                    <li><a href="{{ URL::to('home/claim/list/4') }}">{{ trans('adminlte_lang::message.reported') }}</a></li>
 					<li><a href="{{ URL::to('home/claim/list/5') }}">{{ trans('adminlte_lang::message.closed') }}</a></li>
 					<li><a href="{{ URL::to('home/claim/list/6') }}">{{ trans('adminlte_lang::message.rejected') }}</a></li>
                 </ul>

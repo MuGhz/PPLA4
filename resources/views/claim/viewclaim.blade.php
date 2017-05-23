@@ -6,7 +6,7 @@
 $id = $value -> id;
 $token = $value -> claim_data_id ;
 $status = $value -> claim_status;
-$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+$status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Disbursed":($status==4?"Reported":($status==5?"Closed":"Rejected")))));
 $isSelf = Auth::id() == $value->claimer_id;
 
 $action = Auth::user()["role"];
@@ -53,7 +53,7 @@ $namaFinance  = App\User::find($value->finance_id)->name;
       @endif
 		</div>
 		<div class="form-group col-md-4">
-      @if($isSelf && ($value->claim_status == 4))
+      @if($isSelf && ($value->claim_status == 3))
 	        <a class="btn btn-primary btn-block btn-danger" id='upload'>Upload proof</a>
       @elseif(($value->claim_status == 2) && (Auth::user()["role"] == "finance"))
           <a href="{{URL::to('/home/finance/buy/'.$id)}}" class="btn btn-primary btn-block">Beli tiket</a>
