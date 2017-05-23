@@ -346,10 +346,12 @@ class OrderController extends Controller
         $lastnamea = $request->input('lastnamea');
         $birthdatea = $request->input('birthdatea');
 
+        $titlec = $request->input('titlec');
         $firstnamec = $request->input('firstnamec');
         $lastnamec = $request->input('lastnamec');
         $birthdatec = $request->input('birthdatec');
 
+        $titlei = $request->input('titlei');
         $firstnamei = $request->input('firstnamei');
         $lastnamei = $request->input('lastnamei');
         $birthdatei = $request->input('birthdatei');

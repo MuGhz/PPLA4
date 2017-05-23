@@ -107,7 +107,6 @@ class OrderTest extends TestCase
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
                     ->setMethods(array('curlCall','decodeJsonToken'))
                     ->getMock();
-
         $order->expects($this->any())
               ->method("curlCall")
               ->will($this->returnValue("$returnValue"));
@@ -384,8 +383,8 @@ class OrderTest extends TestCase
         $order->bookHotel($request);
         $this->assertDatabaseHas("claims",[
             "claim_data_id" => "token",
-            "claim_type" => "1",
-            "claim_status" => "1",
+            "claim_type" => 1,
+            "claim_status" => 1,
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
@@ -407,17 +406,17 @@ class OrderTest extends TestCase
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+        $claim = $this->makeClaim(2,$claimer->id,$approver->id,$finance->id,2);
         $date = Carbon::create(2017,1,1,12);
         $now = Carbon::now();
         $claim->created_at=$date;
         $claim->save();
 
-        $order->orderFlight($request,$claim->id);
+        $order->orderHotel($request,$claim->id);
         $this->assertDatabaseHas("claims",[
             "claim_data_id" => "token",
-            "claim_type" => "1",
-            "claim_status" => "3",
+            "claim_type" => 2,
+            "claim_status" => 3,
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
@@ -426,7 +425,7 @@ class OrderTest extends TestCase
 
     public function testOrderFlightFail()
     {
-        $order = $this->curlMockForHotelOrder($this->orderHotelJson,$this->confirmSuccess);
+        $order = $this->curlMockForHotelOrder($this->orderHotelJson,$this->confirmFail);
 
         $map = [
             ["target",null,"target"],
@@ -438,17 +437,17 @@ class OrderTest extends TestCase
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+        $claim = $this->makeClaim(2,$claimer->id,$approver->id,$finance->id,2);
         $date = Carbon::create(2017,1,1,12);
         $now = Carbon::now();
         $claim->created_at=$date;
         $claim->save();
 
-        $order->orderFlight($request,$claim->id);
+        $order->orderHotel($request,$claim->id);
         $this->assertDatabaseHas("claims",[
             "claim_data_id" => "token",
-            "claim_type" => "1",
-            "claim_status" => "3",
+            "claim_type" => 2,
+            "claim_status" => 2,
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
@@ -457,7 +456,7 @@ class OrderTest extends TestCase
 
     public function testBookPesawat()
     {
-        $order = $this->curlMock("success");
+        $order = $this->curlMock('{"diagnostic":{"status":200}}');
         $description = "TERANGKANLAH, TERANGKANLAH!";
         $map = [
             ["description",null,$description],
@@ -475,8 +474,8 @@ class OrderTest extends TestCase
         $order->bookPesawat($request);
         $this->assertDatabaseHas("claims",[
             "claim_data_id" => "token",
-            "claim_type" => "2",
-            "claim_status" => "1",
+            "claim_type" => 2,
+            "claim_status" => 1,
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
