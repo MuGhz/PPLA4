@@ -4,6 +4,7 @@
 @foreach($detailClaim as $key => $value)
 @php
 $id = $value -> id;
+$claimType = $value -> claim_type;
 $token = $value -> claim_data_id ;
 $orderId = $value -> order_id;
 $status = $value -> claim_status;
@@ -152,24 +153,25 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 		var description = e.description;
 		e = e.api_data;
         console.log(e);
-        @if($noStatus < 3)
-		    temp = "<center><div class='row'>";
-			temp+= "<div class='col-md-3'>";
-			temp+= "</div>";
-			temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
-			temp+= "<br>";
-			temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
-			temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
-			temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
-			temp+= "<br>";
-			temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
-            @if ($status == "Rejected")
-                temp+= "<p>Ditolak dengan alasan: " +'{{$alasan}}'+"</p>";
-            @endif
-			temp+= "<hr>";
-			temp+= "<p>Tipe: "+e.myorder.data[0].order_type+"</p>";
-			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
-			temp+= "<p>Nomor kamar: "+e.myorder.data[0].detail.room_id+"</p>";
+        @if($claimType == 1)
+            @if($noStatus < 3)
+    		    temp = "<center><div class='row'>";
+    			temp+= "<div class='col-md-3'>";
+    			temp+= "</div>";
+    			temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
+    			temp+= "<br>";
+    			temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
+    			temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
+    			temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
+    			temp+= "<br>";
+    			temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+                @if ($status == "Rejected")
+                    temp+= "<p>Ditolak dengan alasan: " +'{{$alasan}}'+"</p>";
+                @endif
+    			temp+= "<hr>";
+    			temp+= "<p>Tipe: "+e.myorder.data[0].order_type+"</p>";
+    			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
+    			temp+= "<p>Nomor kamar: "+e.myorder.data[0].detail.room_id+"</p>";
   				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Dewasa: "+e.myorder.data[0].detail.adult+"</p>";
 				temp+= "</div>";
@@ -182,52 +184,120 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 				temp+= "<div class='form-group col-md-6'>";
 				temp+= "<p>Sampai: "+e.myorder.data[0].detail.enddate+"</p>";
 				temp+= "</div>";
-			temp+= "<p>Description:</p>";
-			temp+= "<p>"+description+"</p>";
-			temp+= "<hr>";
-			temp+= "<p>Total: Rp. "+e.myorder.total	+"</p>";
-			temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
-			temp+= "<br>";
-			temp+= "</div>";
-		temp+= "</div></center>";
-		temp+= "<div class='col-md-3'>";
-		temp+= "</div>";
+    			temp+= "<p>Description:</p>";
+    			temp+= "<p>"+description+"</p>";
+    			temp+= "<hr>";
+    			temp+= "<p>Total: Rp. "+e.myorder.total	+"</p>";
+    			temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
+    			temp+= "<br>";
+    			temp+= "</div>";
+        		temp+= "</div></center>";
+        		temp+= "<div class='col-md-3'>";
+        		temp+= "</div>";
 
-        @else
+            @else
 
-        temp = "<center><div class='row'>";
-        temp+= "<div class='col-md-3'>";
-        temp+= "</div>";
-        temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
-        temp+= "<br>";
-        temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
-        temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
-        temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
-        temp+= "<br>";
-        temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
-        temp+= "<hr>";
-        temp+= "<p>Tipe: "+e.result.order_cart_detail.data[0].order_type+"</p>";
-        temp+= "<p>"+e.result.order_cart_detail.data[0].order_name+"</p>";
-        temp+= "<p>Jenis kamar: "+e.result.order_cart_detail.data[0].order_name_detail+"</p>";
-        temp+= "<div class='form-group col-md-6'>";
-            temp+= "<p>Dewasa: "+e.result.order_cart_detail.data[0].detail.room_adult+"</p>";
-            temp+= "</div>";
-            temp+= "<div class='form-group col-md-6'>";
-            temp+= "<p>Anak-anak: "+e.result.order_cart_detail.data[0].detail.room_child+"</p>";
-            temp+= "</div>";
-            temp+= "<div class='form-group col-md-6'>";
-            temp+= "<p>Checkin: "+e.result.order_cart_detail.data[0].detail.checkin+"</p>";
-            temp+= "</div>";
-            temp+= "<hr>";
-            temp+= "<p>Total: Rp. "+e.result.order_cart_detail.data[0].customer_price+"</p>";
-            temp+= "<p>Order Expired: "+e.result.order_cart_detail.data[0].detail.order_expire_datetime+"</p>";
-            temp+= "<br>";
-        temp+= "</div>";
-        temp+= "</div></center>";
-        temp+= "<div class='col-md-3'>";
-        temp+= "</div>";
+                temp = "<center><div class='row'>";
+                temp+= "<div class='col-md-3'>";
+                temp+= "</div>";
+                temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
+                temp+= "<br>";
+                temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
+                temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
+                temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
+                temp+= "<br>";
+                temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+                temp+= "<hr>";
+                temp+= "<p>Tipe: "+e.result.order_cart_detail[0].order_type+"</p>";
+                temp+= "<p>"+e.result.order_cart_detail[0].order_name+"</p>";
+                temp+= "<p>Jenis kamar: "+e.result.order_cart_detail[0].order_name_detail+"</p>";
+                temp+= "<div class='form-group col-md-6'>";
+                temp+= "<p>Dewasa: "+e.result.order_cart_detail[0].detail.room_adult+"</p>";
+                temp+= "</div>";
+                temp+= "<div class='form-group col-md-6'>";
+                temp+= "<p>Anak-anak: "+e.result.order_cart_detail[0].detail.room_child+"</p>";
+                temp+= "</div>";
+                temp+= "<div class='form-group col-md-6'>";
+                temp+= "<p>Checkin: "+e.result.order_cart_detail[0].detail.checkin+"</p>";
+                temp+= "</div>";
+                temp+= "<p>Description:</p>";
+                temp+= "<p>"+description+"</p>";
+                temp+= "<hr>";
+                temp+= "<p>Total: Rp. "+e.result.order_cart_detail[0].customer_price+"</p>";
+                temp+= "<p>Order Expired: "+e.result.order_cart_detail[0].detail.order_expire_datetime+"</p>";
+                temp+= "<br>";
+                temp+= "</div>";
+                temp+= "</div></center>";
+                temp+= "<div class='col-md-3'>";
+                temp+= "</div>";
+            @endif
+        @elseif ($claimType == 2)
+            @if($noStatus < 3)
+               temp = "<center><div class='row'>";
+               temp+= "<div class='col-md-3'>";
+               temp+= "</div>";
+               temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
+               temp+= "<br>";
+               temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
+               temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
+               temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
+               temp+= "<br>";
+               temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+                @if ($status == "Rejected")
+                    temp+= "<p>Ditolak dengan alasan: " +'{{$alasan}}'+"</p>";
+                @endif
+               temp+= "<hr>";
+               temp+= "<p>Tipe : "+e.myorder.data[0].order_type+"</p>";
+               temp+= "<p>Rute : "+e.myorder.data[0].order_name+"</p>";
+               temp+= "<p>Maskapai : "+e.myorder.data[0].uri+"</p>";
+               temp+= "<p> Nomor penerbangan : "+e.myorder.data[0].order_name_detail+"</p>";
+               temp+= "<p>Bandara keberangkatan : "+e.myorder.data[0].detail.departure_airport_name+"</p>";
+               temp+= "<p>Bandara tujuan : "+e.myorder.data[0].detail.arrival_airport_name+"</p>";
+               temp+= "<p>waktu keberangkatan : "+e.myorder.data[0].detail.departure_time+"</p>";
+               temp+= "<p>waktu tujuan : "+e.myorder.data[0].detail.arrival_time+"</p>";
+               temp+= "<p>Description:</p>";
+               temp+= "<p>"+description+"</p>";
+               temp+= "<hr>";
+               temp+= "<p>Total: Rp. "+e.myorder.data[0].customer_price	+"</p>";
+               temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
+               temp+= "<br>";
+               temp+= "</div>";
+               temp+= "</div></center>";
+               temp+= "<div class='col-md-3'>";
+               temp+= "</div>";
+            @else
+                temp = "<center><div class='row'>";
+                temp+= "<div class='col-md-3'>";
+                temp+= "</div>";
+                temp+= "<div class='col-md-6 panel panel-default container' align='left'>";
+                temp+= "<br>";
+                temp+= "<p>Nama klaimer: " +'{{$namaClaimer}}'+"</p>";
+                temp+= "<p>Nama approver: "+'{{$namaApprover}}'+"</p>";
+                temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
+                temp+= "<br>";
+                temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+                temp+= "<hr>";
+                temp+= "<p>Tipe : "+e.result.order_cart_detail[0].order_type+"</p>";
+                temp+= "<p>Rute : "+e.result.order_cart_detail[0].order_name+"</p>";
+                temp+= "<p>Maskapai : "+e.result.order_cart_detail[0].detail.airlines_name+"</p>";
+                temp+= "<p> Nomor penerbangan : "+e.result.order_cart_detail[0].detail.flight_number+"</p>";
+                temp+= "<p>Bandara keberangkatan : "+e.result.order_cart_detail[0].detail.depart_airport+"</p>";
+                temp+= "<p>waktu keberangkatan : "+e.result.order_cart_detail[0].detail.departure_time+"</p>";
+                temp+= "<p>Bandara tujuan : "+e.result.order_cart_detail[0].detail.arrival_airport+"</p>";
+                temp+= "<p>waktu tujuan : "+e.result.order_cart_detail[0].detail.arrival_time+"</p>";
+                temp+= "<p>Description:</p>";
+                temp+= "<p>"+description+"</p>";
+                temp+= "<hr>";
+                temp+= "<p>Total: Rp. "+e.myorder.data[0].customer_price	+"</p>";
+                temp+= "<p>Order Expired: "+e.myorder.data[0].order_expire_datetime+"</p>";
+                temp+= "<br>";
+                temp+= "</div>";
+                temp+= "</div></center>";
+                temp+= "<div class='col-md-3'>";
+                temp+= "</div>";
+            @endif
+
         @endif
-
 		$("#detailClaim").html(temp);
 	 });
 
