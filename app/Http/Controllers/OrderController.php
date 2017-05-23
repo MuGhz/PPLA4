@@ -196,10 +196,9 @@ class OrderController extends Controller
             $claim = $this->rebookHotel($id);
         }
         // Save Order: Get Order ID & Order Detail ID
-        $checkout = $responseObject['checkout'];
-        $orderId = $responseObject['myorder']['order_id'];
+        $orderId = $claim->order_id;
         // dd($responseObject);
-        $orderDetailId = $responseObject['myorder']['data'][0]['order_detail_id'];
+        $orderDetailId = $claim->order_detail;
         $token=$claim->claim_data_id;
 
         // Request Checkout Page
