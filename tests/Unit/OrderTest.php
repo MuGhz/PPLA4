@@ -74,7 +74,7 @@ class OrderTest extends TestCase
             'description' => $description,
             'order_id' => 'order_id',
             'order_detail_id' => 'order_detail_id',
-            'expire_datetime' => 'expire_datetime',
+            'expire_datetime' => '2012-12-12',
         ]);
     }
 
@@ -385,72 +385,10 @@ class OrderTest extends TestCase
         $this->assertEquals($response,"error");
     }
 
-    public function testOrderFlightSuccess()
-    {
-        $order = $this->curlMockForHotelOrder($this->purchaseOrderJson,$this->confirmSuccess);
-
-        $map = [
-            ["target",null,"target"],
-            ["token",null,"token"]
-        ];
-        $request = $this->requestMock($map);
-
-        $company = $this->makeCompany('Test Company');
-        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
-        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-        $claim = $this->makeClaim(2,$claimer->id,$approver->id,$finance->id,2);
-        $date = Carbon::create(2017,1,1,12);
-        $now = Carbon::now();
-        $claim->created_at=$date;
-        $claim->save();
-
-        $order->purchaseOrder($request,$claim->id);
-        $this->assertDatabaseHas("claims",[
-            "claim_data_id" => "token",
-            "claim_type" => 2,
-            "claim_status" => 3,
-            "claimer_id" => $claimer->id,
-            "approver_id" => $approver->id,
-            "finance_id" => $finance->id,
-        ]);
-    }
-
-    public function testOrderFlightFail()
-    {
-        $order = $this->curlMockForHotelOrder($this->purchaseOrderJson,$this->confirmFail);
-
-        $map = [
-            ["target",null,"target"],
-            ["token",null,"token"]
-        ];
-        $request = $this->requestMock($map);
-
-        $company = $this->makeCompany('Test Company');
-        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
-        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-        $claim = $this->makeClaim(2,$claimer->id,$approver->id,$finance->id,2);
-        $date = Carbon::create(2017,1,1,12);
-        $now = Carbon::now();
-        $claim->created_at=$date;
-        $claim->save();
-
-        $order->purchaseOrder($request,$claim->id);
-        $this->assertDatabaseHas("claims",[
-            "claim_data_id" => "token",
-            "claim_type" => 2,
-            "claim_status" => 2,
-            "claimer_id" => $claimer->id,
-            "approver_id" => $approver->id,
-            "finance_id" => $finance->id,
-        ]);
-    }
-
     public function testBookPesawat()
     {
         $map = [
-            ["https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json",'{"diagnostic":{"status":"200"}}'],
+            ["https://api-sandbox.tiket.com/order/add/flight?token=token&flight_id=ID_FLIGHT&ret_flight_id=ID_RET_FLIGHT&adult=&child=&infant=&conSalutation=Tuan&conFirstName=Jack&conLastName=Kay&conPhone=080989999&conEmailAddress=jack.kay@jojodio.stand&titlea1=Tuan&firstnamea1=Aaron&lastnamea1=Aaronson&birthdatea1=1995-05-05&titlea2=Nona&firstnamea2=Sharon&lastnamea2=Sharonson&birthdatea2=1996-05-05&titlea1=Tuan&firstnamea1=Aaron&lastnamea1=Aaronson&birthdatea1=2010-05-05&titlea2=Nona&firstnamea2=Sharon&lastnamea2=Sharonson&birthdatea2=2011-05-05&titlea1=Tuan&firstnamea1=Aaron&lastnamea1=Aaronson&birthdatea1=2016-05-05&titlea2=Nona&firstnamea2=Sharon&lastnamea2=Sharonson&birthdatea2=2017-05-05&output=json",'{"diagnostic":{"status":"200"}}'],
             ["https://api-sandbox.tiket.com/order?token=token&output=json",'{"diagnostic":{"status":"200"},"myorder":{"order_id":"order_id","data":[{"order_detail_id":"order_detail_id","order_expire_datetime":"order_expire_datetime"}]}}'],
         ];
         $order = $this->curlMockMap($map);
@@ -516,7 +454,7 @@ class OrderTest extends TestCase
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
         $this->actingAs($claimer);
         $response = $order->bookPesawat($request);
-        $this->assertEquals('true',$response);
+        $this->assertEquals('error 403',$response);
     }
 
     public function testGetAirportListWithoutSession()
