@@ -106,6 +106,14 @@ class FinanceTest extends TestCase
             'finance_id'=>$otherFinance->id,
             'claim_status'=>6
         ]);
+        
+        factory(App\Claim::class)->create([
+            'claim_data_id'=>8,
+            'claimer_id'=>$claimer->id,
+            'approver_id'=>$approver->id,
+            'finance_id'=>$finance->id,
+            'claim_status'=>4
+        ]);
 
         return array(
             'claimer' => $claimer,
@@ -153,8 +161,19 @@ class FinanceTest extends TestCase
         $this->assertEquals($finance->id, $claim->finance_id);
         $this->assertEquals(6, $claim->claim_status);
     }
-
-
+    
+    public function testReported() {
+        extract($this->dataset());
+        $this->actingAs($finance);
+        $claims = $fc->showReported()->getData()['allClaim'];
+        $this->assertEquals(1, sizeof($claims));
+        $claim = $claims[0];
+        $this->assertEquals($claimer->id, $claim->claimer_id);
+        $this->assertEquals($approver->id, $claim->approver_id);
+        $this->assertEquals($finance->id, $claim->finance_id);
+        $this->assertEquals(4, $claim->claim_status);
+    }
+    
     public function testRejectedFailed() {
         extract($this->dataset());
         $this->actingAs($approver);
