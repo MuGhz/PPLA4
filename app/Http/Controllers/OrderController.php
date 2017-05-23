@@ -337,9 +337,22 @@ class OrderController extends Controller
         $firstnamea = $request->input('firstnamea');
         $lastnamea = $request->input('lastnamea');
         $birthdatea = $request->input('birthdatea');
+        $target = "flight_id=$flight_id";
+        if($ret_flight_id != null)
+            $target .= "&ret_flight_id=$ret_flight_id";
+        $target .= "&adult=$adult&child=$child&infant=$infant&conSalutation=$conSalutation&conFirstName=$conFirstName&conLastName=$conLastName&conPhone=$conPhone&conEmailAddress=$conEmailAddress";
+        for($i = 1; $i < count($titlea)+1; $i++)  {
+            $index = $i-1;
+            $target .= "&titlea$i=$titlea[$index]&firstnamea$i=$firstnamea[$index]&lastnamea$i=$lastnamea[$index]&birthdatea$i=$birthdatea[$index]";
+        }
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
         $response = json_decode($this->curlCall($url),true);
-        if($response['diagnostic']['status']){
+        dd($response);
+        if($response['diagnostic']['status'] == 200){
+            $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
+            $temp = $this->curlCall($url);
+            $response = json_decode($temp,true);
+            dd("Asd");
             $claimer = Auth::user();
             $claim = new Claim();
             $claim->claim_type = 2;

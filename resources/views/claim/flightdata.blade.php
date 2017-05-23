@@ -10,16 +10,16 @@
         <hr/>
         <input type="text" hidden value="{{$req->session()->get('flight_id')}}" name="flight_id"/>
         <input type="text" hidden value="{{$req->session()->get('ret_flight_id')}}" name="ret_flight_id"/>
-        <input type="text" hidden value="$req->session()->get('token')" name="token" />
+        <input type="text" hidden value="{{$req->session()->get('token')}}" name="token" />
         <label>Contact Person</label>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-3">
                     <label>Salutation</label>
                     <select name="conSalutation" class="form-control">
-                        <option value="Mr.">Mr.</option>
-                        <option value="Mrs.">Mrs.</option>
-                        <option value="Ms.">Ms.</option>
+                        <option value="Tuan">Tuan</option>
+                        <option value="Nyonya">Nyonya</option>
+                        <option value="Nona">Nona</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -79,14 +79,14 @@
                     <div class="col-md-3">
                         <label>Salutation</label>
                         <select name="titlea[]" class="form-control">
-                            <option value="Mr.">Mr.</option>
-                            <option value="Mrs.">Mrs.</option>
-                            <option value="Ms.">Ms.</option>
+                            <option value="Tuan">Tuan</option>
+                            <option value="Nyonya">Nyonya</option>
+                            <option value="Nona">Nona</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label>First Name</label>
-                        <input name="firtnamea[]" required type="text" class="form-control">
+                        <input name="firstnamea[]" required type="text" class="form-control">
                     </div>
                     <div class="col-md-3">
                         <label>Last Name</label>
