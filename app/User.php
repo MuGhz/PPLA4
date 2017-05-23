@@ -27,10 +27,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function company()   {
-        return $this->hasOne('App\Company');
-    }
-
     public function scopeClaimer($query) {
       return $query->where('role','claimer');
     }
