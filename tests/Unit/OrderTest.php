@@ -138,7 +138,7 @@ class OrderTest extends TestCase
         return $request;
     }
 
-    public function requestMockWithSession($map, $boolean, $json)
+    public function requestMockWithSession($map, $boolean, $json=null)
     {
         $request = $this->getMockBuilder('Illuminate\Http\Request')
                     ->setMethods(array('input', 'session', 'has', 'put', 'get'))
@@ -460,8 +460,26 @@ class OrderTest extends TestCase
         $description = "TERANGKANLAH, TERANGKANLAH!";
         $map = [
             ["description",null,$description],
-            ["target",null,"target"],
-            ["token",null,"token"]
+            ["token",null,"token"],
+            ["flight_id",null,"ID_FLIGHT"],
+            ["ret_flight_id",null,"ID_RET_FLIGHT"],
+            ["conSalutation",null,"Tuan"],
+            ["conFirstName",null,"Jack"],
+            ["conLastName",null,"Kay"],
+            ["conPhone",null,"080989999"],
+            ["conEmailAddress",null,"jack.kay@jojodio.stand"],
+            ["titlea",null,["Tuan","Nona"]],
+            ["firstnamea",null,["Aaron","Sharon"]],
+            ["lastnamea",null,["Aaronson","Sharonson"]],
+            ["birthdatea",null,["1995-05-05","1996-05-05"]],
+            ["titlec",null,["Tuan","Nona"]],
+            ["firstnamec",null,["Aaron","Sharon"]],
+            ["lastnamec",null,["Aaronson","Sharonson"]],
+            ["birthdatec",null,["2010-05-05","2011-05-05"]],
+            ["titlei",null,["Tuan","Nona"]],
+            ["firstnamei",null,["Aaron","Sharon"]],
+            ["lastnamei",null,["Aaronson","Sharonson"]],
+            ["birthdatei",null,["2016-05-05","2017-05-05"]]
         ];
 
         $request = $this->requestMock($map);
@@ -482,7 +500,28 @@ class OrderTest extends TestCase
             "description" => $description
         ]);
     }
-
+    
+    public function testBookPesawatFail()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":403}}');
+        $description = "GELAPKANLAH, GELAPKANLAH!";
+        $map = [
+            ["description",null,$description],
+            ["target",null,"target"],
+            ["token",null,"token"]
+        ];
+        
+        $request = $this->requestMock($map);
+        
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $this->actingAs($claimer);
+        $response = $order->bookPesawat($request);
+        $this->assertEquals('true',$response);
+    }
+    
     public function testGetAirportListWithoutSession()
     {
         $map = $map = [
@@ -596,5 +635,62 @@ class OrderTest extends TestCase
 
         $request = $this->requestMock($map);
         $order->getFlight($request);
+    }
+    
+    public function testGetFlightDataSuccess()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":200}}');
+        $map = [
+            ["flight_id",null,"CGK"],
+            ["ret_flight_id",null,"DPS"],
+            ["date",null,date("Y-m-d", strtotime('tomorrow'))],
+            ["ret_date",null,date("Y-m-d", strtotime('yesterday'))],
+            ["adult",null,"1"],
+            ["child",null,"0"],
+            ["infant",null,"0"],
+            ["token",null,"token"],
+        ];
+           
+        $request = $this->requestMockWithSession($map,true);
+        $response = $order->getFlightData($request);
+        $this->assertEquals("true",$response);
+    }
+    
+        public function testGetFlightDataSuccessOneWay()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":200}}');
+        $map = [
+            ["flight_id",null,"CGK"],
+            ["ret_flight_id",null,null],
+            ["date",null,date("Y-m-d", strtotime('tomorrow'))],
+            ["ret_date",null,date("Y-m-d", strtotime('yesterday'))],
+            ["adult",null,"1"],
+            ["child",null,"0"],
+            ["infant",null,"0"],
+            ["token",null,"token"],
+        ];
+           
+        $request = $this->requestMockWithSession($map,true);
+        $response = $order->getFlightData($request);
+        $this->assertEquals("true",$response);
+    }
+    
+    public function testGetFlightDataFailed()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":403}}');
+        $map = [
+            ["flight_id",null,"CGK"],
+            ["ret_flight_id",null,"DPS"],
+            ["date",null,date("Y-m-d", strtotime('tomorrow'))],
+            ["ret_date",null,date("Y-m-d", strtotime('yesterday'))],
+            ["adult",null,"1"],
+            ["child",null,"0"],
+            ["infant",null,"0"],
+            ["token",null,"token"],
+        ];
+           
+        $request = $this->requestMock($map);
+        $response = $order->getFlightData($request);
+        $this->assertEquals("error",$response);
     }
 }
