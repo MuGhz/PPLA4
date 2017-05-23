@@ -68,12 +68,12 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 
     </div>
     <div id='uploadProof' hidden="true">
-      <form action="{{$action}}/{{$id}}" method="post" class="container col-md-offset-2">
+      <form action="/home/claim/upload_proof/{{$id}}" method="post" enctype="multipart/form-data" type class="container col-md-offset-2">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="form-group col-md-8">
               <label>Select file to upload: </label>
-              <input class="form-control" id="proof" type="file" name="proof" accept="image/*" required></input>
+              <input type='file' class="form-control" name="proof" accept="image/*"></input>
             </div>
           </div>
           <div class="form-group col-md-6">
@@ -85,7 +85,7 @@ $namaFinance  = App\User::find($value->finance_id)->name;
     </div>
 
     <div id='reject' hidden="true">
-      <form action="home/claim/upload_proof/{{$id}}" method="post" class="container col-md-offset-2">
+      <form action="{{$action}}/{{$id}}" method="post" class="container col-md-offset-2">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
             <div class="form-group col-md-8">

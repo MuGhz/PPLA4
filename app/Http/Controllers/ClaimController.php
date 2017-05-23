@@ -86,6 +86,11 @@ class ClaimController extends Controller
     }
     public function uploadProof(Request $request, $id)
     {
-            
+        if($request->hasFile('proof')){
+            $file = $request->file('proof');
+            $file->storeAs('upload_proof',"$id.jpg");
+            return redirect("/");
+        }
+
     }
 }
