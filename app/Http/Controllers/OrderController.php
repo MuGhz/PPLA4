@@ -230,7 +230,7 @@ class OrderController extends Controller
         if($response['diagnostic']['status'] != 200)
             return "error";
         // Customer Checkout
-        if($claim->claim_type)  {
+        if($claim->claim_type == 1)  {
             $conFirstName = $request->input('conFirstName');
             $conLastName = $request->input('conLastName');
             $conSalutation = $request->input('conSalutation');
