@@ -247,7 +247,7 @@ class OrderTest extends TestCase
 
         $order->getHotelDetail($request);
     }
-
+    
     public function testReorder()
     {
         $order = $this->curlMock($this->hotelDetail);
@@ -298,8 +298,7 @@ class OrderTest extends TestCase
 
     public function testOrderHotelFail()
     {
-<<<<<<< tests/Unit/OrderTest.php
-        $order = $this->curlMockForHotelOrder($this->orderJson, $this->confirmFail);
+        $order = $this->curlMockForHotelOrder($this->purchaseOrderJson, $this->confirmFail);
         $map = [
             ["target",null,"target"],
             ["token",null,"token"]
@@ -316,43 +315,15 @@ class OrderTest extends TestCase
         $claim->created_at=$date;
         $claim->save();
 
-        $order->orderHotel($request,$claim->id);
-        $this->assertDatabaseHas( "claims",[
+        $order->purchaseOrder($request,$claim->id);
+        $this->assertDatabaseHas("claims",[
             "claim_data_id" => "token",
             "claim_type" => "1",
             "claim_status" => "2",
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
-            "finance_id" => $finance->id,
+            "finance_id" => $finance->id
         ]);
-=======
-      $order = $this->curlMockForHotelOrder($this->purchaseOrderJson, $this->confirmFail);
-      $map = [
-          ["target",null,"target"],
-          ["token",null,"token"]
-      ];
-      $request = $this->requestMock($map);
-
-      $company = $this->makeCompany('Test Company');
-      $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
-      $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-      $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
-      $date = Carbon::create(2017,1,1,12);
-      $now = Carbon::now();
-      $claim->created_at=$date;
-      $claim->save();
-
-      $order->purchaseOrder($request,$claim->id);
-      $this->assertDatabaseHas("claims",[
-          "claim_data_id" => "token",
-          "claim_type" => "1",
-          "claim_status" => "2",
-          "claimer_id" => $claimer->id,
-          "approver_id" => $approver->id,
-          "finance_id" => $finance->id,
-      ]);
->>>>>>> tests/Unit/OrderTest.php
     }
 
     public function testDecodeJson()
@@ -363,34 +334,14 @@ class OrderTest extends TestCase
     }
 
     public function testGetOrder(){
-<<<<<<< tests/Unit/OrderTest.php
         $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
         $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
-=======
-      $company = $this->makeCompany('Test Company');
-      $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
-      $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
-      $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
-      $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,1,"Test Description");
 
-      $order = $this->curlMock($this->purchaseOrderJson);
-      $expectedOutput = '{"api_data":'.$this->purchaseOrderJson.',"description":"'.$claim->description.'"}';
-      $map = [
-          ["id",null,$claim->id],
-          ["target",null,"target"],
-          ["token",null,"token"]
-      ];
-
-      $request = $this->requestMock($map);
-      $order->getOrder($request);
-      $this->expectOutputString($expectedOutput);
->>>>>>> tests/Unit/OrderTest.php
-
-        $order = $this->curlMock($this->orderJson);
-        $expectedOutput = '{"api_data":'.$this->orderJson.',"description":"'.$claim->description.'"}';
+        $order = $this->curlMock($this->purchaseOrderJson);
+        $expectedOutput = '{"api_data":'.$this->purchaseOrderJson.',"description":"'.$claim->description.'"}';
         $map = [
             ["id",null,$claim->id],
             ["target",null,"target"],
@@ -421,11 +372,7 @@ class OrderTest extends TestCase
 
         $request = $this->requestMock($map);
 
-<<<<<<< tests/Unit/OrderTest.php
         $company = $this->makeCompany('Test Company');
-=======
-      $company = $this->makeCompany('Test Company');
->>>>>>> tests/Unit/OrderTest.php
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
@@ -470,10 +417,6 @@ class OrderTest extends TestCase
             "claimer_id" => $claimer->id,
             "approver_id" => $approver->id,
             "finance_id" => $finance->id,
-<<<<<<< tests/Unit/OrderTest.php
-            "description" => $description
-=======
->>>>>>> tests/Unit/OrderTest.php
         ]);
     }
 

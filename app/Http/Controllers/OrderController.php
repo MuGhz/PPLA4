@@ -247,7 +247,6 @@ class OrderController extends Controller
         return $returnValue;
     }
 
-    }
     public function orderHotelRequestCheckout($orderId,$token)
     {
         $url = "https://api-sandbox.tiket.com/order/checkout/$orderId/IDR?token=$token&output=json";
