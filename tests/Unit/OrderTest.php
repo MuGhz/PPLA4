@@ -247,7 +247,7 @@ class OrderTest extends TestCase
 
         $order->getHotelDetail($request);
     }
-    
+
     public function testReorder()
     {
         $order = $this->curlMock($this->hotelDetail);
@@ -360,9 +360,9 @@ class OrderTest extends TestCase
         $this->assertJson('{"status":200}',$ret);
     }
 
-    public function testBookHotel()
+    public function testBookHotelSuccess()
     {
-        $order = $this->curlMock("success");
+        $order = $this->curlMock('{"diagnostic":{"status":403}}');
         $description = "I had too many deadlines, I need some days off!";
         $map = [
             ["description",null,$description],
@@ -497,7 +497,7 @@ class OrderTest extends TestCase
             "description" => $description
         ]);
     }
-    
+
     public function testBookPesawatFail()
     {
         $order = $this->curlMock('{"diagnostic":{"status":403}}');
@@ -507,9 +507,9 @@ class OrderTest extends TestCase
             ["target",null,"target"],
             ["token",null,"token"]
         ];
-        
+
         $request = $this->requestMock($map);
-        
+
         $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
@@ -518,7 +518,7 @@ class OrderTest extends TestCase
         $response = $order->bookPesawat($request);
         $this->assertEquals('true',$response);
     }
-    
+
     public function testGetAirportListWithoutSession()
     {
         $map = $map = [
@@ -633,7 +633,7 @@ class OrderTest extends TestCase
         $request = $this->requestMock($map);
         $order->getFlight($request);
     }
-    
+
     public function testGetFlightDataSuccess()
     {
         $order = $this->curlMock('{"diagnostic":{"status":200}}');
@@ -647,12 +647,12 @@ class OrderTest extends TestCase
             ["infant",null,"0"],
             ["token",null,"token"],
         ];
-           
+
         $request = $this->requestMockWithSession($map,true);
         $response = $order->getFlightData($request);
         $this->assertEquals("true",$response);
     }
-    
+
         public function testGetFlightDataSuccessOneWay()
     {
         $order = $this->curlMock('{"diagnostic":{"status":200}}');
@@ -666,12 +666,12 @@ class OrderTest extends TestCase
             ["infant",null,"0"],
             ["token",null,"token"],
         ];
-           
+
         $request = $this->requestMockWithSession($map,true);
         $response = $order->getFlightData($request);
         $this->assertEquals("true",$response);
     }
-    
+
     public function testGetFlightDataFailed()
     {
         $order = $this->curlMock('{"diagnostic":{"status":403}}');
@@ -685,7 +685,7 @@ class OrderTest extends TestCase
             ["infant",null,"0"],
             ["token",null,"token"],
         ];
-           
+
         $request = $this->requestMock($map);
         $response = $order->getFlightData($request);
         $this->assertEquals("error",$response);
