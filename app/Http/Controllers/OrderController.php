@@ -14,12 +14,17 @@ use App\Claim;
 use App\User;
 
 use Carbon\Carbon;
-
+/**
+* class OrderController
+* Acts as a Controller to process the order/claim.
+*
+* @package App\Http\Controllers
+ */
 class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
 
-    protected $key = '1c9c54d06eac9e8f7dd6ae643e6797a6';
+    protected $key = '07ff7126e34ff51b9564cd9848b339b9';
 
     /**
     * Returns Token from tiket.com
@@ -42,7 +47,6 @@ class OrderController extends Controller
         $key = $this->key;
         $url = "http://api-sandbox.tiket.com/apiv1/payexpress?method=getToken&secretkey=$key&output=json";
         $response = $this->curlCall($url);
-        echo json_decode($response,true)['token'];
         return json_decode($response,true)['token'];
     }
 
@@ -161,7 +165,7 @@ class OrderController extends Controller
     * @param HTTP request, claim Id
     * @return view
     */
-    public function orderHotel(Request $request,$id)
+    public function purchaseOrder(Request $request,$id)
     {
         $claim = Claim::where('id','=',$id)->first();
         $url= "https://api-sandbox.tiket.com/order?token=$claim->claim_data_id&output=json";
@@ -176,7 +180,6 @@ class OrderController extends Controller
             $response = $this->curlCall($url);
             $responseObject = json_decode($response,true);
         }
-
         // Save Order: Get Order ID & Order Detail ID
         $checkout = $responseObject['checkout'];
         $orderId = $responseObject['myorder']['order_id'];
@@ -199,7 +202,6 @@ class OrderController extends Controller
         // Confirm
         $confirmData="secretkey=$this->key&confirmkey=e1fdb5&username=totorvo901@ymail.com&textarea_note=test&tanggal=2012-12-06";
         $response = $this->orderHotelConfirm($orderId,$confirmData);
-        
 
         $responseObject = json_decode($response,true);
         if ($responseObject['diagnostic']['status'] != '200') {
@@ -211,6 +213,39 @@ class OrderController extends Controller
         $claim->save();
         Log::info('user \('.Auth::id().') '.' claim succeed',['claim'=>$claim]);
         return redirect('/home');
+    }
+
+    /**
+    * This method will process user's input in attempt to search for airports
+    * @param Http request
+    * @return json of airports that matches user's query
+    */
+    public function getAirport(Request $request)
+    {
+        $query = strtolower($request->input('query'));
+        $token = $this->decodeJsonToken();
+        $id = Auth::id();
+        if(!$request->session()->has("$id"))  {
+            $response = $this->curlCall("https://api-sandbox.tiket.com/flight_api/all_airport?token=$token&output=json");
+            $airports = json_decode($response,true)['all_airport']['airport'];
+            $request->session()->put("$id", $response);
+        }
+        else {
+            $response = $request->session()->get("$id");
+            $airports = json_decode($response,true)['all_airport']['airport'];
+        }
+        $values = array();
+        foreach($airports as $airport) {
+            $location_name = $airport['location_name'];
+            $airport_name = $airport['airport_name'];
+            if(strpos("x".strtolower($location_name),$query) || strpos("x".strtolower($airport_name),$query))    {
+                $location = $location_name." (".$airport['airport_code']."), ".$airport_name;
+                array_push($values, ["value"=>$location, "data"=>$airport['airport_code']]);
+            }
+        }
+        $returnValue = array("query"=>"airports","suggestions"=>$values);
+        return $returnValue;
+    }
 
     }
     public function orderHotelRequestCheckout($orderId,$token)
@@ -252,5 +287,134 @@ class OrderController extends Controller
         $err = $curl->getError();
         $curl->close();
         return $response;
+    }
+
+    /**
+    * TODO: stub
+    * Returns flight list in json
+    * @param HTTP request
+    * @return json
+    */
+    public function getFlight(Request $request) {
+        $d = $request->input('d');
+        $a = $request->input('a');
+        $date = $request->input('date');
+        $ret_date = $request->input('ret_date');
+        $adult = $request->input('adult');
+        $child = $request->input('child');
+        $infant = $request->input('infant');
+        $token = $request->input('token');
+        $page = $request->input('page');
+        $night = strtotime($ret_date)-strtotime($date);
+        $today = date_diff(date_create_from_format('Y-m-d',date('Y-m-d')),date_create_from_format('Y-m-d',"$date"))->format('%R%a');
+        if(($ret_date != "false") && $ret_date && ($night < 1 || $today < 0))  {
+            echo "error";
+            return;
+        }
+        if(!is_null($ret_date)) {
+            $url = "https://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&ret_date=$ret_date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=1&output=json";
+        } else {
+            $url = "https://api-sandbox.tiket.com/search/flight?d=$d&a=$a&date=$date&adult=$adult&child=$child&infant=$infant&token=$token&page=$page&v=1&output=json";
+        }
+        echo $this->curlCall($url);
+    }
+
+    public function getFlightData(Request $request)    {
+        $flight_id = $request->input('flight_id');
+        $date = $request->input('date');
+        $ret_flight_id = $request->input('ret_flight_id');
+        $ret_date = $request->input('ret_date');
+        $token = $request->input('token');
+        $description = $request->input('description');
+        $adult = $request->input('adult');
+        $child = $request->input('child');
+        $infant = $request->input('infant');
+
+        if($ret_flight_id == null)
+            $url = "http://api-sandbox.tiket.com/flight_api/get_flight_data?flight_id=$flight_id&date=$date&ret_flight_id=$ret_flight_id&ret_date=$ret_date&token=$token&output=json";
+        else
+            $url = "http://api-sandbox.tiket.com/flight_api/get_flight_data?flight_id=$flight_id&date=$date&token=$token&output=json";
+        $return = json_decode($this->curlCall($url),true);
+        if($return['diagnostic']['status'] == 200){
+            $request->session()->put('flight_id',$flight_id);
+    		$request->session()->put('date',$date);
+            $request->session()->put('ret_flight_id',$ret_flight_id);
+            $request->session()->put('ret_date',$ret_date);
+            $request->session()->put('token',$token);
+            $request->session()->put('description',$description);
+            $request->session()->put('adult',$adult);
+            $request->session()->put('child',$child);
+            $request->session()->put('infant',$infant);
+
+            return "true";
+        }
+        else {
+            return "error";
+        }
+    }
+
+    public function bookPesawat(Request $request)
+    {
+        $description = $request->input('description');
+        $token = $request->input('token');
+        $flight_id = $request->input('flight_id');
+        $ret_flight_id = $request->input('ret_flight_id');
+        $adult = $request->input('adult');
+        $child = $request->input('child');
+        $infant = $request->input('infant');
+        $conSalutation = $request->input('conSalutation');
+        $conFirstName = $request->input('conFirstName');
+        $conLastName = $request->input('conLastName');
+        $conPhone = $request->input('conPhone');
+        $conEmailAddress = $request->input('conEmailAddress');
+        $titlea = $request->input('titlea');
+        $firstnamea = $request->input('firstnamea');
+        $lastnamea = $request->input('lastnamea');
+        $birthdatea = $request->input('birthdatea');
+
+        $titlec = $request->input('titlec');
+        $firstnamec = $request->input('firstnamec');
+        $lastnamec = $request->input('lastnamec');
+        $birthdatec = $request->input('birthdatec');
+
+        $titlei = $request->input('titlei');
+        $firstnamei = $request->input('firstnamei');
+        $lastnamei = $request->input('lastnamei');
+        $birthdatei = $request->input('birthdatei');
+        $target = "flight_id=$flight_id";
+        if($ret_flight_id != null)
+            $target .= "&ret_flight_id=$ret_flight_id";
+        $target .= "&adult=$adult&child=$child&infant=$infant&conSalutation=$conSalutation&conFirstName=$conFirstName&conLastName=$conLastName&conPhone=$conPhone&conEmailAddress=$conEmailAddress";
+        for($i = 1; $i < count($titlea)+1; $i++)  {
+            $index = $i-1;
+            $target .= "&titlea$i=$titlea[$index]&firstnamea$i=$firstnamea[$index]&lastnamea$i=$lastnamea[$index]&birthdatea$i=$birthdatea[$index]";
+        }
+        for($i = 1; $i < count($titlec)+1; $i++)  {
+            $index = $i-1;
+            $target .= "&titlea$i=$titlec[$index]&firstnamea$i=$firstnamec[$index]&lastnamea$i=$lastnamec[$index]&birthdatea$i=$birthdatec[$index]";
+        }
+        for($i = 1; $i < count($titlei)+1; $i++)  {
+            $index = $i-1;
+            $target .= "&titlea$i=$titlei[$index]&firstnamea$i=$firstnamei[$index]&lastnamea$i=$lastnamei[$index]&birthdatea$i=$birthdatei[$index]";
+        }
+        $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
+        $response = json_decode($this->curlCall($url),true);
+        if($response['diagnostic']['status'] == 200){
+            $claimer = Auth::user();
+            $claim = new Claim();
+            $claim->claim_type = 2;
+            $claim->claim_data_id = $token;
+            $claim->claimer_id = $claimer->id;
+            $claim->approver_id = User::approver($claimer)->id;
+            $claim->finance_id = User::finance($claimer)->id;
+            $claim->claim_status = 1;
+            $claim->description = $description;
+            $claim->order_information=$target;
+            $claim->alasan_reject="";
+            $claim->save();
+            Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
+            return redirect('/home');
+        }
+        return "true";
     }
 }

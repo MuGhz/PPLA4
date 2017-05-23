@@ -19,7 +19,9 @@ use App\Company;
 
 /**
  * Class ApproverController
+ *
  * Acts as a Controller for Approver to view and process all Claims sent to him, such as rejecting & approving Claims.
+ *
  * @package App\Http\Controllers
  */
 class ApproverController extends Controller
@@ -33,10 +35,11 @@ class ApproverController extends Controller
     /**
      * Shows the detail of a Claim based on the inputted ID.
      *
+     *
      * @param $id
-     *	ID of the designated Claim.
+     *    ID of the designated Claim.
      * @return View
-     *	Shows the detail of the Claim, approver may also reject or approve the Claim at this point.
+     *    Shows the detail of the Claim, approver may also reject or approve the Claim at this point.
      */
     public function show($id)
     {
@@ -50,7 +53,9 @@ class ApproverController extends Controller
      * Change the status of a Claim from "Sent" into "Approved", so Finance may process the transaction. The "claim_status"
      * value of a Sent, Approved and Rejected Claim is 1, 2 and 6 respectively.
      * @param $id
-     *	ID of the designated Claim which claim_status will be changed.
+     *    ID of the designated Claim which claim_status will be changed.
+     *@return redirect
+     *Redirect to list of received claim by approver
      */
     public function approve($id)
     {
@@ -72,7 +77,9 @@ class ApproverController extends Controller
      * Change the status of a Claim from "Sent" into "Approved", so Finance may process the transaction. The "claim_status"
      * value of a Sent, Approved and Rejected Claim is 1, 2 and 6 respectively.
      * @param $id
-     *	ID of the designated Claim which claim_status will be changed.
+     *    ID of the designated Claim which claim_status will be changed.
+     *@return redirect
+     *Redirect to list of received claim by approver
      */
     public function reject($id)
     {
@@ -93,7 +100,7 @@ class ApproverController extends Controller
     /**
      * Shows all Claims that this Approver has received; meaning only Claims with value 1 in it's claim_status will be shown.
      * @return View
-     *	Shows all Claims with "Sent" status.
+     *    Shows all Claims with "Sent" status.
      */
     public function showReceived()
     {
@@ -105,7 +112,7 @@ class ApproverController extends Controller
     /**
      * Shows all Claims that this Approver has approved; meaning only Claims with value 2 in it's claim_status will be shown.
      * @return View
-     *	Shows all Claims with "Approved" status, that was rejected by this Approver.
+     *    Shows all Claims with "Approved" status, that was rejected by this Approver.
      */
     public function showApproved()
     {
@@ -117,7 +124,7 @@ class ApproverController extends Controller
     /**
      * Shows all Claims that this Approver has rejected; meaning only Claims with value 6 in it's claim_status will be shown.
      * @return View
-     *	Shows all Claims with "Rejected" status, that was rejected by this Approver.
+     *    Shows all Claims with "Rejected" status, that was rejected by this Approver.
      */
     public function showRejected()
     {
