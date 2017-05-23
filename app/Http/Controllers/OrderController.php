@@ -471,8 +471,8 @@ class OrderController extends Controller
         $url = "https://api-sandbox.tiket.com/order/add/flight?token=$token&$target&output=json";
         $response = json_decode($this->curlCall($url),true);
 
-        if(json_decode($response, true)['diagnostic']['status'] != 200)
-            return "error";
+        if($response['diagnostic']['status'] != 200)
+            return "error ".$response['diagnostic']['status']." ".$response['diagnostic']['error_msgs'];
 
         $url= "https://api-sandbox.tiket.com/order?token=$token&output=json";
 
@@ -489,9 +489,9 @@ class OrderController extends Controller
             $claim->claim_status = 1;
             $claim->description = $description;
             $claim->order_information=$target;
-            $claim->order_id = $success['myorder']['order_id'];
-            $claim->order_detail_id = $success['myorder']['data'][0]['order_detail_id'];
-            $claim->expire_datetime = $success['myorder']['data'][0]['order_expire_datetime'];
+            $claim->order_id = $response['myorder']['order_id'];
+            $claim->order_detail_id = $response['myorder']['data'][0]['order_detail_id'];
+            $claim->expire_datetime = $response['myorder']['data'][0]['order_expire_datetime'];
             $claim->save();
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
             return redirect('/home');
