@@ -102,7 +102,7 @@ class OrderController extends Controller
         $id = $request->input('id');
         $token = $request->input('token');
         $orderId = $request->input('orderId');
-        $claim = Claim::find($claim_id);
+        $claim = Claim::find($id);
         $status = $claim->claim_status;
         if($status<3){
             $url = "https://api-sandbox.tiket.com/order?token=$token&output=json";
@@ -110,7 +110,7 @@ class OrderController extends Controller
             $response = $this->curlCall($url);
         }else{
             $email = Company::find(Auth::user()->company)->email_tiket;
-            $url = "https://api-sandbox.tiket.com/check_order?secretkey=$this->key&token=$token&order_id=$order_id&email=$email&output=json";
+            $url = "https://api-sandbox.tiket.com/check_order?secretkey=$this->key&token=$token&order_id=$orderId&email=$email&output=json";
             $claimDescription = $claim->description;
             $response = $this->curlCall($url);
         }
@@ -229,8 +229,12 @@ class OrderController extends Controller
         $claim = Claim::find($claim_id);
         $token = $request->input('token');
         $email_tiket = Company::find(Auth::user()->company)->email_tiket;
-        if($email_tiket == null)
-            $email_tiket = $emailAddress;
+        if($email_tiket == null)    {
+            $company = Company::find(Auth::user()->company);
+            $company->email_tiket = $email_tiket;
+            $company->save();
+        }
+
         if($email_tiket != $emailAddress)
             return "error, unknown tiket.com email";
 
@@ -251,9 +255,10 @@ class OrderController extends Controller
             $response = $this->orderHotelCustomerCheckout($dataLogin,$dataCustomerCheckout,$orderDetailId,$token);
             $response = json_decode($response,true);
             $status = $response['diagnostic']['status'];
-            $message = $response['diagnostic']['error_msgs'];
-            if($status != 200)
+            if($status != 200)  {
+                $message = $response['diagnostic']['error_msgs'];
                 return "error $status $message";
+            }
         }
         // Confirm
         $url = "http://api-sandbox.tiket.com/checkout/checkout_payment/8?btn_booking=1&token=$token&output=json";
