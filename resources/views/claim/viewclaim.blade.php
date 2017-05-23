@@ -7,6 +7,7 @@ $id = $value -> id;
 $token = $value -> claim_data_id ;
 $status = $value -> claim_status;
 $status = ($status==1?"Sent":($status==2?"Approved":($status==3?"Reported":($status==4?"Disbursed":($status==5?"Closed":"Rejected")))));
+$alasan = $status=="Rejected"?$value->alasan_reject:"";
 $isSelf = Auth::id() == $value->claimer_id;
 
 $action = Auth::user()["role"];
@@ -109,6 +110,9 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 			temp+= "<p>Nama finance: " +'{{$namaFinance}}'+"</p>";
 			temp+= "<br>";
 			temp+= "<p>Status klaim: " +'{{$status}}'+"</p>";
+            @if ($status == "Rejected")
+                temp+= "<p>Ditolak dengan alasan: " +'{{$alasan}}'+"</p>";
+            @endif
 			temp+= "<hr>";
 			temp+= "<p>Tipe: "+e.myorder.data[0].order_type+"</p>";
 			temp+= "<p>"+e.myorder.data[0].order_name+" - "+e.myorder.data[0].order_name_detail+"</p>";
