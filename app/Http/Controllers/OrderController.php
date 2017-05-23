@@ -241,9 +241,11 @@ class OrderController extends Controller
             $orderDetailId = $claim->order_detail_id;
             $dataCustomerCheckout = "conSalutation=$conSalutation&conFirstName=$conFirstName&conLastName=$conLastName&conEmailAddress=$conEmailAddress&conPhone=%2B62$conPhone";
             $response = $this->orderHotelCustomerCheckout($dataLogin,$dataCustomerCheckout,$orderDetailId,$token);
-            $status = json_decode($response,true)['diagnostic']['status'];
+            $response = json_decode($response,true);
+            $status = $response['diagnostic']['status'];
+            $message = $response['diagnostic']['error_msgs'];
             if($status != 200)
-                return "error ".$status;
+                return "error $status $message";
         }
         // Confirm
         $url = "http://api-sandbox.tiket.com/checkout/checkout_payment/8?btn_booking=1&token=$token&output=json";
@@ -260,7 +262,7 @@ class OrderController extends Controller
         if ($responseObject['diagnostic']['status'] != '200') {
             Log::info('user \('.Auth::id().') '.' request failed',['error'=>$responseObject['diagnostic']['error_msgs'],'claim'=>$claim]);
             session()->flash('error',$responseObject['diagnostic']['error_msgs']);
-            return "error ".$responseObject['diagnostic']['error_msgs'];
+            return "error ".$responseObject['diagnostic']['status']." ".$responseObject['diagnostic']['error_msgs'];
         }
         $claim->claim_status = 3;
         $claim->save();
