@@ -302,7 +302,7 @@
                     temp+="<p><b>Promo</b></p>";
                 if(f.best_deal)
                     temp+="<h3>BEST DEAL</h3>"
-                temp+="<button class=\'btn btn-success\' onclick=\'arrive(\""+i+"\")\'>Pilihasd</button>";
+                temp+="<button class=\'btn btn-success\' onclick=\'arrive(\""+i+"\")\'>Pilih</button>";
                 temp+="</div>";
               if(i%2 != 0 || i == length-1)
                 temp+="</div>";
