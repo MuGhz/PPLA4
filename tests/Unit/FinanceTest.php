@@ -187,4 +187,23 @@ class FinanceTest extends TestCase
         $claims = $fc->showRejected()->getData()['allClaim'];
         $this->assertEquals(2, sizeof($claims));
     }
+    
+    public function testVerify()
+    {
+        extract($this->dataset());
+        $this->actingAs($finance);
+        $claim = factory(App\Claim::class)->create([
+            'claim_type' => 1,
+            'claimer_id' => $claimer->id,
+            'approver_id' => $approver->id,
+            'finance_id' => $finance->id,
+            'claim_status' => 4
+        ]);
+        $cc = new ClaimController();
+        $cc->verified($claim->id);
+        $this->assertDatabaseHas('claims',[
+            'id' => $claim->id,
+            'claim_status' => 5
+        ]);
+    }
 }
