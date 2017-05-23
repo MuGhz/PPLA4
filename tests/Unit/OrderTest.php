@@ -385,6 +385,34 @@ class OrderTest extends TestCase
         $this->assertEquals($response,"error");
     }
 
+    public function testOrderHotelRequestCheckout()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelRequestCheckout(1,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testOrderHotelLoginCheckout()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelLoginCheckout(1,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testOrderHotelCustomerCheckout()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelCustomerCheckout(1,"data",2,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testOrderHotelConfirm()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelRequestCheckout(1,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
     public function testBookPesawat()
     {
         $map = [
