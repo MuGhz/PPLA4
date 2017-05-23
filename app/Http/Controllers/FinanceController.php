@@ -16,7 +16,9 @@ use App\Company;
 
 
 /**
- * Class HomeController
+ * Class FinanceController
+ * Acts as a Controller for finance to view and process all Claims sent to him.
+ *
  * @package App\Http\Controllers
  */
 class FinanceController extends Controller
@@ -32,22 +34,33 @@ class FinanceController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the list of received claim.
      *
-     * @return Response
+     * @return view page
+     * View received claim page
      */
     public function showReceived()
     {
         $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '2')->get();
         return view('adminlte::home', compact('allClaim'));
     }
-
+    /**
+     * Show the list of approved claim by finance.
+     *
+     * @return view
+     * View approved claim page
+     */
     public function showApproved()
     {
         $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '4')->where('claim_status', '!=', '6')->get();
         return view('adminlte::home', compact('allClaim'));
     }
-
+    /**
+     * Show the list of rejected claim.
+     *
+     * @return view
+     * View rejected claim page
+     */
     public function showRejected()
     {
         $allClaim = Claim::where('finance_id', '=', Auth::id())->where('claim_status', '=', '6')->get();

@@ -14,7 +14,12 @@ use App\Claim;
 use App\User;
 
 use Carbon\Carbon;
-
+/**
+* class OrderController
+* Acts as a Controller to process the order/claim.
+*
+* @package App\Http\Controllers
+ */
 class OrderController extends Controller
 {
     //this method returns Token required for Tiket.com API call
