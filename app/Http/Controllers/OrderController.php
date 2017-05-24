@@ -495,5 +495,8 @@ class OrderController extends Controller
             Log::info('claim '.($claim->id)." created by \(".Auth::id().") ".Auth::user()->name);
             return redirect('/home');
         }
+        else {
+            return "error ".$response['diagnostic']['status'];
+        }
     }
 }

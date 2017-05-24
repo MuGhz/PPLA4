@@ -301,6 +301,27 @@ class OrderTest extends TestCase
         $order->getOrder($request);
         $this->expectOutputString($expectedOutput);
     }
+    
+    public function testGetOrderOrdered(){
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
+        $this->actingAs($claimer);
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,4,"Test Description");
+
+        $order = $this->curlMock($this->purchaseOrderJson);
+        $expectedOutput = '{"api_data":'.$this->purchaseOrderJson.',"description":"'.$claim->description.'"}';
+        $map = [
+            ["id",null,$claim->id],
+            ["target",null,"target"],
+            ["token",null,"token"]
+        ];
+
+        $request = $this->requestMock($map);
+        $order->getOrder($request);
+        $this->expectOutputString($expectedOutput);
+    }
 
     public function testCurl()
     {
@@ -705,7 +726,7 @@ class OrderTest extends TestCase
         ]);
     }
 
-    public function testBookPesawatFail()
+    public function testBookPesawatFailFirstCurlCall()
     {
         $order = $this->curlMock('{"diagnostic":{"status":403}}');
         $description = "GELAPKANLAH, GELAPKANLAH!";
@@ -725,7 +746,50 @@ class OrderTest extends TestCase
         $response = $order->bookPesawat($request);
         $this->assertEquals('error 403',$response);
     }
+    
+    public function testBookPesawatFailSecondCurlCall()
+    {
+        $map = [
+            ["https://api-sandbox.tiket.com/order/add/flight?token=token&flight_id=ID_FLIGHT&ret_flight_id=ID_RET_FLIGHT&adult=&child=&infant=&conSalutation=Tuan&conFirstName=Jack&conLastName=Kay&conPhone=080989999&conEmailAddress=jack.kay@jojodio.stand&titlea1=Tuan&firstnamea1=Aaron&lastnamea1=Aaronson&birthdatea1=1995-05-05&titlea2=Nona&firstnamea2=Sharon&lastnamea2=Sharonson&birthdatea2=1996-05-05&titlea1=Tuan&firstnamea1=Aaron&lastnamea1=Aaronson&birthdatea1=2010-05-05&titlea2=Nona&firstnamea2=Sharon&lastnamea2=Sharonson&birthdatea2=2011-05-05&titlea1=Tuan&firstnamea1=Aaron&lastnamea1=Aaronson&birthdatea1=2016-05-05&titlea2=Nona&firstnamea2=Sharon&lastnamea2=Sharonson&birthdatea2=2017-05-05&output=json",'{"diagnostic":{"status":"200"}}'],
+            ["https://api-sandbox.tiket.com/order?token=token&output=json",'{"diagnostic":{"status":"403"}}'],
+        ];
+        $order = $this->curlMockMap($map);
+        $description = "TERANGKANLAH, TERANGKANLAH!";
+        $map = [
+            ["description",null,$description],
+            ["token",null,"token"],
+            ["flight_id",null,"ID_FLIGHT"],
+            ["ret_flight_id",null,"ID_RET_FLIGHT"],
+            ["conSalutation",null,"Tuan"],
+            ["conFirstName",null,"Jack"],
+            ["conLastName",null,"Kay"],
+            ["conPhone",null,"080989999"],
+            ["conEmailAddress",null,"jack.kay@jojodio.stand"],
+            ["titlea",null,["Tuan","Nona"]],
+            ["firstnamea",null,["Aaron","Sharon"]],
+            ["lastnamea",null,["Aaronson","Sharonson"]],
+            ["birthdatea",null,["1995-05-05","1996-05-05"]],
+            ["titlec",null,["Tuan","Nona"]],
+            ["firstnamec",null,["Aaron","Sharon"]],
+            ["lastnamec",null,["Aaronson","Sharonson"]],
+            ["birthdatec",null,["2010-05-05","2011-05-05"]],
+            ["titlei",null,["Tuan","Nona"]],
+            ["firstnamei",null,["Aaron","Sharon"]],
+            ["lastnamei",null,["Aaronson","Sharonson"]],
+            ["birthdatei",null,["2016-05-05","2017-05-05"]]
+        ];
 
+        $request = $this->requestMock($map);
+
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $this->actingAs($claimer);
+        $response = $order->bookPesawat($request);
+        $this->assertEquals('error 403',$response);
+    }
+    
     public function testGetAirportListWithoutSession()
     {
         $map = $map = [
