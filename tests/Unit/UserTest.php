@@ -93,7 +93,6 @@ class UserTest extends TestCase
 		
 		$queryResult = User::claimer()->get();
 		
-		// How to assert? (Issues: Claimers in database is not empty, $queryResult type is different from $testClaimers, wasRecentlyCreated is true on $testClaimers, false on $queryResult
 		// Manual assertion - All test elements contained(O(N^2))
 		$allClaimersContained = true;
 		foreach ($testClaimers as $claimer) {

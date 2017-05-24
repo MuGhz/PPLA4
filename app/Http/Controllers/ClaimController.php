@@ -60,9 +60,10 @@ class ClaimController extends Controller
     }
 
     /**
-    *Reject a claim
-    *Change status claim in database into 6(rejected)
-    * @param Request $request, int $id
+    * Reject a claim
+    * Change status claim in database into 6(rejected)
+    * @param Request $request
+    * @param int $id
     * @return Redirect
     * Redirect to view of received claim
     */
@@ -85,6 +86,12 @@ class ClaimController extends Controller
         return redirect("/home/".$user->role.'/received');
     }
     
+    /**
+    * Uploads a proof for a 'disbursed' claim
+    * @param Request $request
+    * @param int $id
+    * @return Redirect
+    */
     public function uploadProof(Request $request, $id)
     {
         if($request->hasFile('proof')){
@@ -98,6 +105,11 @@ class ClaimController extends Controller
         return redirect("/");
     }
     
+    /**
+    * Verifies a 'reported' claim
+    * @param int $id
+    * @return Redirect
+    */
     public function verified($id)
     {
         $claim = Claim::find($id);

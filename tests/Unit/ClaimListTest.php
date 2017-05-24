@@ -168,5 +168,4 @@ class ClaimListTest extends TestCase
 		}
 		return $allExist && (count($array1) == count($array2));
 	}
-
 }
