@@ -295,6 +295,27 @@ class OrderTest extends TestCase
         $order->getOrder($request);
         $this->expectOutputString($expectedOutput);
     }
+    
+    public function testGetOrderOrdered(){
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer', 'Claimer1@Company.test', $company->id, 'claimer');
+        $this->actingAs($claimer);
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,4,"Test Description");
+
+        $order = $this->curlMock($this->purchaseOrderJson);
+        $expectedOutput = '{"api_data":'.$this->purchaseOrderJson.',"description":"'.$claim->description.'"}';
+        $map = [
+            ["id",null,$claim->id],
+            ["target",null,"target"],
+            ["token",null,"token"]
+        ];
+
+        $request = $this->requestMock($map);
+        $order->getOrder($request);
+        $this->expectOutputString($expectedOutput);
+    }
 
     public function testCurl()
     {
