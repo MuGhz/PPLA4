@@ -46,10 +46,11 @@ class OrderTest extends TestCase
         $this->airport = '{"diagnostic":{"status":200,"elapsetime":"0.0504","memoryusage":"5.58MB","unix_timestamp":1399962811,"confirm":"success","lang":"id","currency":"IDR"},"output_type":"json","all_airport":{"airport":[{"airport_name":"PATTIMURA","airport_code":"AMQ","location_name":"Ambon","country_id":"id"},{"airport_name":"SOA","airport_code":"BJW","location_name":"Bajawa","country_id":"id"}]}}';
     }
 
-    private function makeCompany($name)
+    private function makeCompany($name,$email=null)
     {
         return factory(Company::class)->create([
-             'name' => $name
+             'name' => $name,
+             'email_tiket'=> $email
         ]);
     }
 
@@ -383,6 +384,86 @@ class OrderTest extends TestCase
         $this->actingAs($claimer);
         $response = $order->bookHotel($request);
         $this->assertEquals($response,"error");
+    }
+
+    public function testOrderHotelRequestCheckout()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelRequestCheckout(1,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testOrderHotelLoginCheckout()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelLoginCheckout(1,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testOrderHotelCustomerCheckout()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelCustomerCheckout(1,"data",2,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testOrderHotelConfirm()
+    {
+        $order = $this->curlMock('{"diagnostic":{"status":"200"}}');
+        $response = $order->orderHotelConfirm(1,"token");
+        $this->assertEquals($response,'{"diagnostic":{"status":"200"}}');
+    }
+
+    public function testPurchaseOrder()
+    {
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+        //terlalu spesifik buat dibikin DRY
+        $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
+                      ->setMethods(array('curlCall','decodeJsonToken','rebookHotel','orderHotelRequestCheckout'))
+                      ->getMock();
+        $order->expects($this->any())
+                ->method('rebookHotel')
+                ->will($this->returnValue($claim));
+        $order->expects($this->any())
+                ->method('orderHotelRequestCheckout')
+                ->will($this->returnValue('200'));
+        $map = [
+            ["description",null,'des'],
+            ["token",null,"token"],
+        ];
+        $request = $this->requestMock($map);
+        $view = $order->purchaseOrder($request,$claim->id);
+        $this->assertTrue(true);
+    }
+
+    public function testCheckoutCustomerSuccess()
+    {
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+
+        $map = [
+            ['firstName',null,'fn'],
+            ['lastName',null,'ln'],
+            ['salutation',null,'salutation'],
+            ['emailAddress', null, 'email'],
+            ['phone',null,'phone'],
+            ['id',null,$claim->id],
+            ['conFirstName',null,'fn'],
+            ['conLastName',null,'ln'],
+            ['conSalutation',null,'salutation'],
+            ['conEemailAddress', null, 'email'],
+            ['conPhone',null,'phone'],
+
+        ];
+
+
     }
 
     public function testBookPesawat()
