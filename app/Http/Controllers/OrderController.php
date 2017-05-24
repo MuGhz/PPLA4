@@ -231,9 +231,9 @@ class OrderController extends Controller
         $email_tiket = Company::find(Auth::user()->company)->email_tiket;
         if($email_tiket == null)    {
             $company = Company::where('id',Auth::user()->company)->first();
+            $email_tiket = $emailAddress;
             $company->email_tiket = $email_tiket;
             $company->save();
-            $email_tiket = $emailAddress;
         }
 
         if($email_tiket != $emailAddress)
