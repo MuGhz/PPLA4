@@ -43,7 +43,7 @@ class User extends Authenticatable
       $finances =  $query->where('company',$claimer->company)->where('role','finance')
                         ->where('id','!=',$claimer->id)
                         ->get();
-                        
+
       return $finances[rand(0,count($finances)-1)];
     }
 }

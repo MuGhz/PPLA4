@@ -157,12 +157,12 @@ class ApproverTest extends TestCase
 
     public function testShowExisting()
     {
-      $this->actingAs($this->approver1);
-      $id = $this->sentClaim1->id;
-      $response = $this->ac->show($id);
-      $data = $response->getData();
-      $claim = $data['detailClaim'][0];
-      $this->assertEquals($claim->id, $id);
+        $this->actingAs($this->approver1);
+        $id = $this->sentClaim1->id;
+        $response = $this->ac->show($id);
+        $data = $response->getData();
+        $claim = $data['detailClaim'][0];
+        $this->assertEquals($claim->id, $id);
     }
 
 	public function testShowNonexisting()

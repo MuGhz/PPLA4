@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Library\HttpRequest\CurlRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Claim;
@@ -23,7 +23,6 @@ class ClaimController extends Controller
     {
         $claims = Claim::where('claimer_id',Auth::id())->where('claim_status',$status)->get();
         return view('tickets.list',compact('claims'));
-
     }
 
     /**
@@ -56,34 +55,52 @@ class ClaimController extends Controller
         if ($user->id == $claim->claimer_id && $claim->claim_status == 1) {
             Log::info('user ('.Auth::id().") ".(Auth::user()->name)." cancel claim ".$claim->id);
             $claim->delete();
-          }
-          return redirect('/home');
+        }
+        return redirect('/home');
     }
 
     /**
-    *Reject a claim
-    *Change status claim in database into 6(rejected)
-    * @param Request $request, int $id
+    * Reject a claim
+    * Change status claim in database into 6(rejected)
+    * @param Request $request
+    * @param int $id
     * @return Redirect
     * Redirect to view of received claim
     */
     public function reject(Request $request,$id)
     {
         $alasanReject = $request->input("alasan_reject");
-          $user = Auth::user();
-          $claim = Claim::find($id);
-          if((($claim->claim_status == 1) && ($user->role == "approver") && ($user->id == $claim->approver_id))
+        $user = Auth::user();
+        $claim = Claim::find($id);
+        if((($claim->claim_status == 1) && ($user->role == "approver") && ($user->id == $claim->approver_id))
         || (($claim->claim_status == 2) && ($user->role == "finance")&& ($user->id == $claim->finance_id))) {
+            if($claim->claim_type == 2){
+                $orderDetailId = $claim->order_detail_id;
+                $token = $claim->claim_data_id;
+                $url = "https://api-sandbox.tiket.com/order/delete_order?order_detail_id=$orderDetailId&token=$token&output=json";
+                $curl = new CurlRequest($url);
+                $response = $curl->execute();
+                $err = $curl->getError();
+                $curl->close();
+            }
             $claim->claim_status = 6;
             $claim->alasan_reject= $alasanReject;
             $claim->save();
             Log::info('user ('.Auth::id().") ".(Auth::user()->name)." reject claim ".$claim->id);
-          } else {
-              Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$claim, 'user'=>Auth::user()]);
-              return abort('403','403 - Unauthorized access');
-          }
-          return redirect("/home/".$user->role.'/received');
+        }
+        else {
+            Log::alert('user '.(Auth::user()->id).' trying to access forbidden route',['claim'=>$claim, 'user'=>Auth::user()]);
+            return abort('403','403 - Unauthorized access');
+        }
+        return redirect("/home/".$user->role.'/received');
     }
+
+    /**
+    * Uploads a proof for a 'disbursed' claim
+    * @param Request $request
+    * @param int $id
+    * @return Redirect
+    */
     public function uploadProof(Request $request, $id)
     {
         if($request->hasFile('proof')){
@@ -92,15 +109,27 @@ class ClaimController extends Controller
             $claim = Claim::find($id);
             $claim->claim_status = 4;
             $claim->save();
-            return redirect("/");
+            Log::info('user ('.Auth::id().") ".(Auth::user()->name)." uploaded proof for claim ".$claim->id);
         }
-
+        return redirect("/");
     }
+
+    /**
+    * Verifies a 'reported' claim
+    * @param int $id
+    * @return Redirect
+    */
     public function verified($id)
     {
         $claim = Claim::find($id);
-        $claim->claim_status = 5;
-        $claim->save();
-        return redirect("/");
+        if ($claim->claim_status == 4) {
+            $claim->claim_status = 5;
+            $claim->save();
+            Log::info('user ('.Auth::id().") ".(Auth::user()->name)." verified claim ".$claim->id);
+            return redirect("/");
+        }
+        else {
+            return abort('403','403 - Unauthorized access');
+        }
     }
 }

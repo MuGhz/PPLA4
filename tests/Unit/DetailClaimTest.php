@@ -60,15 +60,30 @@ class DetailClaimTest extends TestCase
 		$finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
 		$claim1 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 1);
 		$claim2 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 1);
+		$claim3 = $this->makeClaim(1, $claimer1->id, $approver->id, $finance->id, 3);
 		
 		$this->testData = [
 			'company' => $company,
 			'claimer' => [$claimer1, $claimer2],
 			'approver' => $approver,
 			'finance' => $finance,
-			'claim' => [$claim1, $claim2],
+			'claim' => [$claim1, $claim2, $claim3],
 		];
 	}
+    
+    public function makeMock($class, $constructorArgs, $methodVals)
+    {
+        $request = $this->getMockBuilder($class)
+                        ->setConstructorArgs($constructorArgs)
+                        ->setMethods(array_keys($methodVals))
+                        ->getMock();
+        foreach ($methodVals as $methodName => $methodCriteria) {
+            $request->expects($this->any())
+                    ->method($methodName)
+                    ->will($this->returnValueMap($methodCriteria));
+        }
+        return $request;
+    }
 	
 	public function testReturnedCorrectView()
 	{
@@ -159,4 +174,64 @@ class DetailClaimTest extends TestCase
 		}
 		$this->assertEquals(403,$response);
 	}
+    
+    public function testUploadProofWithFile()
+    {
+        $testData = $this->testData;
+        $claim = $testData['claim'][2];
+        $claimer = $testData['claimer'][0];
+        
+        $this->actingAs($claimer);
+        
+        $cc = new ClaimController();
+        
+        $fileMock = $this->makeMock(
+            'Illuminate\Http\Request',
+            [],
+            [
+                'move' => [[$this->any(), $this->any(), null]]
+            ]
+        );
+        $request = $this->makeMock('Illuminate\Http\Request',
+            [],
+            [
+                'hasFile' => [['proof',true]],
+                'file' => [['proof',null,$fileMock]]
+            ]
+        );
+        
+        $cc->uploadProof($request, $claim->id);
+        
+        $this->assertDatabaseHas('claims',[
+            'id' => $claim->id,
+            'claim_status' => 4
+        ]);
+    }
+    
+    public function testUploadProofWithoutFile()
+    {
+        $testData = $this->testData;
+        $claim = $testData['claim'][2];
+        $claimer = $testData['claimer'][0];
+        $claimOriginalStatus = $claim->claim_status;
+        
+        $this->actingAs($claimer);
+        
+        $cc = new ClaimController();
+        
+        $request = $this->makeMock(
+            'Illuminate\Http\Request',
+            [],
+            [
+                'hasFile' => ['proof',false]
+            ]
+        );
+        
+        $cc->uploadProof($request, $claim->id);
+        
+        $this->assertDatabaseHas('claims',[
+            'id' => $claim->id,
+            'claim_status' => $claimOriginalStatus
+        ]);
+    }
 }
