@@ -91,17 +91,23 @@ class OrderTest extends TestCase
         return $order;
     }
 
-    public function curlMockForHotelOrder($returnValue, $returnValueElse)
+    public function OrderCheckoutMock($arr)
     {
         $order = $this->getMockBuilder('App\Http\Controllers\OrderController')
-                      ->setMethods(array('curlCall','decodeJsonToken'))
+                      ->setMethods(array('curlCall','decodeJsonToken','orderHotelLoginCheckout','orderHotelCustomerCheckout','orderHotelConfirm'))
                       ->getMock();
-        $order->expects($this->exactly(7))
-              ->method("curlCall")
-              ->will($this->onConsecutiveCalls($returnValue,null,$returnValue,$returnValueElse,$returnValueElse,$returnValueElse,$returnValueElse));
         $order->expects($this->any())
-               ->method("decodeJsonToken")
-               ->will($this->returnValue("token"));
+                ->method('curlCall')
+                ->will($this->returnValue('{"diagnostic":{"status":'.$arr[0].'}}'));
+        $order->expects($this->any())
+                ->method('orderHotelLoginCheckout')
+                ->will($this->returnValue('{"diagnostic":{"status":'.$arr[1].'}}'));
+        $order->expects($this->any())
+                ->method('orderHotelCustomerCheckout')
+                ->will($this->returnValue('{"diagnostic":{"status":'.$arr[2].'}}'));
+        $order->expects($this->any())
+                ->method('orderHotelConfirm')
+                ->will($this->returnValue('{"diagnostic":{"status":'.$arr[3].',"error_msgs":"error"}}'));
         return $order;
     }
 
@@ -460,12 +466,195 @@ class OrderTest extends TestCase
             ['conSalutation',null,'salutation'],
             ['conEemailAddress', null, 'email'],
             ['conPhone',null,'phone'],
-
         ];
 
-
+        $this->actingAs($claimer);
+        $request = $this->requestMock($map);
+        $order = $this->OrderCheckoutMock([200,200,200,200]);
+        $response = $order->checkoutCustomer($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_type" => 1,
+            "claim_status" => 3,
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
     }
 
+    public function testCheckoutCustomerFailPickPaymentMethod()
+    {
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+
+        $map = [
+            ['firstName',null,'fn'],
+            ['lastName',null,'ln'],
+            ['salutation',null,'salutation'],
+            ['emailAddress', null, 'email'],
+            ['phone',null,'phone'],
+            ['id',null,$claim->id],
+            ['conFirstName',null,'fn'],
+            ['conLastName',null,'ln'],
+            ['conSalutation',null,'salutation'],
+            ['conEemailAddress', null, 'email'],
+            ['conPhone',null,'phone'],
+        ];
+
+        $this->actingAs($claimer);
+        $request = $this->requestMock($map);
+        $order = $this->OrderCheckoutMock([403,200,200,200]);
+        $response = $order->checkoutCustomer($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_type" => 1,
+            "claim_status" => 2,
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
+    }
+
+    public function testCheckoutCustomerFailedLoginCheckout()
+    {
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+
+        $map = [
+            ['firstName',null,'fn'],
+            ['lastName',null,'ln'],
+            ['salutation',null,'salutation'],
+            ['emailAddress', null, 'email'],
+            ['phone',null,'phone'],
+            ['id',null,$claim->id],
+            ['conFirstName',null,'fn'],
+            ['conLastName',null,'ln'],
+            ['conSalutation',null,'salutation'],
+            ['conEemailAddress', null, 'email'],
+            ['conPhone',null,'phone'],
+        ];
+
+        $this->actingAs($claimer);
+        $request = $this->requestMock($map);
+        $order = $this->OrderCheckoutMock([200,403,200,200]);
+        $response = $order->checkoutCustomer($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_type" => 1,
+            "claim_status" => 2,
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
+    }
+
+    public function testCheckoutCustomerFailedCustomerCheckout()
+    {
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+
+        $map = [
+            ['firstName',null,'fn'],
+            ['lastName',null,'ln'],
+            ['salutation',null,'salutation'],
+            ['emailAddress', null, 'email'],
+            ['phone',null,'phone'],
+            ['id',null,$claim->id],
+            ['conFirstName',null,'fn'],
+            ['conLastName',null,'ln'],
+            ['conSalutation',null,'salutation'],
+            ['conEemailAddress', null, 'email'],
+            ['conPhone',null,'phone'],
+        ];
+
+        $this->actingAs($claimer);
+        $request = $this->requestMock($map);
+        $order = $this->OrderCheckoutMock([200,200,403,200]);
+        $response = $order->checkoutCustomer($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_type" => 1,
+            "claim_status" => 2,
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
+    }
+
+    public function testCheckoutCustomerFailedHotelConfirm()
+    {
+        $company = $this->makeCompany('Test Company');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+
+        $map = [
+            ['firstName',null,'fn'],
+            ['lastName',null,'ln'],
+            ['salutation',null,'salutation'],
+            ['emailAddress', null, 'email'],
+            ['phone',null,'phone'],
+            ['id',null,$claim->id],
+            ['conFirstName',null,'fn'],
+            ['conLastName',null,'ln'],
+            ['conSalutation',null,'salutation'],
+            ['conEemailAddress', null, 'email'],
+            ['conPhone',null,'phone'],
+        ];
+
+        $this->actingAs($claimer);
+        $request = $this->requestMock($map);
+        $order = $this->OrderCheckoutMock([200,200,200,403]);
+        $response = $order->checkoutCustomer($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_type" => 1,
+            "claim_status" => 2,
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
+    }
+
+    public function testCheckoutFailedDifferentEmail()
+    {
+        $company = $this->makeCompany('Test Company','jojo@nomic.com');
+        $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
+        $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
+        $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
+        $claim = $this->makeClaim(1,$claimer->id,$approver->id,$finance->id,2);
+
+        $map = [
+            ['firstName',null,'fn'],
+            ['lastName',null,'ln'],
+            ['salutation',null,'salutation'],
+            ['emailAddress', null, 'email'],
+            ['phone',null,'phone'],
+            ['id',null,$claim->id],
+            ['conFirstName',null,'fn'],
+            ['conLastName',null,'ln'],
+            ['conSalutation',null,'salutation'],
+            ['conEemailAddress', null, 'email'],
+            ['conPhone',null,'phone'],
+        ];
+
+        $this->actingAs($claimer);
+        $request = $this->requestMock($map);
+        $order = $this->OrderCheckoutMock([200,200,200,200]);
+        $response = $order->checkoutCustomer($request);
+        $this->assertDatabaseHas("claims",[
+            "claim_type" => 1,
+            "claim_status" => 2,
+            "claimer_id" => $claimer->id,
+            "approver_id" => $approver->id,
+            "finance_id" => $finance->id,
+        ]);
+    }
     public function testBookPesawat()
     {
         $map = [
@@ -499,7 +688,6 @@ class OrderTest extends TestCase
         ];
 
         $request = $this->requestMock($map);
-
         $company = $this->makeCompany('Test Company');
         $claimer = $this->makeUser('Claimer 1', 'Claimer1@Company.test', $company->id, 'claimer');
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');

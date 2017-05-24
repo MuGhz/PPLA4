@@ -243,7 +243,7 @@ class OrderController extends Controller
         $response = $this->orderHotelLoginCheckout($dataLogin,$token);
         $response = json_decode($response,true);
         if($response['diagnostic']['status'] != 200)
-            return "error ".$response['diagnostic']['status']." ".$response['diagnostic']['error_msgs'];
+            return "error ".$response['diagnostic']['status'];
         // Customer Checkout
         if($claim->claim_type == 1)  {
             $conFirstName = $request->input('conFirstName');
@@ -257,8 +257,7 @@ class OrderController extends Controller
             $response = json_decode($response,true);
             $status = $response['diagnostic']['status'];
             if($status != 200)  {
-                $message = $response['diagnostic']['error_msgs'];
-                return "error $status $message";
+                return "error $status";
             }
         }
         // Confirm
@@ -266,17 +265,17 @@ class OrderController extends Controller
         $response = $this->curlCall($url);
         $response = json_decode($response,true);
         if($response['diagnostic']['status'] != 200)
-            return $response['diagnostic']['status']." ".$response['diagnostic']['error_msgs'];
+            return $response['diagnostic']['status'];
 
         $orderId = $claim->order_id;
         $confirmData="secretkey=$this->key&confirmkey=87db09&username=totorvo901@gmail.com&textarea_note=test&tanggal=2012-12-06";
         $response = $this->orderHotelConfirm($orderId,$confirmData);
 
         $responseObject = json_decode($response,true);
-        if ($responseObject['diagnostic']['status'] != '200') {
+        if ($responseObject['diagnostic']['status'] != 200) {
             Log::info('user \('.Auth::id().') '.' request failed',['error'=>$responseObject['diagnostic']['error_msgs'],'claim'=>$claim]);
             session()->flash('error',$responseObject['diagnostic']['error_msgs']);
-            return "error ".$responseObject['diagnostic']['status']." ".$responseObject['diagnostic']['error_msgs'];
+            return "error ".$responseObject['diagnostic']['status'];
         }
         $claim->claim_status = 3;
         $claim->save();
