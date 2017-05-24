@@ -154,7 +154,7 @@ $namaFinance  = App\User::find($value->finance_id)->name;
 		e = e.api_data;
         console.log(e);
         @if($claimType == 1)
-            @if($noStatus < 3)
+            @if($noStatus < 3 || $noStatus == 6)
     		    temp = "<center><div class='row'>";
     			temp+= "<div class='col-md-3'>";
     			temp+= "</div>";
@@ -232,7 +232,7 @@ $namaFinance  = App\User::find($value->finance_id)->name;
                 temp+= "</div>";
             @endif
         @elseif ($claimType == 2)
-            @if($noStatus < 3)
+            @if($noStatus < 3 || $noStatus == 6)
                temp = "<center><div class='row'>";
                temp+= "<div class='col-md-3'>";
                temp+= "</div>";
