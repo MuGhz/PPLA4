@@ -230,7 +230,7 @@ class OrderController extends Controller
         $token = $request->input('token');
         $email_tiket = Company::find(Auth::user()->company)->email_tiket;
         if($email_tiket == null)    {
-            $company = Company::find(Auth::user()->company);
+            $company = Company::where('id',Auth::user()->company)->first();
             $company->email_tiket = $email_tiket;
             $company->save();
             $email_tiket = $emailAddress;
