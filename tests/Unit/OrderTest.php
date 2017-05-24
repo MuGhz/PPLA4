@@ -598,16 +598,8 @@ class OrderTest extends TestCase
         $approver = $this->makeUser('Approver', 'Appover@Company.test', $company->id, 'approver');
         $finance = $this->makeUser('Finance', 'Finance@Company.test', $company->id, 'finance');
         $this->actingAs($claimer);
-        $order->bookPesawat($request);
-        $this->assertDatabaseMissing("claims",[
-            "claim_data_id" => "token",
-            "claim_type" => 2,
-            "claim_status" => 1,
-            "claimer_id" => $claimer->id,
-            "approver_id" => $approver->id,
-            "finance_id" => $finance->id,
-            "description" => $description
-        ]);
+        $response = $order->bookPesawat($request);
+        $this->assertEquals('error 403',$response);
     }
     
     public function testGetAirportListWithoutSession()
