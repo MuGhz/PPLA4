@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Library\HttpRequest\CurlRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Claim;
@@ -74,6 +74,15 @@ class ClaimController extends Controller
         $claim = Claim::find($id);
         if((($claim->claim_status == 1) && ($user->role == "approver") && ($user->id == $claim->approver_id))
         || (($claim->claim_status == 2) && ($user->role == "finance")&& ($user->id == $claim->finance_id))) {
+            if($claim->claim_type == 2){
+                $orderDetailId = $claim->order_detail_id;
+                $token = $claim->claim_data_id;
+                $url = "https://api-sandbox.tiket.com/order/delete_order?order_detail_id=$orderDetailId&token=$token&output=json";
+                $curl = new CurlRequest($url);
+                $response = $curl->execute();
+                $err = $curl->getError();
+                $curl->close();
+            }
             $claim->claim_status = 6;
             $claim->alasan_reject= $alasanReject;
             $claim->save();
@@ -85,7 +94,7 @@ class ClaimController extends Controller
         }
         return redirect("/home/".$user->role.'/received');
     }
-    
+
     /**
     * Uploads a proof for a 'disbursed' claim
     * @param Request $request
@@ -104,7 +113,7 @@ class ClaimController extends Controller
         }
         return redirect("/");
     }
-    
+
     /**
     * Verifies a 'reported' claim
     * @param int $id
